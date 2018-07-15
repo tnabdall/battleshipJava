@@ -1,8 +1,15 @@
 class runBattleship{
     public static void main(String[] args){
-        GameBoard p1 = new GameBoard();
-        GameBoard p2 = new GameBoard();
-        p1.printBoard();
+        runBattleship runGame = new runBattleship();
+        GameBoard p1 = runGame.setupGameBoard();
+    }
+
+    public GameBoard setupGameBoard(){
+        GameBoard board = new GameBoard();
+        board.placeAllShips();
+        board.printBoard();
+        return board;
+
     }
 
 
