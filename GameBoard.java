@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Random;
 public class GameBoard{
 
     private Ship[] ships = new Ship[5];
@@ -48,6 +49,45 @@ public class GameBoard{
         coords[1] = column;
         return coords;
     }
+	
+	public void makeRandomBoard(){
+		Random randr = new Random();
+		Random randc = new Random();
+		Random randd = new Random();
+		int[] coords = new int[2];
+		int dirn; // for random direction
+		String dir ="";
+		int validPlacements = 0;
+		while (validPlacements<5){
+			coords[0] = randr.nextInt(10);
+			coords[1] = randc.nextInt(10);
+			dirn = randd.nextInt(4);
+			switch(dirn){
+				case 0:
+					dir = "u";
+					break;
+				case 1:
+					dir = "d";
+					break;
+				case 2:
+					dir = "l";
+					break;
+				case 3:
+					dir = "r";
+					break;
+			}
+			if (isValidPlacement(coords,dir,ships[validPlacements])){
+				System.out.print(coords[0]);
+				System.out.print(coords[1]);
+				System.out.print(dir);
+				validPlacements+=1;
+				placeRandomShip(coords,dir,ships[validPlacements]);
+			}
+			
+		}
+		
+		
+	}
 
     public boolean isValidPlacement(int[] firstcoord, String direction, Ship battleship){
         int row = firstcoord[0];
@@ -111,7 +151,25 @@ public class GameBoard{
 
         return isValid;
     }
-
+	
+	public void placeRandomShip(int[] firstcoord, String direction, Ship battleship){
+		board[firstcoord[0]][firstcoord[1]] = 3; // 3 means ship is there but hidden to enemy?
+        for (int i = 0; i<battleship.getLength()-1; i++){
+            if (direction.equalsIgnoreCase("u")){
+                board[firstcoord[0]-i-1][firstcoord[1]] = 3;
+            }
+            else if (direction.equalsIgnoreCase("d")){
+                board[firstcoord[0]+i+1][firstcoord[1]] = 3;
+            }
+            else if (direction.equalsIgnoreCase("l")){
+                board[firstcoord[0]][firstcoord[1]-i-1] = 3;
+            }
+            else if (direction.equalsIgnoreCase("r")){
+                board[firstcoord[0]][firstcoord[1]+i+1] = 3;
+            }
+        }
+	}
+	
     public void placeShip(Ship battleship){
         int[] firstcoord;
         Scanner keyboard = new Scanner(System.in);

@@ -1,7 +1,7 @@
 class runBattleship{
     public static void main(String[] args){
         runBattleship runGame = new runBattleship();
-        GameBoard p1 = runGame.setupGameBoard();
+        GameBoard p1 = runGame.setupEnemyBoard();
     }
 
     public GameBoard setupGameBoard(){
@@ -11,6 +11,14 @@ class runBattleship{
         return board;
 
     }
+	
+	public GameBoard setupEnemyBoard(){
+		GameBoard board = new GameBoard();
+		board.makeRandomBoard();
+		board.printBoard();
+		return board;
+		
+	}
 
 
 
