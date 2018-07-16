@@ -6,6 +6,7 @@ public class GameBoard{
 
     private int[][] board = new int[10][10]; // Variable containing the board. 10x 10 matrix.
 	
+	private int numberOfShipElements = 0;
 	
 	/**
 	Constructor for GameBoard.
@@ -18,6 +19,7 @@ public class GameBoard{
         ships[2] = new Ship("Submarine", 3);
         ships[3] = new Ship("Cruiser",3);
         ships[4] = new Ship("Destroyer",2);
+		numberOfShipElements = 17;
     }
 	
 	/**
@@ -25,8 +27,70 @@ public class GameBoard{
 	@return Returns the game board.
 	*/
     public int[][] getBoard() {
-        return board;
+        return board; 
     }
+	
+	/** Returns number of ship elements remaining on board.
+	@return Number of ship elements remaining (like health)
+	*/
+	public int getNumberOfShipElements(){
+		return numberOfShipElements;
+	}
+	
+	/** Asks the player for a coordinate to fire on and checks if hit or miss.
+	Updates the board accordingly.
+	*/
+	public void fire(){
+		System.out.print("Choose a coordinate to fire on: ");
+		int[] coords = getCoordinates();
+		while(hasFired(coords[0],coords[1])){
+			System.out.println("You have already fired there. Choose another coordinate.");
+			coords = getCoordinates();
+		}
+		if(board[coords[0]][coords[1]]==3){
+			System.out.println("Hit");
+			board[coords[0]][coords[1]]=2;
+			numberOfShipElements -=1;
+		}
+		else{
+			System.out.println("Miss");
+			board[coords[0]][coords[1]]=1;
+		}
+	}
+	
+	/** Checks to see if the square has been fired on before.
+	@param row Row to check for fire.
+	@param col Column to check for fire.
+	@return Boolean value that indicates whether the square has been fired upon.
+	*/
+	public boolean hasFired(int row, int col){
+		boolean fired = false;
+		if (board[row][col]==1 || board[row][col] ==2){
+			fired = true;
+		}
+		else{
+			fired = false;
+		}
+		return fired;
+	}
+	
+	/** Fires at square on board. To be used by enemy AI.
+	@param row Row to fire at.
+	@param col Column to fire at.
+	*/
+	public void enemyFire(int row, int col){
+		if(board[row][col]==3){
+			//System.out.println("Hit");
+			board[row][col]=2;
+			numberOfShipElements -=1;
+		}
+		else if (board[row][col]==1 || board[row][col] == 2){
+		}
+		else{
+			//System.out.println("Miss");
+			board[row][col]=1;
+		}
+	}
 	
 	/** 
 	Initializes every element in the board array to 0 to symbolize it being empty.
@@ -48,7 +112,7 @@ public class GameBoard{
         Scanner keyboard = new Scanner(System.in);
         String scoords;
         do{
-            System.out.print("Which coordinate would you like to place this ship? (eg. A3): ");
+            System.out.print("Which coordinate would you like? (eg. A3): ");
             scoords = keyboard.next();
             scoords = scoords.trim();
         } while(!scoords.matches("^[A-J|a-j]([1-9]|10)$")); // Forces string to be within the range of Game Coordinates
@@ -127,20 +191,20 @@ public class GameBoard{
         boolean isValid = true;
 
         //First check to see if the extended last coordinate exists on board
-        if (direction.equals("r") && col+length>9){
+        if (direction.equals("r") && col+length>10){
             isValid = false;
         }
-        else if(direction.equals("l") && col-length<0){
+        else if(direction.equals("l") && col-length<-1){
             isValid = false;
         }
-        else if(direction.equals("u") && row-length<0){
+        else if(direction.equals("u") && row-length<-1){
             isValid = false;
         }
-        else if(direction.equals("d") && row+length>9){
+        else if(direction.equals("d") && row+length>10){
             isValid = false;
         }
 
-        // Returns false here so as to not execute the rest of the function which may cause an error.
+        // Returns false here so as to not execute the rest of the function which may cause an exception error.
         if(!isValid){
             //System.out.print("Not a valid placement.");
             return isValid;
@@ -159,8 +223,8 @@ public class GameBoard{
         else if(direction.equals("l")){
             for (int i = 0; i<length; i++){
                 if(this.board[row][col-i]==3){
+					isValid = false;
                 }
-                isValid = false;
             }
         }
 		//up
@@ -229,7 +293,7 @@ public class GameBoard{
 			
 			//Lets user know its not a valid placement and prints the board.
 			if(!isValidPlacement(firstcoord,direction,battleship)){
-				System.out.print("Not a valid placement."); 
+				System.out.println("Not a valid placement."); 
 				printBoard();
 			}
         }while(!isValidPlacement(firstcoord,direction,battleship));
@@ -291,9 +355,37 @@ public class GameBoard{
 
     }
 	
+	public void printEnemyBoard(){
+		System.out.println("      ENEMY BOARD     ");
+		System.out.println("   A B C D E F G H I J"); // Column letters
+        //System.out.println(" --------------------"); // Top border
+        for (int i = 0; i<10; i++){
+            if (i<9){
+                System.out.print(i+1+" "); // Print row number
+            }
+            else{
+                System.out.print(i+1); // So that all rows are aligned as 10 takes an extra character space.
+            }
+            for (int j = 0; j<10; j++){
+                System.out.print("|"); // Print border
+				// Replaces '+' printout for own ship with " " to indicate unknown space.
+				if(this.board[i][j] != 3){
+					System.out.print(boardMarker(this.board[i][j])); //Print marker according to board
+				}
+				else{
+					System.out.print(" ");
+				}
+            }
+            System.out.print("|\n"); // End row with border and new line
+        }
+        System.out.println("   --------------------"); // Bottom border
+		
+	}
+	
 	/** Prints the game board. Can be used for user or enemy boards.
 	*/
     public void printBoard(){
+		System.out.println("      PLAYER BOARD     ");
         System.out.println("   A B C D E F G H I J"); // Column letters
         //System.out.println(" --------------------"); // Top border
         for (int i = 0; i<10; i++){
@@ -312,5 +404,7 @@ public class GameBoard{
         System.out.println("   --------------------"); // Bottom border
 
     }
+	
+	
 
 }
