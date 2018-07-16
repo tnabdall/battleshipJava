@@ -11,6 +11,14 @@ class runBattleship{
         return board;
 
     }
+	
+	public GameBoard setupEnemyBoard(){
+		GameBoard board = new GameBoard();
+		board.makeRandomBoard();
+		board.printBoard();
+		return board;
+		
+	}
 
 
 
