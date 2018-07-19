@@ -2,123 +2,247 @@ import java.util.Random;
 
 public class AI {
 	
-	private int difficulty = 0;
-	private int row;
-	private int col;
-	
-	public static void main(String[] args) {
-		
-	}
+	private int difficulty = 0; // The difficulty of the AI. 0 for normal, 1 for challenge.
+	private int row; // The row location of the AI
+	private int col; // The column location of the AI
+	private int ship; // The ship that the AI is currently attacking
+	private boolean hitTwice; // If AI hit a ship twice
+	private String direction;
 	
 	public void setDifficulty(int difficulty) {
 		this.difficulty = difficulty;
 	}
 	
-	public int getDifficulty() {
-		return difficulty;
-	}
-	
-	public void nextMove() {
-		if (difficulty == 0) {
-			easyDifficulty();
-		} else if (difficulty == 1) {
-			hardDifficulty();
-		}
-	}
-	
-	public int randomRow() {
-		Random row = new Random();
-		row = nextInt(9)
-		this.row = row;
-	}
-	
-	public int randomCol() {
-		Random col = new Random();
-		col = nextInt(9);
-		this.col = col;
-	}
-	
-	public int getRow(){
+	/** Getter method for row
+	*/
+	public int getRow() {
 		return row;
 	}
 	
+	/** Getter method for column
+	*/
 	public int getCol() {
 		return col;
 	}
 	
-	public void hardDifficulty() {
-		
+	/** Calculates next move depending on the difficulty setting.
+	*/
+	// There's a more elegant solution. Placeholder.
+	public void runDifficulty(){
+		if (difficulty == 0){
+			normalDifficulty();
+		} else if (difficulty == 1) {
+			challengeDifficulty();
+		}
 	}
 	
-	/** Method for easy AI
-	*
-	* @param checkHit 
+	/** Randomizes the row to hit
 	*/
-	
-	/** Default constructor for AI
-	* Automatically sets difficulty to 0
-	* I don't think this method is necessary.
-	*/
-	public AI() {
-		playRandom();
+	public int randomRow() {
+		Random row = new Random();
+		row = nextInt(10)
+		this.row = row;
 	}
 	
-	/** Constructor for AI
-	* Initiates the AI 
-	* @param difficulty is a difficulty of 0 for easy or 1 for hard.
+	/** Randomizes the column to hit
 	*/
-	public AI(int difficulty) {
-		this.difficulty = difficulty;
-		playRandom();
+	public int randomCol() {
+		Random col = new Random();
+		col = nextInt(10);
+		this.col = col;
 	}
 	
-	public void easyDifficulty(boolean checkHit) {
-		boolean hit = checkHit;
-		if (hit) {
+	/** Checks to see if previous played spot was a hit
+	*/
+	public boolean checkHit(){
+		boolean hit = false;
+		if (enemyBoard.board[row][col] == 1) { // 1 or 2 for hit?
+			hit = true;
+			int shipLength = declaredShip();
+			shipCoordinates = new int[shipLength][shipLength];
+			shipCoordinates[0][] = col;
+			shipCoordinates[][0] = row;
+		} else;
+		return hit;
+	}
+	
+	/** The AI for normal difficulty
+	* Initially checks to see if previous played location was a hit. If so it plays strategically,
+	* otherwise it plays randomly.
+	*/
+	public void normalDifficulty() {
+		boolean hit = checkHit();
+		if (hit == true) {
 			playStrategic();
 		} else {
 			playRandom();
 		}
 	}
 	
-	public void 
+	/** The AI for challenge difficulty
+	*/
+	public void challengeDifficulty() {
+		
+	}
 	
+
+	// May not need.
+	public int getDifficulty() {
+		return difficulty;
+	}
+
+	
+	/** Method for AI to fire on a random location.
+	* Randomizes row and column. Checks to see if location has been played on already. 
+	* If the location has been played on it will randomize another location until an empty 
+	* location is found.
+	*/
 	public void playRandom() {
 		randomRow();
 		randomCol();
-		while (canPlay(box[row][col]) == false) {
+		boolean playedSpace = enemyBoard.hasFired(row, col);
+		while (playedSpace = true) {
 			randomRow();
 			randomCol();
-		} play(box[row][col]);
+			playedSpace = enemyBoard.hasFired(row, col);
+		} 
 	}
 	
-	public boolean checkHit() {
-		boolean hit = 
-		return hit;
-	}
 	
+	/** If the AI got a hit on previous turn, then AI plays strategically.
+	*/
 	public void playStrategic() {
-		boolean hit = checkHit;
+		// boolean hit = checkHit();
+		int counter; // For the number of previous hits.
 		
 		int left = col - 1;
 		int top = row + 1;
 		int right = col + 1;
 		int bottom = row - 1;
 		
-		int positions[] = new int[]{left, top, right, bottom};
+		int positions[] = {left, top, right, bottom};
+		boolean cont = false;
 		
-		if (can.Playbox{row][left]
+		Random rPositon = new Random();
+		rPosition = nextInt(4);
 		
-		Random nextPlay = new Random();
-		
-		if (positions[nextPlay] == top) {
-			canPlay
+		// AI's next move depends on if they know the direction of the ship (ie. hit twice) or not.
+		if (hitTwice = false) {
+			// Loop that brute forces the next reasonable position to play if they hit once previously.
+			while (cont = false){
+				switch (rPosition) {
+				case 0: fired = enemyBoard.hasFired(row, left);
+						if (fired = false) {
+							if (enemyBoard.board[row][left] == 3) {
+								col = left;
+								cont = true;
+								boolean hitTwice = true;
+								direction = "horizontal";
+							} else {
+								cont = true;
+							} break;
+						} else {
+							rPosition = nextInt(4)
+							break;
+						}
+				
+				case 1: fired = enemyBoard.hasFired(top, col);
+						if (fired = false) {
+							if (enemyBoard.board[top][col] == 3) {
+								row = top;
+								cont = true;
+								boolean hitTwice = true;
+								direction = "vertical";
+							} else {
+								cont = true;
+							} break;
+						} else {
+							rPosition = nextInt(4)
+							break;
+						}
+				case 2: fired = enemyBoard.hasFired(row, right);
+						if (fired = false) {
+							if (enemyBoard.board[row][right] == 3) {
+								col = right;
+								cont = true;
+								boolean hitTwice = true;
+								direction = "horizontal";
+							} else {
+								cont = true;
+							} break;
+						} else {
+							rPosition = nextInt(4)
+							break;
+						}
+				case 3: fired = enemyBoard.hasFired(bottom, col);
+						if (fired = false) {
+							if (enemyBoard.board[bottom][col] == 3) {
+								row = bottom;
+								cont = true;
+								boolean hitTwice = true;
+								direction = "vertical";
+							} else {
+								cont = true;
+							} break;
+						} else {
+							rPosition = nextInt(4)
+							break;
+						}
+				default: break;
+				}
+			}
+		} else {
+			playToSink(direction);
+			
 		}
-		
-		int count = 3;
-		nextPlay = nextInt(count);
-		
 	}
+
+	/**
+	 * If AI hit a ship at least twice and it's not the Destroyer it will continue to try to sink the ship.
+	 */
+	/* Work in progress
+	* The current issue is changing the direction of the AI for its next move. For example, if the AI hit the carrier 
+	* placed horizontally in the middle and kept firing to the right it will eventually miss. The AI needs to know to
+	* go left from the where it initially hit then the AI needs to know that the direction to fire has changed
+	* for the move after.
+	* I'm considering a nextMove() method which considers all these things and chooses a firing direction.
+	*/
+	public void playToSink(String direction) {
+		int calledShip = enemyBoard.hitName();
+		if (calledShip == "Carrier") {
+			if (board[row][col] == 2) {
+				if (!ship[0].checkStatus) {
+
+
+					if (direction == "horizontal") {
+						if (!enemyBoard.hasFired(row, col - 1));
+						col = col - 1;
+					} else {
+						int counter = 0
+						for (int i = 0, i < 5, i++) {
+							if (enemyBoard(Firedship[0].coords[i][0], enemyBoard(Firedship[0].coords[i][1]);
+								counter++;
+						} else;
+						col = col + counter;
+
+					}
+				}
+			} else {
+
+			}
+		} else if (calledShip == "Battleship") {
+
+		} else if (calledShip == "Submarine") {
+
+		} else if (calledShip == "Cruiser") {
+
+		}
+	
+	}
+		
+	
+	public void 
+	
 	
 	public int getCarrierStatus() {
 		return carrier;
