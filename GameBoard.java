@@ -30,6 +30,10 @@ public class GameBoard{
         return board; 
     }
 	
+	public Ship[] getShips(){
+		return ships;
+	}
+	
 	/** Returns number of ship elements remaining on board.
 	@return Number of ship elements remaining (like health)
 	*/
@@ -255,20 +259,29 @@ public class GameBoard{
 	public void placeRandomShip(int[] firstcoord, String direction, Ship battleship){
 		if(isValidPlacement(firstcoord,direction,battleship)){ // checks to see if placement is valid
 			board[firstcoord[0]][firstcoord[1]] = 3; // 3 means ship is there but hidden to enemy?
+			battleship.setCoords(firstcoord,0);
 			// Based on direction, places the rest of the ship by changing the elements in the board to number 3.
+			int[] nextCoords = new int[2];
 			for (int i = 0; i<battleship.getLength()-1; i++){
 				if (direction.equalsIgnoreCase("u")){
-					board[firstcoord[0]-i-1][firstcoord[1]] = 3;
+					nextCoords[0] = firstcoord[0]-i-1;
+					nextCoords[1] = firstcoord[1];
+                
 				}
 				else if (direction.equalsIgnoreCase("d")){
-					board[firstcoord[0]+i+1][firstcoord[1]] = 3;
+					nextCoords[0] = firstcoord[0]+i+1;
+					nextCoords[1] = firstcoord[1];
 				}
 				else if (direction.equalsIgnoreCase("l")){
-					board[firstcoord[0]][firstcoord[1]-i-1] = 3;
+					nextCoords[0] = firstcoord[0];
+					nextCoords[1] = firstcoord[1]-i-1;
 				}
 				else if (direction.equalsIgnoreCase("r")){
-					board[firstcoord[0]][firstcoord[1]+i+1] = 3;
+					nextCoords[0] = firstcoord[0];
+					nextCoords[1] = firstcoord[1]+i+1;
 				}
+				board[nextCoords[0]][nextCoords[1]] = 3;
+				battleship.setCoords(nextCoords,i+1);
 			}
 		}
 	}
@@ -299,21 +312,29 @@ public class GameBoard{
         }while(!isValidPlacement(firstcoord,direction,battleship));
 
         board[firstcoord[0]][firstcoord[1]] = 3; // 3 means ship is there but hidden to enemy?
-		
+		battleship.setCoords(firstcoord,0);
 		// Sets the rest of the board to 3 according to direction of placement.
+		int[] nextCoords = new int[2];
         for (int i = 0; i<battleship.getLength()-1; i++){
             if (direction.equalsIgnoreCase("u")){
-                board[firstcoord[0]-i-1][firstcoord[1]] = 3;
+				nextCoords[0] = firstcoord[0]-i-1;
+				nextCoords[1] = firstcoord[1];
+                
             }
             else if (direction.equalsIgnoreCase("d")){
-                board[firstcoord[0]+i+1][firstcoord[1]] = 3;
+				nextCoords[0] = firstcoord[0]+i+1;
+				nextCoords[1] = firstcoord[1];
             }
             else if (direction.equalsIgnoreCase("l")){
-                board[firstcoord[0]][firstcoord[1]-i-1] = 3;
+				nextCoords[0] = firstcoord[0];
+				nextCoords[1] = firstcoord[1]-i-1;
             }
             else if (direction.equalsIgnoreCase("r")){
-                board[firstcoord[0]][firstcoord[1]+i+1] = 3;
+				nextCoords[0] = firstcoord[0];
+				nextCoords[1] = firstcoord[1]+i+1;
             }
+			board[nextCoords[0]][nextCoords[1]] = 3;
+			battleship.setCoords(nextCoords,i+1);
         }
         printBoard();
 
