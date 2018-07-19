@@ -52,7 +52,7 @@ public class GameBoard{
 			coords = getCoordinates();
 		}
 		if(board[coords[0]][coords[1]]==3){
-			System.out.println("Hit");
+			System.out.println("Hit: " + getShipFiredOn(coords));
 			board[coords[0]][coords[1]]=2;
 			numberOfShipElements -=1;
 		}
@@ -60,6 +60,23 @@ public class GameBoard{
 			System.out.println("Miss");
 			board[coords[0]][coords[1]]=1;
 		}
+	}
+	
+	
+	/** Assumes that a ship has been hit and checks which ship based on coordinates.
+	@param coords An array containing the row and column of the ship element
+	*/
+	public String getShipFiredOn(int[] coords){
+		int[][] shipcoords;
+		for (int i = 0; i< ships.length; i++){
+			shipcoords = ships[i].getAllCoords();
+			for (int j = 0; j< shipcoords.length; j++){
+				if (shipcoords[j][0] == coords[0] && shipcoords[j][1] == coords[1]){
+					return ships[i].getName();
+				}
+			}
+		}
+		return "Unknown";
 	}
 	
 	/** Checks to see if the square has been fired on before.
