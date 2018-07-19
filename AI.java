@@ -5,9 +5,8 @@ public class AI {
 	private int difficulty = 0; // The difficulty of the AI. 0 for normal, 1 for challenge.
 	private int row; // The row location of the AI
 	private int col; // The column location of the AI
-	private int ship; // The ship that the AI is currently attacking
 	private boolean hitTwice; // If AI hit a ship twice
-	private String direction;
+	private String direction; // Direction of the AIs next fire
 	
 	public void setDifficulty(int difficulty) {
 		this.difficulty = difficulty;
