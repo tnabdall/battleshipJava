@@ -21,7 +21,21 @@ public class GameBoard{
         ships[4] = new Ship("Destroyer",2);
 		numberOfShipElements = 17;
     }
-	
+
+	/** Method similar to hasFired() except it provides the exact status of the location.
+	 * empty == 0, miss == 1, hit == 2, unhit ship == 3, out of bounds == 4
+	 * @return status returns the value of a location.
+	 */
+	public int locStatus(int row, int col) {
+		int status;
+		try {
+			status = board[row][col];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			status = 4; // Location is out of bounds.
+		}
+		return status;
+	}
+
 	/**
 	Returns game board to player.
 	@return Returns the game board.
@@ -94,16 +108,19 @@ public class GameBoard{
 		}
 		return fired;
 	}
-	
+
 	/** Fires at square on board. To be used by enemy AI.
 	@param row Row to fire at.
 	@param col Column to fire at.
 	*/
-	public void enemyFire(int row, int col){
+	public void enemyFire(int row, int col, int player){
 		if(board[row][col]==3){
 			//System.out.println("Hit");
 			board[row][col]=2;
 			numberOfShipElements -=1;
+			if (player == 2) {
+				AI.addToCounter();
+			} else;
 		}
 		else if (board[row][col]==1 || board[row][col] == 2){
 		}

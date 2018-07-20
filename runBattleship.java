@@ -30,15 +30,19 @@ class runBattleship{
 	public void runGame(){
 		GameBoard playerBoard = new GameBoard();
 		GameBoard enemyBoard = new GameBoard();
+		int player1 = 1;
+		int player2 = 2;
 		playerBoard.makeRandomBoard();// for testing, replace with playerBoard.placeAllShips(); 
 		enemyBoard.makeRandomBoard();
+		AI AI = new AI(playerBoard);
 		Random randr = new Random(); // replace once enemyAI implemented
 		Random randc = new Random(); // replace once enemyAI implemented
 		do{
-			enemyBoard.enemyFire(randr.nextInt(10),randc.nextInt(10)); //Just for quick testing. Random firing from player.
+			enemyBoard.enemyFire(randr.nextInt(10),randc.nextInt(10), player1); //Just for quick testing. Random firing from player.
 			//enemyBoard.fire(); 
-			
-			playerBoard.enemyFire(randr.nextInt(10),randc.nextInt(10)); //replace with enemyAI fire functions
+			AI.runDifficulty();
+			System.out.println(AI.getRow() + " " + AI.getCol() + " " + AI.getCounter() + " " + AI.getDirection());
+			playerBoard.enemyFire(AI.getRow(), AI.getCol(), player2); //replace with enemyAI fire functions
 			enemyBoard.printEnemyBoard();
 			playerBoard.printBoard();
 		}while(enemyBoard.getNumberOfShipElements()>0 && playerBoard.getNumberOfShipElements()>0);
