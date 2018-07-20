@@ -10,7 +10,6 @@ class runBattleship{
     public PlayerBoard setupGameBoard(){
         PlayerBoard board = new PlayerBoard();
         board.placeAllShips();
-        board.printBoard();
         return board;
 
     }
@@ -20,7 +19,6 @@ class runBattleship{
 	public EnemyBoard setupEnemyBoard(){
 		EnemyBoard board = new EnemyBoard();
 		board.makeRandomBoard();
-		board.printBoard();
 		return board;
 		
 	}
@@ -38,8 +36,8 @@ class runBattleship{
 			//enemyBoard.fire(); 
 			//AI.runDifficulty();
 			//System.out.println(AI.getRow() + " " + AI.getCol() + " " + AI.getCounter() + " " + AI.getDirection());
-			playerBoard.fire(randr.nextInt(10),randc.nextInt(10)); //replace with enemyAI fire functions
 			enemyBoard.printBoard();
+			playerBoard.fire(randr.nextInt(10),randc.nextInt(10)); //replace with enemyAI fire functions
 			playerBoard.printBoard();
 		}while(enemyBoard.getNumberOfShipElements()>0 && playerBoard.getNumberOfShipElements()>0);
 		if(playerBoard.getNumberOfShipElements()==0){

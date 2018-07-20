@@ -13,7 +13,7 @@ public class EnemyBoard extends GameBoard{
 			coords = getCoordinates();
 		}
 		if(getBoardElement(coords[0],coords[1])==3){
-			System.out.println("Hit: " + getShipFiredOn(coords));
+			System.out.println("Hit: " + getShipFiredOn(coords) +" (" + getShipFiredOnLength(coords)+")");
 			setBoardElement(coords[0],coords[1],2);
 			decrementShipElements();
 		}

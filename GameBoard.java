@@ -54,6 +54,25 @@ public class GameBoard{
 		}
 		return "Unknown";
 	}
+	
+	/** Gets the length of the ship that is just fired upon. Used to aid players by letting them know the length of the ship for decisions.
+	@param coords An array containing the row and column of the ship element
+	*/
+	public int getShipFiredOnLength(int[] coords){
+		int row = coords[0];
+		int col = coords[1];
+		int[] shipcoords;
+		for (int i = 0; i<ships.length; i++){
+			for (int j = 0; j<ships[i].getLength(); j++){
+				shipcoords = ships[i].getCoords(j);
+				if(shipcoords[0] == row && shipcoords[1] == col){
+					return ships[i].getLength();
+				}
+			}
+		
+		}
+		return -1;
+	}
 
 	
 	/** Makes a random board by placing random ships.

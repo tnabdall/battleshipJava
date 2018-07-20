@@ -76,10 +76,26 @@ class PlayerBoard extends GameBoard{
 	*/
     public void placeAllShips(){
 		Ship[] ships = getShips();
-        for (int i = 0; i<ships.length; i++){
-            System.out.println("Please place the " + ships[i].getName() + " with length of " + ships[i].getLength() +".");
-            placeShip(ships[i]);
-        }
+		Scanner keyboard = new Scanner(System.in);
+		System.out.println("Would you like to make a random game board for yourself? Enter y or n: ");
+		String answer;
+		do {
+			answer = keyboard.next().toLowerCase().trim();
+			if (!answer.equals("y") && !answer.equals("n")){
+				System.out.println("That is not a valid response.");
+				System.out.println("Would you like to make a random game board for yourself? Enter y or n: ");
+			}
+		}while(!answer.matches("(y|n)"));
+		if(answer.equals("y")){
+			makeRandomBoard();
+			return;
+		}
+		else{
+			for (int i = 0; i<ships.length; i++){
+				System.out.println("Please place the " + ships[i].getName() + " with length of " + ships[i].getLength() +".");
+				placeShip(ships[i]);
+			}
+		}
     }
 	
 
