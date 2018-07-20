@@ -1,3 +1,4 @@
+import java.util.Random;
 /** EnemyBoard contains the enemy's game board and functions that the player can use to fire on the enemy.
 */
 public class EnemyBoard extends GameBoard{
@@ -28,7 +29,7 @@ public class EnemyBoard extends GameBoard{
 	@param col Column to check for fire.
 	@return Boolean value that indicates whether the square has been fired upon.
 	*/
-	public boolean hasFired(int row, int col){
+	private boolean hasFired(int row, int col){
 		boolean fired = false;
 		int element = getBoardElement(row,col);
 		if (element==1 || element ==2){
@@ -64,6 +65,29 @@ public class EnemyBoard extends GameBoard{
             System.out.print("|\n"); // End row with border and new line
         }
         System.out.println("   --------------------"); // Bottom border
+		
+	}
+	
+	public void randomFire(){
+		Random rrow = new Random();
+		Random rcol = new Random();
+		int[] coords = new int[2];
+		coords[0] = rrow.nextInt(10);
+		coords[1] = rcol.nextInt(10);
+		while(hasFired(coords[0],coords[1])){
+			coords[0] = rrow.nextInt(10);
+			coords[1] = rcol.nextInt(10);
+		}
+			
+		if(getBoardElement(coords[0],coords[1])==3){
+			System.out.println("Hit: " + getShipFiredOn(coords) +" (" + getShipFiredOnLength(coords)+")");
+			setBoardElement(coords[0],coords[1],2);
+			decrementShipElements();
+		}
+		else{
+			System.out.println("Miss");
+			setBoardElement(coords[0],coords[1],1);
+		}
 		
 	}
 	

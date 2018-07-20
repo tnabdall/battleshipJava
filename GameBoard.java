@@ -55,6 +55,23 @@ public class GameBoard{
 		return "Unknown";
 	}
 	
+	/** Assumes that a ship has been hit and checks which ship based on coordinates.
+	@param row The row fired on.
+	@param col The column fired on.
+	*/
+	public String getShipFiredOn(int row, int col){
+		int[][] shipcoords;
+		for (int i = 0; i< ships.length; i++){
+			shipcoords = ships[i].getAllCoords();
+			for (int j = 0; j< shipcoords.length; j++){
+				if (shipcoords[j][0] == row && shipcoords[j][1] == col){
+					return ships[i].getName();
+				}
+			}
+		}
+		return "Unknown";
+	}
+	
 	/** Gets the length of the ship that is just fired upon. Used to aid players by letting them know the length of the ship for decisions.
 	@param coords An array containing the row and column of the ship element
 	*/
@@ -123,7 +140,7 @@ public class GameBoard{
 	@param direction The direction to place the rest of the ship in.
 	@param battleship The ship being placed with a name and length
 	*/	
-	public void placeRandomShip(int[] firstcoord, String direction, Ship battleship){
+	private void placeRandomShip(int[] firstcoord, String direction, Ship battleship){
 		if(isValidPlacement(firstcoord,direction,battleship)){ // checks to see if placement is valid
 			board[firstcoord[0]][firstcoord[1]] = 3; // 3 means ship is there but hidden to enemy?
 			battleship.setCoords(firstcoord,0);
@@ -159,7 +176,7 @@ public class GameBoard{
 	@param battleship The ship being placed. Important for the ships length.
 	@return A boolean indicating whether the placement is valid.
 	*/
-    public boolean isValidPlacement(int[] firstcoord, String direction, Ship battleship){
+    protected boolean isValidPlacement(int[] firstcoord, String direction, Ship battleship){
         int row = firstcoord[0];
         int col = firstcoord[1];
         int length = battleship.getLength();
@@ -252,7 +269,7 @@ public class GameBoard{
 	
 	/** Asks the player for coordinates in the form "A1".
 	1st part of placing a ship.
-	@ return getCoordinates Two element array where first is the board's row index and the seonc is the board's column index.
+	@ return getCoordinates Two element array where first is the board's row index and the second is the board's column index.
 	*/
     public int[] getCoordinates(){
         int[] coords = new int[2];

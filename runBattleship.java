@@ -1,8 +1,8 @@
-import java.util.Random;
+import java.util.Scanner;
 class runBattleship{
     public static void main(String[] args){
         runBattleship battle = new runBattleship();
-        battle.runGame();
+        battle.runGame(true);
     }
 	/**
 	Function to call to setup player board with a non-random arrangement.
@@ -24,21 +24,39 @@ class runBattleship{
 	}
 	/**
 	Main function to call to run Game.
+	@param randomPlayerFire For testing/demo purposes, does random fire as player's move.
 	*/
-	public void runGame(){
+	public void runGame(boolean randomPlayerFire){
 		PlayerBoard playerBoard = setupGameBoard();
 		EnemyBoard enemyBoard = setupEnemyBoard();
-		//AI AI = new AI(playerBoard);
-		Random randr = new Random(); // replace once enemyAI implemented
-		Random randc = new Random(); // replace once enemyAI implemented
+		AI AI = new AI(playerBoard);
+		Scanner keyboard = new Scanner(System.in);
+		System.out.print("Which difficulty would you like to play on (0 for Normal, 3 for Random): ");
+		AI.setDifficulty(keyboard.nextInt());
 		do{
-			enemyBoard.fire(); //Just for quick testing. Random firing from player.
+			if(randomPlayerFire == true){
+				enemyBoard.randomFire(); //Just for quick testing. Random firing from player.
+			}
+			else{
+				enemyBoard.fire();
+			}
 			//enemyBoard.fire(); 
-			//AI.runDifficulty();
+			AI.runDifficulty();
 			//System.out.println(AI.getRow() + " " + AI.getCol() + " " + AI.getCounter() + " " + AI.getDirection());
 			enemyBoard.printBoard();
-			playerBoard.fire(randr.nextInt(10),randc.nextInt(10)); //replace with enemyAI fire functions
+			playerBoard.fire(AI.getRow(),AI.getCol()); //replace with enemyAI fire functions
 			playerBoard.printBoard();
+			
+			if(randomPlayerFire == true){
+				try{
+						Thread.sleep(1000);
+				}
+				catch(InterruptedException ex){
+						Thread.currentThread().interrupt();
+				}
+			}
+			
+			
 		}while(enemyBoard.getNumberOfShipElements()>0 && playerBoard.getNumberOfShipElements()>0);
 		if(playerBoard.getNumberOfShipElements()==0){
 			System.out.println("You lose. Better luck next time.");

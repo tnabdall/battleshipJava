@@ -21,7 +21,7 @@ class PlayerBoard extends GameBoard{
 	/** Places a ship with user input. Asks user for coordinates and direction of ship.
 	@param battleship Ship being placed.
 	*/
-    public void placeShip(Ship battleship){
+    private void placeShip(Ship battleship){
         int[] firstcoord;
         Scanner keyboard = new Scanner(System.in);
         String direction;
@@ -113,7 +113,7 @@ class PlayerBoard extends GameBoard{
 			System.out.println("Hit: "+ getShipFiredOn(coords));
 			setBoardElement(row,col,2);
 			decrementShipElements();
-			//AI.addToCounter(); IMPLEMENT LATER
+			AI.addToCounter(); 
 
 		}
 		else if (element==1 || element == 2){
@@ -123,6 +123,8 @@ class PlayerBoard extends GameBoard{
 			setBoardElement(row,col,1);
 		}
 	}
+	
+	
 	
 	/** Prints the game board. Can be used for user or enemy boards.
 	*/
