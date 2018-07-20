@@ -42,7 +42,10 @@ public class AI {
 	/** Constructor for AI
 	* @param playerBoard is the GameBoard object of the user's board
 	*/
+
 	public AI(PlayerBoard playerBoard) {
+
+
 		this.playerBoard = playerBoard;
 		counter = 0;
 	}
@@ -210,6 +213,7 @@ public class AI {
 			}
 		} else if (playerBoard.locStatus(row, col) == 2) {
 			while (failure) {
+
 				//System.out.println("determineShipPlane while loop");
 				//System.out.println("row: " + initRow + ". col: " + initCol);
 				direction = randomDirection();
@@ -230,12 +234,15 @@ public class AI {
 					//System.out.println("DSS 3");
 					if (ship == playerBoard.getShipFiredOn(row, col)){
 						//System.out.println("DSS 3 - ship!");
+
 						failure = false;
 					} else {
 						initPosition();
 					}
 				} else if (status == 4) {
+
 					//System.out.println("DSS 4");
+
 					initPosition();
 				}
 			}
