@@ -4,7 +4,7 @@ public class AI {
 	
 	private int difficulty = 0; // The difficulty of the AI. 0 for normal, 1 for challenge, 2 for impossible, 3 for random
 
-	private GameBoard playerBoard; // A copy of the player's board.
+	private PlayerBoard playerBoard; // A copy of the player's board.
 
 	private int row; // The row location of the AI
 	private int col; // The column location of the AI
@@ -35,14 +35,17 @@ public class AI {
 	/** Default constructor for AI
 	*/
 	public AI(){
-		GameBoard playerBoard = new GameBoard();
+		PlayerBoard playerBoard = new PlayerBoard();
 		counter = 0;
 	}
 	
 	/** Constructor for AI
 	* @param playerBoard is the GameBoard object of the user's board
 	*/
-	public AI(GameBoard playerBoard) {
+
+	public AI(PlayerBoard playerBoard) {
+
+
 		this.playerBoard = playerBoard;
 		counter = 0;
 	}
@@ -84,7 +87,6 @@ public class AI {
 	/** Calculates next move depending on the difficulty setting.
 	*/
 	public void runDifficulty(){
-		System.out.println("runDifficulty");
 		if (difficulty == 0){
 			normalDifficulty();
 		} else if (difficulty == 1) {
@@ -211,32 +213,36 @@ public class AI {
 			}
 		} else if (playerBoard.locStatus(row, col) == 2) {
 			while (failure) {
-				System.out.println("determineShipPlane while loop");
-				System.out.println("row: " + initRow + ". col: " + initCol);
+
+				//System.out.println("determineShipPlane while loop");
+				//System.out.println("row: " + initRow + ". col: " + initCol);
 				direction = randomDirection();
-				System.out.println(direction);
+				//System.out.println(direction);
 				moveDirection();
-				System.out.println("row: " + row + ". col: " + col);
+				//System.out.println("row: " + row + ". col: " + col);
 				status = playerBoard.locStatus(row, col);
 				if (status == 0) {
-					System.out.println("DSS 0");
+					//System.out.println("DSS 0");
 					failure = false;
 				} else if (status == 1) {
-					System.out.println("DSS 1");
+					//System.out.println("DSS 1");
 					initPosition();
 				} else if (status == 2) {
-					System.out.println("DSS 2");
+					//System.out.println("DSS 2");
 					initPosition();
 				} else if (status == 3) {
-					System.out.println("DSS 3");
+					//System.out.println("DSS 3");
 					if (ship == playerBoard.getShipFiredOn(row, col)){
-						System.out.println("DSS 3 - ship!");
+						//System.out.println("DSS 3 - ship!");
+
 						failure = false;
 					} else {
 						initPosition();
 					}
 				} else if (status == 4) {
-					System.out.println("DSS 4");
+
+					//System.out.println("DSS 4");
+
 					initPosition();
 				}
 			}

@@ -1,50 +1,62 @@
-import java.util.Random;
+import java.util.Scanner;
 class runBattleship{
     public static void main(String[] args){
         runBattleship battle = new runBattleship();
-        battle.runGame();
+        battle.runGame(true);
     }
 	/**
 	Function to call to setup player board with a non-random arrangement.
 	*/
-    public GameBoard setupGameBoard(){
-        GameBoard board = new GameBoard();
+    public PlayerBoard setupGameBoard(){
+        PlayerBoard board = new PlayerBoard();
         board.placeAllShips();
-        board.printBoard();
         return board;
 
     }
 	/** 
 	Function to call to setup the enemy board with a random arrangement.
 	*/
-	public GameBoard setupEnemyBoard(){
-		GameBoard board = new GameBoard();
+	public EnemyBoard setupEnemyBoard(){
+		EnemyBoard board = new EnemyBoard();
 		board.makeRandomBoard();
-		board.printBoard();
 		return board;
 		
 	}
 	/**
 	Main function to call to run Game.
+	@param randomPlayerFire For testing/demo purposes, does random fire as player's move.
 	*/
-	public void runGame(){
-		GameBoard playerBoard = new GameBoard();
-		GameBoard enemyBoard = new GameBoard();
-		int player1 = 1;
-		int player2 = 2;
-		playerBoard.makeRandomBoard();// for testing, replace with playerBoard.placeAllShips(); 
-		enemyBoard.makeRandomBoard();
+	public void runGame(boolean randomPlayerFire){
+		PlayerBoard playerBoard = setupGameBoard();
+		EnemyBoard enemyBoard = setupEnemyBoard();
 		AI AI = new AI(playerBoard);
-		Random randr = new Random(); // replace once enemyAI implemented
-		Random randc = new Random(); // replace once enemyAI implemented
+		Scanner keyboard = new Scanner(System.in);
+		System.out.print("Which difficulty would you like to play on (0 for Normal, 3 for Random): ");
+		AI.setDifficulty(keyboard.nextInt());
 		do{
-			enemyBoard.enemyFire(randr.nextInt(10),randc.nextInt(10), player1); //Just for quick testing. Random firing from player.
+			if(randomPlayerFire == true){
+				enemyBoard.randomFire(); //Just for quick testing. Random firing from player.
+			}
+			else{
+				enemyBoard.fire();
+			}
 			//enemyBoard.fire(); 
 			AI.runDifficulty();
-			System.out.println(AI.getRow() + " " + AI.getCol() + " " + AI.getCounter() + " " + AI.getDirection());
-			playerBoard.enemyFire(AI.getRow(), AI.getCol(), player2); //replace with enemyAI fire functions
-			enemyBoard.printEnemyBoard();
+			//System.out.println(AI.getRow() + " " + AI.getCol() + " " + AI.getCounter() + " " + AI.getDirection());
+			enemyBoard.printBoard();
+			playerBoard.fire(AI.getRow(),AI.getCol()); //replace with enemyAI fire functions
 			playerBoard.printBoard();
+			
+			if(randomPlayerFire == true){
+				try{
+						Thread.sleep(1000);
+				}
+				catch(InterruptedException ex){
+						Thread.currentThread().interrupt();
+				}
+			}
+			
+			
 		}while(enemyBoard.getNumberOfShipElements()>0 && playerBoard.getNumberOfShipElements()>0);
 		if(playerBoard.getNumberOfShipElements()==0){
 			System.out.println("You lose. Better luck next time.");
