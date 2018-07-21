@@ -18,19 +18,6 @@ public class AI {
 	private int initCol; // Column of the initial hit of the ship
 	private String ship = "Unknown"; // Keeps track of ship that was hit. AI's target ship.
 	private static int counter; // How many hits on a ship
-
-	/** Getter method for counter
-	*/
-	public int getCounter() {
-		return counter;
-	}
-	
-	/** Getter method for the direction the AI is facing
-	*/
-	public String getDirection() {
-		return direction;
-	}
-
 	
 	/** Default constructor for AI
 	*/
@@ -52,7 +39,7 @@ public class AI {
 	
 	/** Sets the position of the AI to the location it first hit a unique ship.
 	*/
-	public void initPosition(){
+	private void initPosition(){
 		row = initRow;
 		col = initCol;
 	}
@@ -61,7 +48,6 @@ public class AI {
 	 *
 	 */
 	public static void addToCounter() {
-
 		counter = counter + 1;
 	}
 
@@ -102,7 +88,7 @@ public class AI {
 	 * Initially checks to see if previous played location was a hit. If so it plays strategically,
 	 * otherwise it plays randomly.
 	 */
-	public void normalDifficulty() {
+	private void normalDifficulty() {
 		if (counter == 0) {
 			playRandom();
 		} else if (counter > 0){
@@ -114,20 +100,20 @@ public class AI {
 	 *	Will be programmed so that when it hits it will end up sinking the ship
 	 * without missing. It will know the coordinates of the ship after hitting once.
 	 */
-	public void challengeDifficulty() {
+	private void challengeDifficulty() {
 
 	}
 
 	/** AI for impossible difficulty.
 	 *  Will be programmed to always hit.
 	 */
-	public void impossibleDifficulty() {
+	private void impossibleDifficulty() {
 	}
 	
 	/** AI for random difficulty.
 	* Randomly plays locations that haven't been fired at
 	*/
-	public void randomDifficulty() {
+	private void randomDifficulty() {
 		randomRow();
 		randomCol();
 		while (playerBoard.locStatus(row, col) == 1 || playerBoard.locStatus(row, col) == 2 ) {
@@ -141,7 +127,7 @@ public class AI {
 	 * If the location has been played on it will randomize another location until an empty
 	 * location is found.
 	 */
-	public void playRandom() {
+	private void playRandom() {
 		randomRow();
 		randomCol();
 		while (playerBoard.locStatus(row, col) == 1 || playerBoard.locStatus(row, col) == 2 ) {
@@ -156,7 +142,7 @@ public class AI {
 
 	/** Randomizes the row to hit
 	 */
-	public void randomRow() {
+	private void randomRow() {
 		Random num = new Random();
 		row = num.nextInt(10);
 		this.row = row;
@@ -164,7 +150,7 @@ public class AI {
 
 	/** Randomizes the column to hit
 	 */
-	public void randomCol() {
+	private void randomCol() {
 		Random num = new Random();
 		col = num.nextInt(10);
 		this.col = col;
@@ -174,7 +160,7 @@ public class AI {
 	 * On one hit (ie. counter == 1) the AI will try to determine the plane of the ship it hit.
 	 * On two hits or more (ie. counter > 1) the AI will try to sink the ship.
 	 */
-	public void playStrategic() {
+	private void playStrategic() {
 		if (counter == 1) {
 			determineShipPlane();
 		} else if (counter > 1){
@@ -186,13 +172,13 @@ public class AI {
 	* The AI then plays randomly on locations adjacent to the initial hit location until
 	* it gets another hit
 	*/
-	public String determineShipPlane() {
+	private String determineShipPlane() {
 		boolean failure = true;
 		if (playerBoard.locStatus(row, col) == 1) {
 			initPosition();
 			while (failure) {
 				direction = randomDirection();
-				//System.out.println(direction);
+				System.out.println(direction);
 				moveDirection();
 				status = playerBoard.locStatus(row, col);
 				if (status == 0) {
@@ -252,7 +238,7 @@ public class AI {
 	
 	/** Method to switch the direction the AI is facing
 	*/
-	public void switchDirection() {
+	private void switchDirection() {
 		switch (direction) {
 			case "left":
 				direction = "right";
@@ -274,7 +260,7 @@ public class AI {
 	/** Method to randomize the direction of the AI's next move after hitting once.
 	 * @return direction is the randomized direction.
 	 */
-	public String randomDirection() {
+	private String randomDirection() {
 		Random rand = new Random();
 		String directions[] = {"left", "right", "up", "down"};
 		direction = directions[rand.nextInt(4)];
@@ -283,7 +269,7 @@ public class AI {
 
 	/** Method to move the AI to the next location depending on the direction it is facing.
 	 */
-	public void moveDirection(){
+	private void moveDirection(){
 		if (direction == "left") {
 			col -= 1;
 		} else if (direction == "right") {
@@ -297,7 +283,7 @@ public class AI {
 	
 	/** After the AI determines the plane of the ship it hit (ie. after two hits) it will try to sink it
 	*/
-	public void shootToSink() {
+	private void shootToSink() {
 		boolean sunk = checkShipStatus();
 		if (sunk) {
 			counter = 0;
@@ -344,7 +330,7 @@ public class AI {
 	/** Checks the status of the ship the AI is targeting
 	 * @return sunk is the boolean for if the targeted ship has been sunk or not.
 	 */
-	public boolean checkShipStatus() {
+	private boolean checkShipStatus() {
 		boolean sunk = false;
 		if (counter == 2 && ship == "Destroyer") {
 			sunk = true;
