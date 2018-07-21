@@ -192,7 +192,7 @@ public class AI {
 			initPosition();
 			while (failure) {
 				direction = randomDirection();
-				System.out.println(direction);
+				//System.out.println(direction);
 				moveDirection();
 				status = playerBoard.locStatus(row, col);
 				if (status == 0) {
