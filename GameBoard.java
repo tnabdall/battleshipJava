@@ -279,6 +279,9 @@ public class GameBoard{
             System.out.print("Which coordinate would you like? (eg. A3): ");
             scoords = keyboard.next();
             scoords = scoords.trim();
+            if(!scoords.matches("^[A-J|a-j]([1-9]|10)$")){
+                System.out.println("Not a valid coordinate.");
+            }
         } while(!scoords.matches("^[A-J|a-j]([1-9]|10)$")); // Forces string to be within the range of Game Coordinates
         scoords = scoords.toLowerCase();
         char letter = scoords.charAt(0);
@@ -298,11 +301,21 @@ public class GameBoard{
     public int[][] getBoard() {
         return board; 
     }
-	
+
+	/**
+	 *
+	 * @param row Row of element to get
+	 * @param col Col of element to get
+	 * @return 0,1,2, or 3. 0 means nothing placed there. 1 is a miss marker. 2 is a hit marker. 3 is a ship placed there.
+	 */
 	public int getBoardElement(int row, int col){
 		return board[row][col];
 	}
-	
+
+	/**
+	 * Returns Ship array in gameboard
+	 * @return Ship array in gameboard
+	 */
 	public Ship[] getShips(){
 		return ships;
 	}
@@ -320,7 +333,10 @@ public class GameBoard{
 			board[row][col]=element;
 		}
 	}
-	
+
+	/**
+	 * Reduces the number of ship elements by 1 once a ship is hit.
+	 */
 	public void decrementShipElements(){
 		numberOfShipElements-=1;
 	}

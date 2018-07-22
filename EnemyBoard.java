@@ -3,7 +3,7 @@ import java.util.Random;
 */
 public class EnemyBoard extends GameBoard{
 	
-	/** Asks the player for a coordinate to fire on and checks if hit or miss.
+	/** Asks the player for a coordinate to fire on the enemy's game board and checks if hit or miss.
 	Updates the board accordingly.
 	*/
 	public void fire(){
@@ -40,7 +40,10 @@ public class EnemyBoard extends GameBoard{
 		}
 		return fired;
 	}
-	
+
+	/**
+	 * Prints the Enemy's Game Board. This function will not display + for an unhit ship so the player cannot cheat.
+	 */
 	public void printBoard(){
 		System.out.println("      ENEMY BOARD     ");
 		System.out.println("   A B C D E F G H I J"); // Column letters
@@ -67,7 +70,10 @@ public class EnemyBoard extends GameBoard{
         System.out.println("   --------------------"); // Bottom border
 		
 	}
-	
+
+	/**
+	 * Shoot a random spot on the enemy's game board that has not been shot before. Purely for quick testing of game code. Equivalent to Random AI.
+	 */
 	public void randomFire(){
 		Random rrow = new Random();
 		Random rcol = new Random();

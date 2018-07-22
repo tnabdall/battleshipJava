@@ -1,8 +1,12 @@
 import java.util.Scanner;
+
+/**
+ * Class runs the battleship program and the game logic.
+ */
 class runBattleship{
     public static void main(String[] args){
         runBattleship battle = new runBattleship();
-        battle.runGame(true);
+        battle.runGame(false);
     }
 	/**
 	Function to call to setup player board with a non-random arrangement.
@@ -22,11 +26,19 @@ class runBattleship{
 		return board;
 		
 	}
+
+	public void Introduction(){
+		System.out.println("Welcome to Battleship.\nThe goal of the game is to sink all of the other oppenent's ships.\n" +
+				"Each player will take turns firing at a coordinate on the other's board.\nOnce all of the opponent's ships are sunk, the game is over.\n" +
+				"Have fun!");
+	}
+
 	/**
 	Main function to call to run Game.
 	@param randomPlayerFire For testing/demo purposes, does random fire as player's move.
 	*/
 	public void runGame(boolean randomPlayerFire){
+		Introduction();
 		PlayerBoard playerBoard = setupGameBoard();
 		EnemyBoard enemyBoard = setupEnemyBoard();
 		AI AI = new AI(playerBoard);
@@ -38,26 +50,26 @@ class runBattleship{
 				enemyBoard.randomFire(); //Just for quick testing. Random firing from player.
 			}
 			else{
-				enemyBoard.fire();
+				enemyBoard.fire(); // User input fire
 			}
-			//enemyBoard.fire(); 
-			AI.runDifficulty();
-			//System.out.println(AI.getRow() + " " + AI.getCol() + " " + AI.getCounter() + " " + AI.getDirection());
-			enemyBoard.printBoard();
-			playerBoard.fire(AI.getRow(),AI.getCol()); //replace with enemyAI fire functions
-			playerBoard.printBoard();
-			
-			if(randomPlayerFire == true){
+			AI.runDifficulty(); //Get next move from AI.
+
+			enemyBoard.printBoard(); //Show enemy board.
+			playerBoard.fire(AI.getRow(),AI.getCol()); //Enemy fires at player.
+			playerBoard.printBoard(); //Show player's board.
+
+			if(randomPlayerFire == true){ //Function to cause code to sleep. Purely for demoing. https://stackoverflow.com/questions/24104313/how-to-delay-in-java (Ann Ragg)
 				try{
-						Thread.sleep(1000);
+						Thread.sleep(500);
 				}
 				catch(InterruptedException ex){
 						Thread.currentThread().interrupt();
 				}
 			}
+
 			
 			
-		}while(enemyBoard.getNumberOfShipElements()>0 && playerBoard.getNumberOfShipElements()>0);
+		}while(enemyBoard.getNumberOfShipElements()>0 && playerBoard.getNumberOfShipElements()>0); //When one player loses all ships, games over.
 		if(playerBoard.getNumberOfShipElements()==0){
 			System.out.println("You lose. Better luck next time.");
 		}
