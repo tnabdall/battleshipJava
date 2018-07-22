@@ -6,7 +6,7 @@ import java.util.Scanner;
 class runBattleship{
     public static void main(String[] args){
         runBattleship battle = new runBattleship();
-        battle.runGame(false);
+        battle.runGame(battle.Demo());
     }
 	/**
 	Function to call to setup player board with a non-random arrangement.
@@ -27,12 +27,38 @@ class runBattleship{
 		
 	}
 
+	/**
+	 * Prints an introduction for the battleship game.
+	 */
 	public void Introduction(){
 		System.out.println("Welcome to Battleship.\nThe goal of the game is to sink all of the other oppenent's ships.\n" +
 				"Each player will take turns firing at a coordinate on the other's board.\nOnce all of the opponent's ships are sunk, the game is over.\n" +
 				"Have fun!");
 	}
 
+	/**
+	 * Function to ask to run demo for demoing purposes.
+	 * @return Boolean true or false depending on demo to run.
+	 */
+	private boolean Demo(){
+		System.out.print("Would you like to run the demo (y or n): ");
+		Scanner keyboard = new Scanner(System.in);
+		String ans = keyboard.next().toLowerCase().trim();
+		if (ans.equals("y")){
+			System.out.print("Which demo (1 for human demo, 2 for enemyAI demo)): ");
+			int nans = keyboard.nextInt();
+			System.out.println("");
+			if (nans == 1){
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else{
+			return false;
+		}
+	}
 	/**
 	Main function to call to run Game.
 	@param randomPlayerFire For testing/demo purposes, does random fire as player's move.
