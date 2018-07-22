@@ -32,7 +32,9 @@ class runBattleship{
 	 */
 	public void Introduction(){
 		System.out.println("Welcome to Battleship.\nThe goal of the game is to sink all of the other oppenent's ships.\n" +
-				"Each player will take turns firing at a coordinate on the other's board.\nOnce all of the opponent's ships are sunk, the game is over.\n" +
+				"Each player will take turns firing at a coordinate on the other's board.\n" +
+				"Your opponent must announce whether your shot was a Hit or Miss.\nIf it was a Hit, your opponent must announce which ship was hit.\n" +
+				"Once all of the opponent's ships are sunk, the game is over.\nOn the game board, O represents Hit, X represents Miss, and + represents your unhit ships.\n" +
 				"Have fun!");
 	}
 
