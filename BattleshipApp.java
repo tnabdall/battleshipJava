@@ -1,6 +1,8 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.TextField;
@@ -19,7 +21,7 @@ public class BattleshipApp extends Application {
 
     private PlayerBoard pboard = new PlayerBoard();
     private EnemyBoard eboard = new EnemyBoard();
-    private AI enemyAI = new AI();
+    private AI AI = new AI(pboard);
 
     private BorderPane root = new BorderPane();
     private GridPane enemy = new GridPane();
@@ -27,6 +29,7 @@ public class BattleshipApp extends Application {
     private BorderPane root2 = new BorderPane();
     private GridPane player = new GridPane();
     private Button[][] playerGrid = new Button[10][10];
+	private Label result = new Label("");
 
 
     public static void main(String[] args){
@@ -37,6 +40,7 @@ public class BattleshipApp extends Application {
     {
         pboard.makeRandomBoard();
         eboard.makeRandomBoard();
+		AI.setDifficulty(0);
 
         root.setPadding(new Insets(10,10,10,10));
         root.setTop(new Label("Battleship"));
@@ -47,29 +51,44 @@ public class BattleshipApp extends Application {
         // For enemy's grid. Updates the row and column to fire upon.
         for (int i = 0; i< enemyGrid.length; i++){
             for (int j = 0; j< enemyGrid.length; j++){
+				playerGrid[i][j] = new Button();
+				enemyGrid[i][j] = new Button();
+				player.setHgap(5);
+				player.setVgap(5);
+				enemy.setHgap(5);
+				enemy.setVgap(5);
                 char col = (char)(i+65);
                 String lbl = Character.toString(col)+Integer.toString(j);
                 int rowi = i;
                 int colj = j;
-                enemyGrid[i][j].setText(lbl);
+                
+				
                 enemyGrid[i][j].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         eboard.fire(rowi,colj);
+						updateBoard();
+						AI.runDifficulty();
+						pboard.fire(AI.getRow(),AI.getCol());
+						checkWin();
 
                     }
                 });
-                enemy.add(enemyGrid[i][j],i,j);
-
-                playerGrid[i][j].setText(lbl);
+				/*
                 playerGrid[i][j].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         pboard.fire(rowi, colj);
                         updateBoard();
+						checkWin();
 
                     }
                 });
+				*/
+				
+				enemyGrid[i][j].setText(lbl);
+				enemy.add(enemyGrid[i][j],i,j);
+                playerGrid[i][j].setText(lbl);
                 player.add(playerGrid[i][j],i,j);
             }
         }
@@ -80,6 +99,7 @@ public class BattleshipApp extends Application {
 
 
         root2.setCenter(player);
+		root2.setBottom(result);
 
         root.setBottom(root2);
 
@@ -87,6 +107,8 @@ public class BattleshipApp extends Application {
         primaryStage.setTitle("Battleship");
         primaryStage.setScene(scene);
         primaryStage.show();
+		
+		runGame();
 
     }
 
@@ -98,6 +120,21 @@ public class BattleshipApp extends Application {
             }
         }
     }
+	
+	public void checkWin(){
+		if (eboard.getNumberOfShipElements()==0 && pboard.getNumberOfShipElements() == 0){
+			result.setText("It's a tie!");
+		}
+		else if (eboard.getNumberOfShipElements() == 0){
+			result.setText("You win! Congratulations!");
+		}
+		else if (pboard.getNumberOfShipElements()==0){
+			result.setText("You lose. Better luck next time.");
+		}
+		
+	}
+	
+	
 }
 
 /*
