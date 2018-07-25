@@ -90,6 +90,24 @@ public class GameBoard{
 		}
 		return -1;
 	}
+	
+	/** Gets the length of the ship that is just fired upon. Used to aid players by letting them know the length of the ship for decisions.
+	@param row The row fired on
+	@param col The column fired on
+	*/
+	public int getShipFiredOnLength(int row, int col){
+		int[] shipcoords;
+		for (int i = 0; i<ships.length; i++){
+			for (int j = 0; j<ships[i].getLength(); j++){
+				shipcoords = ships[i].getCoords(j);
+				if(shipcoords[0] == row && shipcoords[1] == col){
+					return ships[i].getLength();
+				}
+			}
+		
+		}
+		return -1;
+	}
 
 	
 	/** Makes a random board by placing random ships.
@@ -239,6 +257,7 @@ public class GameBoard{
         return isValid;
     }
 	
+
 	
 	/** Converts the element in the board matrix to a symbol
 	@param num Symbolic number to be converted to a string.
@@ -267,6 +286,40 @@ public class GameBoard{
 
     }
 	
+	/** Converts the element in the board matrix to a symbol
+	@param num Symbolic number to be converted to a string.
+	@param hideShip True to not display the ship element for (3).
+	@return A string to be printed out.
+	*/
+    protected String boardMarker(int num, boolean hideShip){
+        
+		if (hideShip == false){
+			return boardMarker(num);
+		}
+		else{
+			String marker;
+			switch(num){
+				case 0:
+					marker = " "; //Empty space (user) or Unknown (enemy board)
+					break;
+				case 1:
+					marker = "X"; //Miss (enemy)
+					break;
+				case 2:
+					marker = "O"; //Hit (enemy)
+					break;
+				case 3:
+					marker = " "; //Own battleship (user)
+					break;
+				default:
+					marker = "?";
+					break;
+			}
+			return marker;
+		}
+	}
+
+    
 	/** Asks the player for coordinates in the form "A1".
 	1st part of placing a ship.
 	@ return getCoordinates Two element array where first is the board's row index and the second is the board's column index.
@@ -301,6 +354,7 @@ public class GameBoard{
     public int[][] getBoard() {
         return board; 
     }
+	
 
 	/**
 	 *
