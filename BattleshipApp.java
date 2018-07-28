@@ -62,6 +62,7 @@ public class BattleshipApp extends Application {
 	private Vector<int[]> shipvect = new Vector<int[]>();
 	private Ship[] ships = pboard.getShips();
 	private int shipcounter = 0;
+	private Label placeShipLabel = new Label("Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[0].getName() + " with length of " + ships[0].getLength());
 
 
 
@@ -82,7 +83,7 @@ public class BattleshipApp extends Application {
     	shipvect.add(x);
     	System.out.println(shipvect.elementAt(0)[1]);
     	placeShipRoot.setCenter(placeShipGrid);
-		placeShipRoot.setTop(new Label("Please place all ships by clicking and dragging your selection."));
+		placeShipRoot.setTop(placeShipLabel);
 
     	for(int i = 0; i<10; i++){
     		for (int j = 0; j<10; j++){
@@ -144,6 +145,7 @@ public class BattleshipApp extends Application {
 							pboard.placeShip(shipvect);
 							shipcounter+=1;
 							shipvect.clear();
+							placeShipLabel.setText("Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipcounter,4)].getName() + " with length of " + ships[Math.min(shipcounter,4)].getLength());
 							if(shipcounter>4){
 								primaryStage.setScene(mainGame);
 							}
