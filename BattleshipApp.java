@@ -168,6 +168,8 @@ public class BattleshipApp extends Application {
 							shipvect.clear();
 							placeShipLabel.setText("Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipcounter,4)].getName() + " with length of " + ships[Math.min(shipcounter,4)].getLength());
 							if(shipcounter>=ships.length){
+							    pboard.printBoard();
+							    AI = new AI(pboard);
 								primaryStage.setScene(mainGame);
 							}
 						}
@@ -220,10 +222,11 @@ public class BattleshipApp extends Application {
             for (int j = 0; j< enemyGrid.length; j++){
 				playerGrid[i][j] = new Button();
 				enemyGrid[i][j] = new Button();
-				player.setHgap(1);
-				player.setVgap(1);
-				enemy.setHgap(1);
-				enemy.setVgap(1);
+				playerGrid[i][j].setPadding(new Insets(0,0,0,0));
+				enemyGrid[i][j].setPadding(new Insets(0,0,0,0));
+                GridPane.setMargin(playerGrid[i][j], new Insets(0, 0, 0, 0));
+                GridPane.setMargin(enemyGrid[i][j], new Insets(0, 0, 0, 0));
+
 				
                 char col = (char)(j+65);
                 String lbl = Character.toString(col)+Integer.toString(i+1);
@@ -241,10 +244,10 @@ public class BattleshipApp extends Application {
 
                 });
 
-
-				//enemyGrid[i][j].setText(lbl);
+                enemyGrid[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+                playerGrid[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
 				enemy.add(enemyGrid[i][j],j+1,i+1);
-                //playerGrid[i][j].setText(lbl);
+
                 player.add(playerGrid[i][j],j+1,i+1);
             }
             // Add column constraints to make game look neater.
