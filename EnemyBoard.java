@@ -37,7 +37,6 @@ public class EnemyBoard extends GameBoard{
 			System.out.println("Hit: "+ getShipFiredOn(coords));
 			setBoardElement(row,col,2);
 			decrementShipElements();
-			AI.addToCounter();
 
 		}
 		else if (element==1 || element == 2){

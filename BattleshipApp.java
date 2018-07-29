@@ -163,7 +163,7 @@ public class BattleshipApp extends Application {
 						Once all ships are placed, move on to the main game.
 						 */
 						else if (pboard.isValidPlacement(shipvect)) {
-							pboard.placeShip(shipvect);
+							pboard.placeShip(shipvect, ships[shipcounter]);
 							shipcounter+=1;
 							shipvect.clear();
 							placeShipLabel.setText("Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipcounter,4)].getName() + " with length of " + ships[Math.min(shipcounter,4)].getLength());
@@ -195,7 +195,7 @@ public class BattleshipApp extends Application {
 
         //pboard.makeRandomBoard();
         eboard.makeRandomBoard();
-		AI.setDifficulty(3); // TO BE FIXED
+		AI.setDifficulty(0); // TO BE FIXED
 
         root.setPadding(new Insets(10,10,10,10));
 		

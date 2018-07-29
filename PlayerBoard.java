@@ -116,9 +116,10 @@ class PlayerBoard extends GameBoard{
 
 	}
 
-	public void placeShip(Vector<int[]> shipVect){
+	public void placeShip(Vector<int[]> shipVect, Ship battleship){
     	for (int i = 0; i<shipVect.size(); i++){
     		setBoardElement(shipVect.elementAt(i)[0],shipVect.elementAt(i)[1],3);
+    		battleship.setCoords(shipVect.elementAt(i),i);
 		}
 	}
 	
