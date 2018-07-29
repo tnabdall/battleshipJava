@@ -23,6 +23,29 @@ public class EnemyBoard extends GameBoard{
 			setBoardElement(coords[0],coords[1],1);
 		}
 	}
+
+	/** Fires at square on board. To be used by GUI.
+	 @param row Row to fire at.
+	 @param col Column to fire at.
+	 */
+	public void fire(int row, int col){
+		int element = getBoardElement(row,col);
+		int[] coords = new int[2];
+		coords[0] = row;
+		coords[1] = col;
+		if(element==3){
+			System.out.println("Hit: "+ getShipFiredOn(coords));
+			setBoardElement(row,col,2);
+			decrementShipElements();
+
+		}
+		else if (element==1 || element == 2){
+		}
+		else{
+			System.out.println("Miss");
+			setBoardElement(row,col,1);
+		}
+	}
 	
 	/** Checks to see if the square has been fired on before.
 	@param row Row to check for fire.

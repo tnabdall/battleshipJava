@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Vector;
 
 /** PlayerBoard is the board that contains the player's ships and coordinates.
 It will contain functions that allow the enemy AI to receive information about the player's board to help it make decisions.
@@ -71,6 +72,56 @@ class PlayerBoard extends GameBoard{
         printBoard();
 
     }
+
+    public boolean isValidPlacement(Vector<int[]> shipvect){
+    	//First check if array indices are valid. Then, check that there is no ship already place.
+    	for (int i = 0; i<shipvect.size(); i++){
+    		int row = shipvect.elementAt(i)[0];
+    		int col = shipvect.elementAt(i)[1];
+    		if (row<0 || row>9 || col<0 || col>9){
+    			return false;
+			}
+			else if (getBoardElement(row,col)==3){
+    			return false;
+			}
+		}
+
+    	boolean colcheck = false;
+    	boolean rowcheck = false;
+
+    	if(shipvect.elementAt(0)[0] == shipvect.elementAt(1)[0]){
+    		colcheck = true;
+		}
+		else if(shipvect.elementAt(0)[0] == shipvect.elementAt(1)[0]){
+    		rowcheck = true;
+		}
+
+		if(colcheck){
+    		for (int i = 0; i<shipvect.size(); i++){
+    			if (shipvect.elementAt(i)[0] != shipvect.elementAt(1)[0]){
+    				return false;
+				}
+			}
+		}
+
+		if(rowcheck){
+			for (int i = 0; i<shipvect.size(); i++){
+				if (shipvect.elementAt(i)[1] != shipvect.elementAt(1)[1]){
+					return false;
+				}
+			}
+		}
+
+		return true;
+
+	}
+
+	public void placeShip(Vector<int[]> shipVect, Ship battleship){
+    	for (int i = 0; i<shipVect.size(); i++){
+    		setBoardElement(shipVect.elementAt(i)[0],shipVect.elementAt(i)[1],3);
+    		battleship.setCoords(shipVect.elementAt(i),i);
+		}
+	}
 	
 	/** Function to place all ships with user input. No extra parameters needed. Should be called to set up a user board.
 	*/
