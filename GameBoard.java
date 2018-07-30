@@ -381,7 +381,13 @@ public class GameBoard{
 	public int getNumberOfShipElements(){
 		return numberOfShipElements;
 	}
-	
+
+	/**
+	 * Setter for the game board element
+	 * @param row Row to set
+	 * @param col Column to set
+	 * @param element 1,2, or 3 for miss, hit, or battleship placed
+	 */
 	public void setBoardElement(int row, int col, int element){
 		if (element>=0 && element<=3){
 			board[row][col]=element;

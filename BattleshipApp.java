@@ -67,10 +67,13 @@ public class BattleshipApp extends Application {
 	// The array of ships from player board to be placed.
 	private Ship[] ships = pboard.getShips();
 	// A counter to go through the ships array. Helps with ending ship placement.
-	private int shipcounter = 0;
+	private int shipCounter = 0;
 
 	// Label to be placed on top of Placing Ships scene
 	private Label placeShipLabel = new Label("Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[0].getName() + " with length of " + ships[0].getLength());
+
+
+	private StartMenu startMenu = new StartMenu(); //For Game Configuration
 
 
 
@@ -80,16 +83,32 @@ public class BattleshipApp extends Application {
         launch(args);
     }
 
-    public void start(Stage primaryStage) throws Exception
+	/**
+	 * Runs the GUI for the game.
+	 * @param primaryStage
+	 * @throws Exception
+	 */
+	public void start(Stage primaryStage) throws Exception
     {
-		Scene placeShips = new Scene(placeShipRoot,400,400); // First scene to place the player's ships
-		Scene mainGame = new Scene(root, 420, 750); // Second scene to run the battleship game
+		Scene placeShips = new Scene(placeShipRoot,350,350); // First scene to place the player's ships
+		Scene mainGame = new Scene(root, 400, 640); // Second scene to run the battleship game
+		eboard.makeRandomBoard();
 
     	placeShipRoot.setCenter(placeShipGrid); // Puts the grid at the center of the scene
 		placeShipRoot.setTop(placeShipLabel); // Lets you know how and what ships to place
 
+		// For game configuration
+		startMenu.start();
+		pllbl.setText(startMenu.getPlayerName()+"'s Board");
+		System.out.println(startMenu.getMessage().getText());
+		if (startMenu.getMessage().getText().equals("Level 1")){
+			AI.setDifficulty(3); //random
+		}
+		else{
+			AI.setDifficulty(0); //normal
+		}
 
-        // Iterate through all the grid elements
+        // Iterate through all the grid elements in both player and enemy boards to set them up.
     	for(int i = 0; i<10; i++){
     		for (int j = 0; j<10; j++){
     		    // Initialize element
@@ -135,7 +154,7 @@ public class BattleshipApp extends Application {
 						coords[1]  = GridPane.getColumnIndex((Label)event.getSource());
 						if(!shipvect.contains(coords)) {
 							shipvect.add(coords);
-							System.out.println(coords[0] + " " + coords[1]);
+							//System.out.println(coords[0] + " " + coords[1]);
 							placeShipGridElements[row][col].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("yellowsquare.jpg"), 25, 25, true, true)));
 						}
 					}
@@ -152,7 +171,7 @@ public class BattleshipApp extends Application {
 					public void handle(MouseDragEvent event) {
 						//System.out.println("vector size " + shipvect.size());
                         // Checks to see that the selected squares are the same length of the ship placed.
-						if (shipvect.size() != ships[shipcounter].getLength()) {
+						if (shipvect.size() != ships[shipCounter].getLength()) {
 							for (int i = 0; i < shipvect.size(); i++) {
 								placeShipGridElements[shipvect.elementAt(i)[0]][shipvect.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
 							}
@@ -163,11 +182,11 @@ public class BattleshipApp extends Application {
 						Once all ships are placed, move on to the main game.
 						 */
 						else if (pboard.isValidPlacement(shipvect)) {
-							pboard.placeShip(shipvect, ships[shipcounter]);
-							shipcounter+=1;
+							pboard.placeShip(shipvect, ships[shipCounter]);
+							shipCounter+=1;
 							shipvect.clear();
-							placeShipLabel.setText("Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipcounter,4)].getName() + " with length of " + ships[Math.min(shipcounter,4)].getLength());
-							if(shipcounter>=ships.length){
+							placeShipLabel.setText("Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipCounter,4)].getName() + " with length of " + ships[Math.min(shipCounter,4)].getLength());
+							if(shipCounter>=ships.length){
 							    pboard.printBoard();
 							    AI = new AI(pboard);
 								primaryStage.setScene(mainGame);
@@ -194,8 +213,7 @@ public class BattleshipApp extends Application {
 
 
         //pboard.makeRandomBoard();
-        eboard.makeRandomBoard();
-		AI.setDifficulty(0); // TO BE FIXED
+
 
         root.setPadding(new Insets(10,10,10,10));
 		
@@ -276,6 +294,10 @@ public class BattleshipApp extends Application {
 		root.setAlignment(bridge, Pos.CENTER);
 		root.setAlignment(enlbl, Pos.CENTER);
 		root2.setAlignment(pllbl, Pos.CENTER);
+		placeShipGrid.setAlignment(Pos.CENTER);
+		placeShipRoot.setAlignment(placeShipGrid, Pos.CENTER);
+		placeShipRoot.setAlignment(placeShipLabel,Pos.CENTER);
+		bridge.setAlignment(Pos.TOP_CENTER);
 
 
         primaryStage.setTitle("Battleship");

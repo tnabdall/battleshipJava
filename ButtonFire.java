@@ -2,6 +2,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 /**
  * Handles the events for Clicking a button in the GUI. Clicking will fire on the playerboard.
@@ -58,12 +59,15 @@ public class ButtonFire extends BattleshipApp {
     public void checkWin(){
         if (eboard.getNumberOfShipElements()==0 && pboard.getNumberOfShipElements() == 0){
             result.setText("It's a tie!");
+            result.setTextFill(Color.web("Red"));
         }
         else if (eboard.getNumberOfShipElements() == 0){
             result.setText("You win! Congratulations!");
+            result.setTextFill(Color.web("Red"));
         }
         else if (pboard.getNumberOfShipElements()==0){
             result.setText("You lose. Better luck next time.");
+            result.setTextFill(Color.web("Red"));
         }
 
     }

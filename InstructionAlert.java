@@ -10,6 +10,11 @@ import javafx.geometry.*;
 
 public class InstructionAlert {
 
+    /**
+     *
+     * @param title Title to display on instructions window.
+     * @param message Message to display
+     */
     public static void display(String title, String message) {
         Stage window = new Stage();
 

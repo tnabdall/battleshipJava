@@ -73,7 +73,12 @@ class PlayerBoard extends GameBoard{
 
     }
 
-    public boolean isValidPlacement(Vector<int[]> shipvect){
+	/**
+	 * Checks to see if the ship is validly placed for the GUI
+	 * @param shipvect A vector containing the ships coordinates
+	 * @return True or False
+	 */
+	public boolean isValidPlacement(Vector<int[]> shipvect){
     	//First check if array indices are valid. Then, check that there is no ship already place.
     	for (int i = 0; i<shipvect.size(); i++){
     		int row = shipvect.elementAt(i)[0];
@@ -116,6 +121,11 @@ class PlayerBoard extends GameBoard{
 
 	}
 
+	/**
+	 * Ship placer for the GUI.
+	 * @param shipVect Vector containing a ship's coordinates (lengthx2 array)
+	 * @param battleship The ship to be placed
+	 */
 	public void placeShip(Vector<int[]> shipVect, Ship battleship){
     	for (int i = 0; i<shipVect.size(); i++){
     		setBoardElement(shipVect.elementAt(i)[0],shipVect.elementAt(i)[1],3);

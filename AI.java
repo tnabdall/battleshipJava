@@ -292,6 +292,10 @@ public class AI {
 			return;
 		}
 		status = playerBoard.locStatus(row, col);
+		if(status==4){
+			counter=0;
+			playRandom();
+		}
 		if (status == 1) {
 			initPosition();
 			switchDirection();
