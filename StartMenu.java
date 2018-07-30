@@ -15,12 +15,12 @@ import javafx.scene.shape.*;
 
 public class StartMenu {
 
-    Stage window;
-    Scene scene1, scene2, scene3, scene4;
-	TextField enterName;
-	String playerName; //Player's name
-	Label message = new Label (" ");
-	Label messageColor = new Label (" "); //Stores color for game configuration
+    private Stage window;
+    private Scene scene1, scene2, scene3, scene4;
+	private TextField enterName;
+	private String playerName; //Player's name
+	private Label message = new Label (" ");
+	private Label messageColor = new Label (" "); //Stores color for game configuration
 
 	/**
 	 * Method that handles all the windows for game configuration.
