@@ -78,23 +78,24 @@ public class ButtonFire extends BattleshipApp {
      */
     public void fire(ActionEvent actionEvent){
         if(eboard.getNumberOfShipElements()>0 && pboard.getNumberOfShipElements()>0){ //Don't let the game continue once 1 player is dead.
-            eboard.fire(rowi,colj);
-            // Printing message to player hit or miss.
-            if(eboard.getBoardElement(rowi,colj)==2){
-                hit.setText("Hit: " + eboard.getShipFiredOn(rowi,colj) + " with length of "
-                        + Integer.toString(eboard.getShipFiredOnLength(rowi,colj)));
-            }
-            else{
-                hit.setText("Miss");
-            }
-            System.out.println("Player shot at " + rowi+" " + colj);
+            if(eboard.getBoardElement(rowi,colj)==3 || eboard.getBoardElement(rowi,colj)==0 ) { // Check to make sure it hasn't been fired on already.
+                eboard.fire(rowi, colj);
+                // Printing message to player hit or miss.
+                if (eboard.getBoardElement(rowi, colj) == 2) {
+                    hit.setText("Hit: " + eboard.getShipFiredOn(rowi, colj) + " with length of "
+                            + Integer.toString(eboard.getShipFiredOnLength(rowi, colj)));
+                } else {
+                    hit.setText("Miss");
+                }
+                System.out.println("Player shot at " + rowi + " " + colj);
 
-            AI.runDifficulty(); //Get AIS next move
+                AI.runDifficulty(); //Get AIS next move
 
-            System.out.println("Enemy shot at " + AI.getRow()+" " +AI.getCol());
-            pboard.fire(AI.getRow(),AI.getCol());
-            updateBoard(); // Update the game board
-            checkWin(); // Check if win.
+                System.out.println("Enemy shot at " + AI.getRow() + " " + AI.getCol());
+                pboard.fire(AI.getRow(), AI.getCol());
+                updateBoard(); // Update the game board
+                checkWin(); // Check if win.
+            }
         }
     }
 

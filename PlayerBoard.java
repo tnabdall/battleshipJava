@@ -94,16 +94,19 @@ class PlayerBoard extends GameBoard{
     	boolean colcheck = false;
     	boolean rowcheck = false;
 
-    	if(shipvect.elementAt(0)[0] == shipvect.elementAt(1)[0]){
+    	if(shipvect.elementAt(0)[1] == shipvect.elementAt(1)[1]){
     		colcheck = true;
 		}
 		else if(shipvect.elementAt(0)[0] == shipvect.elementAt(1)[0]){
     		rowcheck = true;
 		}
+		else{
+			return false;
+		}
 
 		if(colcheck){
     		for (int i = 0; i<shipvect.size(); i++){
-    			if (shipvect.elementAt(i)[0] != shipvect.elementAt(1)[0]){
+    			if (shipvect.elementAt(i)[1] != shipvect.elementAt(0)[1] || Math.abs(shipvect.elementAt(i)[0] - shipvect.elementAt(0)[0])!=i){
     				return false;
 				}
 			}
@@ -111,7 +114,7 @@ class PlayerBoard extends GameBoard{
 
 		if(rowcheck){
 			for (int i = 0; i<shipvect.size(); i++){
-				if (shipvect.elementAt(i)[1] != shipvect.elementAt(1)[1]){
+				if (shipvect.elementAt(i)[0] != shipvect.elementAt(0)[0] || Math.abs(shipvect.elementAt(i)[1] - shipvect.elementAt(0)[1])!=i){
 					return false;
 				}
 			}
@@ -166,22 +169,22 @@ class PlayerBoard extends GameBoard{
 	@param col Column to fire at.
 	*/
 	public void fire(int row, int col){
-		int element = getBoardElement(row,col);
-		int[] coords = new int[2];
-		coords[0] = row;
-		coords[1] = col;
-		if(element==3){
-			System.out.println("Hit: "+ getShipFiredOn(coords));
-			setBoardElement(row,col,2);
-			decrementShipElements();
-			AI.addToCounter(); 
+		if(row>-1 && row<10 && col>-1 && col <10) {
+			int element = getBoardElement(row, col);
+			int[] coords = new int[2];
+			coords[0] = row;
+			coords[1] = col;
+			if (element == 3) {
+				System.out.println("Hit: " + getShipFiredOn(coords));
+				setBoardElement(row, col, 2);
+				decrementShipElements();
+				AI.addToCounter();
 
-		}
-		else if (element==1 || element == 2){
-		}
-		else{
-			System.out.println("Miss");
-			setBoardElement(row,col,1);
+			} else if (element == 1 || element == 2) {
+			} else {
+				System.out.println("Miss");
+				setBoardElement(row, col, 1);
+			}
 		}
 	}
 	

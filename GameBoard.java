@@ -398,7 +398,9 @@ public class GameBoard{
 	 * Reduces the number of ship elements by 1 once a ship is hit.
 	 */
 	public void decrementShipElements(){
-		numberOfShipElements-=1;
+		if(numberOfShipElements>0) {
+			numberOfShipElements -= 1;
+		}
 	}
 
 }

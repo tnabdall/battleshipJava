@@ -52,7 +52,7 @@ public class EnemyBoard extends GameBoard{
 	@param col Column to check for fire.
 	@return Boolean value that indicates whether the square has been fired upon.
 	*/
-	private boolean hasFired(int row, int col){
+	public boolean hasFired(int row, int col){
 		boolean fired = false;
 		int element = getBoardElement(row,col);
 		if (element==1 || element ==2){
