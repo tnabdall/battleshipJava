@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Vector;
 
 /** PlayerBoard is the board that contains the player's ships and coordinates.
 It will contain functions that allow the enemy AI to receive information about the player's board to help it make decisions.
@@ -17,6 +16,23 @@ class PlayerBoard extends GameBoard{
 			status = 4; // Location is out of bounds.
 		}
 		return status;
+	}
+
+	/**
+	 * Method to find a coordinate for where a ship is located. Used for AI impossible difficulty
+	 * @return the coordinates for where a ship is located.
+	 */
+	public int[] getShipLoc() {
+		int[] coords = new int[2];
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				coords[0] = i;
+				coords[1] = j;
+				if (locStatus(i, j) == 3) {
+					return coords;
+				}
+			}
+		} return null;
 	}
 	
 	/** Places a ship with user input. Asks user for coordinates and direction of ship.
@@ -72,8 +88,8 @@ class PlayerBoard extends GameBoard{
         printBoard();
 
     }
-
-	/**
+	
+		/**
 	 * Checks to see if the ship is validly placed for the GUI
 	 * @param shipvect A vector containing the ships coordinates
 	 * @return True or False
@@ -123,7 +139,8 @@ class PlayerBoard extends GameBoard{
 		return true;
 
 	}
-
+	
+	
 	/**
 	 * Ship placer for the GUI.
 	 * @param shipVect Vector containing a ship's coordinates (lengthx2 array)
@@ -135,6 +152,7 @@ class PlayerBoard extends GameBoard{
     		battleship.setCoords(shipVect.elementAt(i),i);
 		}
 	}
+
 	
 	/** Function to place all ships with user input. No extra parameters needed. Should be called to set up a user board.
 	*/
@@ -178,7 +196,7 @@ class PlayerBoard extends GameBoard{
 				System.out.println("Hit: " + getShipFiredOn(coords));
 				setBoardElement(row, col, 2);
 				decrementShipElements();
-				AI.addToCounter();
+				// AI.addToCounter();
 
 			} else if (element == 1 || element == 2) {
 			} else {
@@ -212,5 +230,6 @@ class PlayerBoard extends GameBoard{
         System.out.println("   --------------------"); // Bottom border
 
     }
+
 	
 }
