@@ -37,8 +37,7 @@ public class GameBoard{
             }
         }
     }
-	
-	
+
 	/** Assumes that a ship has been hit and checks which ship based on coordinates.
 	@param coords An array containing the row and column of the ship element
 	*/
@@ -54,6 +53,44 @@ public class GameBoard{
 		}
 		return "Unknown";
 	}
+	
+	/** Assumes that a ship has been hit and checks which ship based on coordinates.
+	@param row The row fired on.
+	@param col The column fired on.
+	*/
+	public String getShipFiredOn(int row, int col){
+		int[][] shipcoords;
+		for (int i = 0; i< ships.length; i++){
+			shipcoords = ships[i].getAllCoords();
+			for (int j = 0; j< shipcoords.length; j++){
+				if (shipcoords[j][0] == row && shipcoords[j][1] == col){
+					return ships[i].getName();
+				}
+			}
+		}
+		return "Unknown";
+	}
+
+	/** Method similar to getShipFired On except that it returns the ship object
+	 * @param row is the row that the AI was when it got a hit
+	 * @param col is the column that the AI was when it got a hit
+	 * @return the ship object that the AI hit
+	 */
+	public Ship getShipObject(int row, int col) {
+		int[][] shipcoords;
+		for (int i = 0; i< ships.length; i++){
+			shipcoords = ships[i].getAllCoords();
+			for (int j = 0; j< shipcoords.length; j++){
+				if (shipcoords[j][0] == row && shipcoords[j][1] == col){
+					//For testing
+					System.out.println("getShipObject");
+					return ships[i];
+				}
+			}
+		}
+		return null;
+	}
+
 	
 	/** Assumes that a ship has been hit and checks which ship based on coordinates.
 	@param row The row fired on.
@@ -109,7 +146,6 @@ public class GameBoard{
 		return -1;
 	}
 
-	
 	/** Makes a random board by placing random ships.
 	*/
 	public void makeRandomBoard(){
@@ -145,12 +181,8 @@ public class GameBoard{
 			if (isValidPlacement(coords,dir,ships[validPlacements])){
 				placeRandomShip(coords,dir,ships[validPlacements]);
 				validPlacements+=1;// Increase counter
-
-			}
-			
-		}
-		
-		
+			}	
+		}	
 	}
 	
 	/** Places a ship on the board without further prompt from the user.
@@ -257,7 +289,6 @@ public class GameBoard{
         return isValid;
     }
 	
-
 	
 	/** Converts the element in the board matrix to a symbol
 	@param num Symbolic number to be converted to a string.
@@ -318,8 +349,7 @@ public class GameBoard{
 			return marker;
 		}
 	}
-
-    
+	
 	/** Asks the player for coordinates in the form "A1".
 	1st part of placing a ship.
 	@ return getCoordinates Two element array where first is the board's row index and the second is the board's column index.
@@ -354,7 +384,6 @@ public class GameBoard{
     public int[][] getBoard() {
         return board; 
     }
-	
 
 	/**
 	 *
@@ -381,7 +410,7 @@ public class GameBoard{
 	public int getNumberOfShipElements(){
 		return numberOfShipElements;
 	}
-
+	
 	/**
 	 * Setter for the game board element
 	 * @param row Row to set
@@ -402,5 +431,4 @@ public class GameBoard{
 			numberOfShipElements -= 1;
 		}
 	}
-
 }

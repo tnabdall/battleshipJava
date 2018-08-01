@@ -23,7 +23,7 @@ public class EnemyBoard extends GameBoard{
 			setBoardElement(coords[0],coords[1],1);
 		}
 	}
-
+	
 	/** Fires at square on board. To be used by GUI.
 	 @param row Row to fire at.
 	 @param col Column to fire at.
