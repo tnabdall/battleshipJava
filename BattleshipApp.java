@@ -32,6 +32,9 @@ public class BattleshipApp extends Application {
     private BorderPane root = new BorderPane();
     private GridPane enemy = new GridPane();
     protected static Button[][] enemyGrid = new Button[10][10];
+	Button HINT1 = new Button("PLAYER 1 HINT"); 
+	Button HINT2 = new Button("PLAYER 2 HINT"); 
+	
     // Player grid root
     private BorderPane root2 = new BorderPane();
     private GridPane player = new GridPane();
@@ -233,17 +236,18 @@ public class BattleshipApp extends Application {
         for (int i = 0; i< enemyGrid.length; i++){
 			// Sets column constraints for each grid member.
 			colCons[i] = new ColumnConstraints();
-			colCons[i].setPercentWidth(100/(enemyGrid.length+2));
+			colCons[i].setPercentWidth(100/(enemyGrid.length+4));
 			colCons2[i] = new ColumnConstraints();
-			colCons2[i].setPercentWidth(100/(enemyGrid.length+2));
+			colCons2[i].setPercentWidth(100/(enemyGrid.length+4));
+			
 			// Creates new buttons and adds some spacing.
             for (int j = 0; j< enemyGrid.length; j++){
 				playerGrid[i][j] = new Button();
 				enemyGrid[i][j] = new Button();
 				playerGrid[i][j].setPadding(new Insets(0,0,0,0));
 				enemyGrid[i][j].setPadding(new Insets(0,0,0,0));
-                GridPane.setMargin(playerGrid[i][j], new Insets(0, 0, 0, 0));
-                GridPane.setMargin(enemyGrid[i][j], new Insets(0, 0, 0, 0));
+                GridPane.setMargin(playerGrid[i][j], new Insets(1, 1, 1, 1));
+                GridPane.setMargin(enemyGrid[i][j], new Insets(1, 1, 1, 1));
 
 				
                 char col = (char)(j+65);
@@ -276,6 +280,9 @@ public class BattleshipApp extends Application {
 		// Sets enemy board and player board labels
 		root.setTop(enlbl);
 		root2.setTop(pllbl);
+		
+		root.setRight(HINT1);
+		root2.setRight(HINT2);
 		
 		// Sets enemy grid in center
         root.setCenter(enemy);
@@ -324,37 +331,30 @@ import javafx.scene.control.Button;
 import javafx.geometry.Insets;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-
-
 public class AddingNumbersApp extends Application
 {
     public static void main(String[] args)
     {
         launch(args);
     }
-
     @Override
     public void start(Stage primaryStage) throws Exception
     {
         BorderPane root = new BorderPane();
         // Margin of 10 pixels
         root.setPadding(new Insets(10,10,10,10));
-
         Button btnAdd;
         TextField txtNum1, txtNum2;
         Label lblSum;
-
         // Add a label message in the top. We create the
         // label without a named reference since the label
         // is read-only; we never change it so no reference is needed.
         root.setTop(new Label("Enter an integer into each textbox " +
                 "and click the button to compute the sum."));
-
         // The label that will display the sum goes into the bottom.
         // Initially it is just a blank string.
         lblSum = new Label("");
         root.setBottom(lblSum);
-
         // Create a GridPane in the center of the BorderPane
         GridPane center = new GridPane();
         center.setVgap(5);
@@ -370,7 +370,6 @@ public class AddingNumbersApp extends Application
         btnAdd = new Button("Add Numbers");
         center.add(btnAdd, 1, 2);
         root.setCenter(center);
-
         // Set the event handler when the button is clicked
         btnAdd.setOnAction(new EventHandler<ActionEvent>()
                            {
@@ -384,13 +383,10 @@ public class AddingNumbersApp extends Application
                                }
                            }
         );
-
         Scene scene = new Scene(root, 450, 150);
         primaryStage.setTitle("Compute the Sum");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 }
-
-
  */
