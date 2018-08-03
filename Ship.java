@@ -13,8 +13,8 @@ class Ship{
      * @param length Ship's length
      */
     public Ship(String name, int length){
-        setName(name);
-		setLength(length);
+        this.name = name;
+        this.length = length;
 		coords = new int[length][2];
     }
 
@@ -24,23 +24,15 @@ class Ship{
      * @param newCoords Lengthx2 Array containing ship's coordinates.
      */
     public Ship(String name, int length, int[][] newCoords){
-        setName(name);
-        setLength(length);
+        this.name = name;
+        this.length = length;
+        this.coords = newCoords;
 		coords = new int[length][2];
-        for (int i = 0; i<newCoords.length; i++){
-			for (int j = 0; j<newCoords[i].length; j++){
-				coords[i][j] = newCoords[i][j];
-			}
-		}
     }
-	
-	/**
-	Copy constructor for ship
-	@param other Other ship to copy
-	*/
+
     public Ship(Ship other){
-        setName(other.getName());
-        setLength(other.getLength());
+        name = other.getName();
+        length = other.getLength();
         coords = new int[length][2];
         int[][] otherCoords = other.getAllCoords();
         for (int i = 0; i<length; i++){
@@ -96,9 +88,7 @@ class Ship{
      * @param length Length to be set for the ship.
      */
     public void setLength(int length) {
-        if(length>0){
-            this.length = length;
-        }
+        this.length = length;
     }
 
     /**
@@ -116,6 +106,21 @@ class Ship{
     public void setName(String name) {
         this.name = name;
     }
+	
+	
+	public boolean isAlive(PlayerBoard board) {
+		int row;
+		int col;
+		for (int i = 0; i < length; i++) {
+			row = coords[i][0];
+			col = coords[i][1];
+			if (board.locStatus(row, col) == 3) {
+				return true;
+			}
+		}
+		return false;
+		
+	}
 }
 
 

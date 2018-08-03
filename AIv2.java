@@ -1,7 +1,7 @@
 import java.util.Random;
 import java.util.ArrayList;
 
-public class AIv2 {
+public class AIv2  {
 
 	private int difficulty = 0; // The difficulty of the AI. 0 for normal, 1 for challenge, 2 for impossible, 3 for random
 
@@ -11,6 +11,7 @@ public class AIv2 {
 	private int col; // The column location of the AI
 	private int status; // The status of the position of the AI
 	private String direction;
+	private Probability prob;
 
 	private AIShipData target; // AI target ship
 
@@ -23,12 +24,15 @@ public class AIv2 {
 	*/
 	public AIv2(){
 		PlayerBoard playerBoard = new PlayerBoard();
+
+
 	}
 	/** Constructor for AI
 	* @param playerBoard is the GameBoard object of the user's board
 	*/
 
 	public AIv2(PlayerBoard playerBoard) {
+		prob = new Probability(playerBoard);
 		this.playerBoard = playerBoard;
 	}
 
@@ -91,6 +95,15 @@ public class AIv2 {
 	 * without missing. It will know the coordinates of the ship after hitting once.
 	 */
 	private void challengeDifficulty() {
+		//If AI played at least once && hasn't hit a ship
+		int[] coords = prob.setCoordToPlay();
+		row = coords[0];
+		col = coords[1];
+		if (playerBoard.locStatus(row, col) == 3) {
+			newShip(new AIShipData(playerBoard.getShipObject(row, col), row, col));
+			target.minusShipHealth();
+		}
+
 	}
 
 	/** AI for impossible difficulty.
