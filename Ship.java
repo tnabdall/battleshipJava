@@ -7,14 +7,15 @@ class Ship{
     private int length; //elements
     private String name;
     private int[][] coords;
+    private boolean isAlive = true;
 
     /** Constructor to create ship.
      * @param name Ship's name.
      * @param length Ship's length
      */
     public Ship(String name, int length){
-        this.name = name;
-        this.length = length;
+        setName(name);
+		setLength(length);
 		coords = new int[length][2];
     }
 
@@ -24,15 +25,23 @@ class Ship{
      * @param newCoords Lengthx2 Array containing ship's coordinates.
      */
     public Ship(String name, int length, int[][] newCoords){
-        this.name = name;
-        this.length = length;
-        this.coords = newCoords;
+        setName(name);
+        setLength(length);
 		coords = new int[length][2];
+        for (int i = 0; i<newCoords.length; i++){
+			for (int j = 0; j<newCoords[i].length; j++){
+				coords[i][j] = newCoords[i][j];
+			}
+		}
     }
-
+	
+	/**
+	Copy constructor for ship
+	@param other Other ship to copy
+	*/
     public Ship(Ship other){
-        name = other.getName();
-        length = other.getLength();
+        setName(other.getName());
+        setLength(other.getLength());
         coords = new int[length][2];
         int[][] otherCoords = other.getAllCoords();
         for (int i = 0; i<length; i++){
@@ -75,6 +84,21 @@ class Ship{
 		}
 	}
 
+	public boolean isAlive(GameBoard g){
+	    int health = length;
+	    for (int i =0; i< coords.length; i++){
+	        if (g.getBoardElement(coords[i][0],coords[i][1])==2){
+	            health-=1;
+            }
+        }
+        if (health==0){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
     /**
      * Gives length of ship.
      * @return Ships length in elements.
@@ -88,7 +112,9 @@ class Ship{
      * @param length Length to be set for the ship.
      */
     public void setLength(int length) {
-        this.length = length;
+        if(length>0){
+            this.length = length;
+        }
     }
 
     /**
@@ -106,21 +132,6 @@ class Ship{
     public void setName(String name) {
         this.name = name;
     }
-	
-	
-	public boolean isAlive(PlayerBoard board) {
-		int row;
-		int col;
-		for (int i = 0; i < length; i++) {
-			row = coords[i][0];
-			col = coords[i][1];
-			if (board.locStatus(row, col) == 3) {
-				return true;
-			}
-		}
-		return false;
-		
-	}
 }
 
 
