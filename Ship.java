@@ -13,8 +13,8 @@ class Ship{
      * @param length Ship's length
      */
     public Ship(String name, int length){
-        this.name = name;
-        this.length = length;
+        setName(name);
+		setLength(length);
 		coords = new int[length][2];
     }
 
@@ -24,15 +24,23 @@ class Ship{
      * @param newCoords Lengthx2 Array containing ship's coordinates.
      */
     public Ship(String name, int length, int[][] newCoords){
-        this.name = name;
-        this.length = length;
-        this.coords = newCoords;
+        setName(name);
+        setLength(length);
 		coords = new int[length][2];
+        for (int i = 0; i<newCoords.length; i++){
+			for (int j = 0; j<newCoords[i].length; j++){
+				coords[i][j] = newCoords[i][j];
+			}
+		}
     }
-
+	
+	/**
+	Copy constructor for ship
+	@param other Other ship to copy
+	*/
     public Ship(Ship other){
-        name = other.getName();
-        length = other.getLength();
+        setName(other.getName());
+        setLength(other.getLength());
         coords = new int[length][2];
         int[][] otherCoords = other.getAllCoords();
         for (int i = 0; i<length; i++){
