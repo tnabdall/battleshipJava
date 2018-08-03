@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Vector;
 
 /** PlayerBoard is the board that contains the player's ships and coordinates.
 It will contain functions that allow the enemy AI to receive information about the player's board to help it make decisions.
@@ -8,6 +9,15 @@ class PlayerBoard extends GameBoard{
 	 * empty == 0, miss == 1, hit == 2, unhit ship == 3, out of bounds == 4
 	 * @return status returns the value of a location.
 	 */
+
+	public PlayerBoard(){
+		super();
+	}
+
+	public PlayerBoard(PlayerBoard copyBoard){
+		super(copyBoard);
+	}
+
 	public int locStatus(int row, int col) {
 		int status;
 		try {

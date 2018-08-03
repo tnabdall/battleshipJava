@@ -30,6 +30,17 @@ class Ship{
 		coords = new int[length][2];
     }
 
+    public Ship(Ship other){
+        name = other.getName();
+        length = other.getLength();
+        coords = new int[length][2];
+        int[][] otherCoords = other.getAllCoords();
+        for (int i = 0; i<length; i++){
+            coords[i][0] = otherCoords[i][0];
+            coords[i][1] = otherCoords[i][1];
+        }
+    }
+
     /** Method to set coordinates for ship.
      *
      * @param newCoords Row and column to be set.

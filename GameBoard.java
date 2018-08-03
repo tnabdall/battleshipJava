@@ -27,6 +27,18 @@ public class GameBoard{
 		numberOfShipElements = 17;
     }
 
+    public GameBoard(GameBoard other){
+    	for (int i = 0; i<other.getShips().length; i++){
+    		ships[i] = new Ship(other.getShips()[i]);
+		}
+		for (int i = 0; i<10; i++){
+    		for (int j = 0; j<10; j++){
+    			setBoardElement(i,j,other.getBoardElement(i,j));
+			}
+		}
+
+	}
+
 	/** 
 	Initializes every element in the board array to 0 to symbolize it being empty.
 	*/
@@ -47,23 +59,6 @@ public class GameBoard{
 			shipcoords = ships[i].getAllCoords();
 			for (int j = 0; j< shipcoords.length; j++){
 				if (shipcoords[j][0] == coords[0] && shipcoords[j][1] == coords[1]){
-					return ships[i].getName();
-				}
-			}
-		}
-		return "Unknown";
-	}
-	
-	/** Assumes that a ship has been hit and checks which ship based on coordinates.
-	@param row The row fired on.
-	@param col The column fired on.
-	*/
-	public String getShipFiredOn(int row, int col){
-		int[][] shipcoords;
-		for (int i = 0; i< ships.length; i++){
-			shipcoords = ships[i].getAllCoords();
-			for (int j = 0; j< shipcoords.length; j++){
-				if (shipcoords[j][0] == row && shipcoords[j][1] == col){
 					return ships[i].getName();
 				}
 			}
