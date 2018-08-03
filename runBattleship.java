@@ -6,13 +6,23 @@ import java.util.Scanner;
 class runBattleship{
     public static void main(String[] args){
         runBattleship battle = new runBattleship();
-        battle.runGame(battle.Demo());
+        System.out.print("Would you like to play two players? (Y or N): ");
+        Scanner keyboard = new Scanner(System.in);
+        String answer = keyboard.next();
+        if (answer.equalsIgnoreCase("Y")){
+        	battle.run2Player();
+		}
+		else{
+			battle.runGame(battle.Demo());
+		}
     }
+
 	/**
 	Function to call to setup player board with a non-random arrangement.
 	*/
-    public PlayerBoard setupGameBoard(){
+    public PlayerBoard setupPlayerBoard(){
         PlayerBoard board = new PlayerBoard();
+        System.out.println("Player 1.");
         board.placeAllShips();
         return board;
 
@@ -25,6 +35,21 @@ class runBattleship{
 		board.makeRandomBoard();
 		return board;
 		
+	}
+
+	public PlayerBoard setupPlayer2Board(){
+		clearScreen();
+		PlayerBoard board2 = new PlayerBoard();
+		System.out.println("Player 2.");
+		board2.placeAllShips();
+		clearScreen();
+		return board2;
+	}
+
+	public void clearScreen(){
+		for(int i = 0; i< 100; i++) {
+			System.out.println("");
+		}
 	}
 
 	/**
@@ -67,9 +92,9 @@ class runBattleship{
 	*/
 	public void runGame(boolean randomPlayerFire){
 		Introduction();
-		PlayerBoard playerBoard = setupGameBoard();
+		PlayerBoard playerBoard = setupPlayerBoard();
 		EnemyBoard enemyBoard = setupEnemyBoard();
-		AI AI = new AI(playerBoard);
+		AIv2 AI = new AIv2(playerBoard);
 		Scanner keyboard = new Scanner(System.in);
 		System.out.print("Which difficulty would you like to play on (0 for Normal, 3 for Random): ");
 		AI.setDifficulty(keyboard.nextInt());
@@ -103,6 +128,30 @@ class runBattleship{
 		}
 		else{
 			System.out.println("You win. Congratulations!");
+		}
+	}
+
+	public void run2Player(){
+		Introduction();
+		PlayerBoard player1 = setupPlayerBoard();
+		PlayerBoard player2 = setupPlayer2Board();
+
+		do{
+			System.out.println("\n\nIt is player 1's turn. Fire at player 2's board!");
+			player2.fire();
+			player2.printBoard(2,true);
+			System.out.println("\n\nIt is player 2's turn. Fire at player 1's board!");
+			player1.fire();
+			player1.printBoard(1,true);
+		}while(player1.getNumberOfShipElements()>0 && player2.getNumberOfShipElements()>0);
+		if(player2.getNumberOfShipElements()==0 && player1.getNumberOfShipElements() ==0) {
+			System.out.println("A Tie! Play again!");
+		}
+		else if (player2.getNumberOfShipElements()>0){
+			System.out.println("Player 2 wins!");
+		}
+		else{
+			System.out.println("Player 1 wins!");
 		}
 	}
 

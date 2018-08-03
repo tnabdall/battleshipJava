@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -158,8 +159,17 @@ class PlayerBoard extends GameBoard{
 	 */
 	public void placeShip(Vector<int[]> shipVect, Ship battleship){
     	for (int i = 0; i<shipVect.size(); i++){
-    		setBoardElement(shipVect.elementAt(i)[0],shipVect.elementAt(i)[1],3);
-    		battleship.setCoords(shipVect.elementAt(i),i);
+    		try {
+    			if(shipVect.elementAt(i)[0]>9 || shipVect.elementAt(i)[0]<0
+				|| shipVect.elementAt(i)[1]>9 || shipVect.elementAt(i)[1]<0){
+    				throw new ArrayIndexOutOfBoundsException();
+				}
+				setBoardElement(shipVect.elementAt(i)[0], shipVect.elementAt(i)[1], 3);
+				battleship.setCoords(shipVect.elementAt(i), i);
+			}
+			catch (ArrayIndexOutOfBoundsException e){
+    			return;
+			}
 		}
 	}
 
@@ -240,6 +250,31 @@ class PlayerBoard extends GameBoard{
         System.out.println("   --------------------"); // Bottom border
 
     }
+
+	/** Prints the game board. Can be used for user or enemy boards.
+	 * @param playerNumber The # of the player (1 or 2)
+	 * @param HideShips Should we hide ships on the board?
+	 */
+	public void printBoard(int playerNumber, boolean HideShips){
+		System.out.println("      PLAYER "+playerNumber+" BOARD     ");
+		System.out.println("   A B C D E F G H I J"); // Column letters
+		//System.out.println(" --------------------"); // Top border
+		for (int i = 0; i<10; i++){
+			if (i<9){
+				System.out.print(i+1+" "); // Print row number
+			}
+			else{
+				System.out.print(i+1); // So that all rows are aligned as 10 takes an extra character space.
+			}
+			for (int j = 0; j<10; j++){
+				System.out.print("|"); // Print border
+				System.out.print(boardMarker(getBoardElement(i,j),true)); //Print marker according to board
+			}
+			System.out.print("|\n"); // End row with border and new line
+		}
+		System.out.println("   --------------------"); // Bottom border
+
+	}
 
 	
 }

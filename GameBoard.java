@@ -34,6 +34,9 @@ public class GameBoard{
 		for (int i = 0; i<10; i++){
     		for (int j = 0; j<10; j++){
     			setBoardElement(i,j,other.getBoardElement(i,j));
+    			if(other.getBoardElement(i,j)==3){
+    				this.numberOfShipElements+=1;
+				}
 			}
 		}
 
@@ -55,11 +58,13 @@ public class GameBoard{
 	*/
 	public String getShipFiredOn(int[] coords){
 		int[][] shipcoords;
-		for (int i = 0; i< ships.length; i++){
-			shipcoords = ships[i].getAllCoords();
-			for (int j = 0; j< shipcoords.length; j++){
-				if (shipcoords[j][0] == coords[0] && shipcoords[j][1] == coords[1]){
-					return ships[i].getName();
+		if (isValidCoordinate(coords[0],coords[1])) {
+			for (int i = 0; i < ships.length; i++) {
+				shipcoords = ships[i].getAllCoords();
+				for (int j = 0; j < shipcoords.length; j++) {
+					if (shipcoords[j][0] == coords[0] && shipcoords[j][1] == coords[1]) {
+						return ships[i].getName();
+					}
 				}
 			}
 		}
@@ -73,17 +78,34 @@ public class GameBoard{
 	 */
 	public Ship getShipObject(int row, int col) {
 		int[][] shipcoords;
-		for (int i = 0; i< ships.length; i++){
-			shipcoords = ships[i].getAllCoords();
-			for (int j = 0; j< shipcoords.length; j++){
-				if (shipcoords[j][0] == row && shipcoords[j][1] == col){
-					//For testing
-					System.out.println("getShipObject");
-					return ships[i];
+		if (isValidCoordinate(row, col)) {
+			for (int i = 0; i < ships.length; i++) {
+				shipcoords = ships[i].getAllCoords();
+				for (int j = 0; j < shipcoords.length; j++) {
+					if (shipcoords[j][0] == row && shipcoords[j][1] == col) {
+						//For testing
+						System.out.println("getShipObject");
+						return ships[i];
+					}
 				}
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Checks to make sure the coordinate is not out of bounds in array
+	 * @param row Row to check
+	 * @param col Column to check
+	 * @return True or false
+	 */
+	private boolean isValidCoordinate(int row, int col){
+		if (row<0 || row>9 || col<0 || col>9){
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 
 	
@@ -93,11 +115,13 @@ public class GameBoard{
 	*/
 	public String getShipFiredOn(int row, int col){
 		int[][] shipcoords;
-		for (int i = 0; i< ships.length; i++){
-			shipcoords = ships[i].getAllCoords();
-			for (int j = 0; j< shipcoords.length; j++){
-				if (shipcoords[j][0] == row && shipcoords[j][1] == col){
-					return ships[i].getName();
+		if (isValidCoordinate(row, col)) {
+			for (int i = 0; i < ships.length; i++) {
+				shipcoords = ships[i].getAllCoords();
+				for (int j = 0; j < shipcoords.length; j++) {
+					if (shipcoords[j][0] == row && shipcoords[j][1] == col) {
+						return ships[i].getName();
+					}
 				}
 			}
 		}
@@ -111,14 +135,16 @@ public class GameBoard{
 		int row = coords[0];
 		int col = coords[1];
 		int[] shipcoords;
-		for (int i = 0; i<ships.length; i++){
-			for (int j = 0; j<ships[i].getLength(); j++){
-				shipcoords = ships[i].getCoords(j);
-				if(shipcoords[0] == row && shipcoords[1] == col){
-					return ships[i].getLength();
+		if (isValidCoordinate(row, col)) {
+			for (int i = 0; i < ships.length; i++) {
+				for (int j = 0; j < ships[i].getLength(); j++) {
+					shipcoords = ships[i].getCoords(j);
+					if (shipcoords[0] == row && shipcoords[1] == col) {
+						return ships[i].getLength();
+					}
 				}
+
 			}
-		
 		}
 		return -1;
 	}
@@ -129,14 +155,16 @@ public class GameBoard{
 	*/
 	public int getShipFiredOnLength(int row, int col){
 		int[] shipcoords;
-		for (int i = 0; i<ships.length; i++){
-			for (int j = 0; j<ships[i].getLength(); j++){
-				shipcoords = ships[i].getCoords(j);
-				if(shipcoords[0] == row && shipcoords[1] == col){
-					return ships[i].getLength();
+		if (isValidCoordinate(row, col)) {
+			for (int i = 0; i < ships.length; i++) {
+				for (int j = 0; j < ships[i].getLength(); j++) {
+					shipcoords = ships[i].getCoords(j);
+					if (shipcoords[0] == row && shipcoords[1] == col) {
+						return ships[i].getLength();
+					}
 				}
+
 			}
-		
 		}
 		return -1;
 	}
@@ -413,7 +441,7 @@ public class GameBoard{
 	 * @param element 1,2, or 3 for miss, hit, or battleship placed
 	 */
 	public void setBoardElement(int row, int col, int element){
-		if (element>=0 && element<=3){
+		if (element>=0 && element<=3 && isValidCoordinate(row,col)){
 			board[row][col]=element;
 		}
 	}
@@ -426,4 +454,42 @@ public class GameBoard{
 			numberOfShipElements -= 1;
 		}
 	}
+
+    /** Asks the player for a coordinate to fire on the enemy's game board and checks if hit or miss.
+    Updates the board accordingly.
+    */
+    public void fire(){
+        System.out.print("Choose a coordinate to fire on: ");
+        int[] coords = getCoordinates();
+        while(hasFired(coords[0],coords[1])){
+            System.out.println("You have already fired there. Choose another coordinate.");
+            coords = getCoordinates();
+        }
+        if(getBoardElement(coords[0],coords[1])==3){
+            System.out.println("Hit: " + getShipFiredOn(coords) +" (" + getShipFiredOnLength(coords)+")");
+            setBoardElement(coords[0],coords[1],2);
+            decrementShipElements();
+        }
+        else{
+            System.out.println("Miss");
+            setBoardElement(coords[0],coords[1],1);
+        }
+    }
+
+    /** Checks to see if the square has been fired on before.
+    @param row Row to check for fire.
+    @param col Column to check for fire.
+    @return Boolean value that indicates whether the square has been fired upon.
+    */
+    public boolean hasFired(int row, int col){
+        boolean fired = false;
+        int element = getBoardElement(row,col);
+        if (element==1 || element ==2){
+            fired = true;
+        }
+        else{
+            fired = false;
+        }
+        return fired;
+    }
 }

@@ -10,7 +10,7 @@ public class EnemyBoardTest {
 
 
     @Test
-    public void test_fire_Hit_And_Miss_and_NumberOfShipElements(){
+    public void test_fire_Hit_and_NumberOfShipElements(){
         EnemyBoard e = new EnemyBoard();
         e.makeRandomBoard();
         Ship[] ships = e.getShips();
@@ -18,9 +18,7 @@ public class EnemyBoardTest {
         int rowHasShip = 0;
         int colHasShip = 0;
         boolean shipExists = false;
-        int rowNoShip = 0;
-        int colNoShip = 0;
-        boolean shipDoesNotExist = false;
+
 
         // Gets a coordinate of a ship element on the random enemy board.
         while(!shipExists){
@@ -33,6 +31,43 @@ public class EnemyBoardTest {
             }
         }
 
+
+        assertEquals("Expected a ship at "+rowHasShip+","+colHasShip,3,e.getBoardElement(rowHasShip,colHasShip));
+        e.fire(rowHasShip,colHasShip);
+        assertEquals("Expected a hit ship at "+rowHasShip+","+colHasShip,2,e.getBoardElement(rowHasShip,colHasShip));
+        assertEquals("Should have 16 ship elements.",16,e.getNumberOfShipElements());
+
+        /*
+                 PLAYER BOARD
+               A B C D E F G H I J
+            1 |+|+|+|+|+| | | | | |
+            2 | | | | | | | | | | |
+            3 |+|+|+|+| | | | | | |
+            4 | | | | | | | | | | |
+            5 |+|+|+| | | | | | | |
+            6 | | | | | | | | | | |
+            7 |+|+|+| | | | | | | |
+            8 | | | | | | | | | | |
+            9 |+|+| | | | | | | | |
+            10| | | | | | | | | | |
+               --------------------
+         */
+    }
+
+    @Test
+    public void test_fire_Miss_and_NumberOfShipElements(){
+        EnemyBoard e = new EnemyBoard();
+        e.makeRandomBoard();
+        Ship[] ships = e.getShips();
+
+
+        int rowNoShip = 0;
+        int colNoShip = 0;
+        boolean shipDoesNotExist = false;
+
+
+
+
         while (!shipDoesNotExist) {
             if(e.getBoardElement(rowNoShip,colNoShip)==0){
                 shipDoesNotExist = true;
@@ -43,14 +78,11 @@ public class EnemyBoardTest {
             }
         }
 
-        assertEquals("Expected a ship at "+rowHasShip+","+colHasShip,3,e.getBoardElement(rowHasShip,colHasShip));
-        e.fire(rowHasShip,colHasShip);
-        assertEquals("Expected a hit ship at "+rowHasShip+","+colHasShip,2,e.getBoardElement(rowHasShip,colHasShip));
-        assertEquals("Should have 16 ship elements.",16,e.getNumberOfShipElements());
+        assertEquals("Should have 17 ship elements.",17,e.getNumberOfShipElements());
         assertEquals("Expected no ship at "+rowNoShip+","+colNoShip,0,e.getBoardElement(rowNoShip,colNoShip));
         e.fire(rowNoShip,colNoShip);
         assertEquals("Expected a miss at "+rowNoShip+","+colNoShip,1,e.getBoardElement(rowNoShip,colNoShip));
-        assertEquals("Should have 16 ship elements.",16,e.getNumberOfShipElements());
+        assertEquals("Should have 17 ship elements.",17,e.getNumberOfShipElements());
 
         /*
                  PLAYER BOARD

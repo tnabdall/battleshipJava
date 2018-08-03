@@ -1,17 +1,14 @@
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayInputStream;
 import java.util.Vector;
 import org.junit.Test;
 
 public class PlayerBoardTest {
 
-    PlayerBoard p = new PlayerBoard();
-    Vector<int[]> shipvect= new Vector<int[]>();
+    private PlayerBoard p = new PlayerBoard();
+    private Vector<int[]> shipvect= new Vector<int[]>();
 
-
-    @Test
-    public void test_fireInBounds_and_locStatus(){
+    public PlayerBoard getTestBoard(){
         PlayerBoard p = new PlayerBoard();
         Ship[] ships = p.getShips();
         for (int i = 0; i< 5; i++){
@@ -19,11 +16,87 @@ public class PlayerBoardTest {
                 int[] coords = new int[2];
                 coords[0] = i*2;
                 coords[1] = j;
-                shipvect.add(coords);
+                getShipvect().add(coords);
             }
-            p.placeShip(shipvect,ships[i]);
-            shipvect.clear();
+            p.placeShip(getShipvect(),ships[i]);
+            getShipvect().clear();
         }
+        return new PlayerBoard(p);
+    }
+
+    @Test
+    public void test_Constructor(){
+        PlayerBoard p = new PlayerBoard();
+        int[][] emptyBoard = new int[10][10];
+        int[][] pBoard = p.getBoard();
+
+        boolean elementsEqual = true;
+        for (int i = 0; i<emptyBoard.length; i++){
+            for (int j = 0; j<emptyBoard[0].length; j++){
+                if(pBoard[i][j]!= emptyBoard[i][j]){
+                    elementsEqual = false;
+                }
+            }
+        }
+        assertEquals("All elements should have been empty in the board.",true,elementsEqual);
+
+    }
+
+    @Test
+    public void test_Copy_Constructor(){
+        PlayerBoard p = getTestBoard();
+        int[][] pBoard = p.getBoard();
+        PlayerBoard copyP = new PlayerBoard(p);
+        int[][] copyPBoard = copyP.getBoard();
+
+        boolean elementsEqual = true;
+        for (int i = 0; i<pBoard.length; i++){
+            for (int j = 0; j<pBoard[0].length; j++){
+                if(pBoard[i][j]!= copyPBoard[i][j]){
+                    elementsEqual = false;
+                }
+            }
+        }
+        assertEquals("All elements should have been equal in the board.",true,elementsEqual);
+    }
+
+    @Test
+    public void test_loc_status_Boundary(){
+        PlayerBoard p = getTestBoard();
+        assertEquals("Should have returned a 3 at (0,0)", 3, p.locStatus(0,0));
+        assertEquals("Should have returned a 0 at (9,9)", 0, p.locStatus(9,9));
+        assertEquals("Should have returned a 4 at (10,9) because out of bounds", 4,p.locStatus(10,9));
+    }
+
+    @Test
+    public void test_loc_status_Invalid(){
+        PlayerBoard p = getTestBoard();
+        assertEquals("Should have returned a 4 at (-1,0) because out of bounds", 4,p.locStatus(-1,0));
+        assertEquals("Should have returned a 4 at (10,9) because out of bounds", 4,p.locStatus(10,9));
+    }
+
+    @Test
+    public void test_loc_status_average(){
+        PlayerBoard p = getTestBoard();
+        p.fire(0,0);
+        p.fire(1,0);
+        assertEquals("Should have returned a 2 after firing at (0,0)", 2, p.locStatus(0,0));
+        assertEquals("Should have returned a 1 after firing at (1,0)", 1, p.locStatus(1,0));
+        assertEquals("Should have returned a 3 at (0,1)", 3, p.locStatus(0,1));
+    }
+
+    @Test
+    public void test_fire_Boundaries(){
+        p = getTestBoard();
+        p.fire(0,0);
+        p.fire(9,9);
+        assertEquals("Fired at (0,0). Expected a 2 (O) at (0,0)",2,p.locStatus(0,0));
+        assertEquals("Fired at (9,9). Expected a 1 (X) at (9,9)",1,p.locStatus(9,9));
+    }
+
+    @Test
+    public void test_fireInBounds(){
+        p = getTestBoard();
         /*
                  PLAYER BOARD
                A B C D E F G H I J
@@ -67,18 +140,7 @@ public class PlayerBoardTest {
 
     @Test
     public void test_fire_OutofBounds(){
-        PlayerBoard p = new PlayerBoard();
-        Ship[] ships = p.getShips();
-        for (int i = 0; i< 5; i++){
-            for (int j =0; j< ships[i].getLength(); j++){
-                int[] coords = new int[2];
-                coords[0] = i*2;
-                coords[1] = j;
-                shipvect.add(coords);
-            }
-            p.placeShip(shipvect,ships[i]);
-            shipvect.clear();
-        }
+        p = getTestBoard();
         /*
                  PLAYER BOARD
                A B C D E F G H I J
@@ -102,6 +164,35 @@ public class PlayerBoardTest {
     }
 
     @Test
+    public void test_getShipLoc_shipPlaced(){
+        p = getTestBoard();
+        int[] firstShip = new int[2];
+        firstShip[0] = 0;
+        firstShip[1] = 0;
+        int[] shipLoc = p.getShipLoc();
+        boolean equals = true;
+        if (firstShip[0] != shipLoc[0] || firstShip[1] != shipLoc[1]){
+            equals = false;
+        }
+        assertEquals("First should should be at (0,0)", true, equals);
+        p.fire(0,0);
+        shipLoc = p.getShipLoc();
+        System.out.println(shipLoc[0] + " "+ shipLoc[1]);
+        firstShip[1] = 1;
+        if (firstShip[0] != shipLoc[0] || firstShip[1] != shipLoc[1]){
+            equals = false;
+        }
+        assertEquals("After firing at (0,0), first ship element should be at (0,1)", true, equals);
+    }
+
+    @Test
+    public void test_getShipLoc_NoShipPlaced(){
+        p = new PlayerBoard();
+        int[] shipLoc = p.getShipLoc();
+        assertEquals("No ships placed. Reference should be null.", null, shipLoc);
+    }
+
+    @Test
     public void test_decrementedShipElementsAfterFiring(){
         PlayerBoard p = new PlayerBoard();
         Ship[] ships = p.getShips();
@@ -110,10 +201,10 @@ public class PlayerBoardTest {
                 int[] coords = new int[2];
                 coords[0] = i*2;
                 coords[1] = j;
-                shipvect.add(coords);
+                getShipvect().add(coords);
             }
-            p.placeShip(shipvect,ships[i]);
-            shipvect.clear();
+            p.placeShip(getShipvect(),ships[i]);
+            getShipvect().clear();
         }
         /*
                  PLAYER BOARD
@@ -153,10 +244,10 @@ public class PlayerBoardTest {
                 int[] coords = new int[2];
                 coords[0] = i*2;
                 coords[1] = j;
-                shipvect.add(coords);
+                getShipvect().add(coords);
             }
-            p.placeShip(shipvect,ships[i]);
-            shipvect.clear();
+            p.placeShip(getShipvect(),ships[i]);
+            getShipvect().clear();
         }
         /*
                  PLAYER BOARD
@@ -178,54 +269,61 @@ public class PlayerBoardTest {
             int[] coords = new int[2];
             coords[0] = i;
             coords[1] = 3;
-            shipvect.add(coords);
+            getShipvect().add(coords);
         } //D1-D4 ship
 
 
-        assertEquals("Expected to be false since ship exists at D1" , false, p.isValidPlacement(shipvect));
-        shipvect.clear();
+        assertEquals("Expected to be false since ship exists at D1" , false, p.isValidPlacement(getShipvect()));
+        getShipvect().clear();
         for (int i = 0; i< 4; i++){
             int[] coords = new int[2];
             coords[0] = i+1;
             coords[1] = 3;
-            shipvect.add(coords);
+            getShipvect().add(coords);
         } //D2-D5 ship
 
-        assertEquals("Expected to be true since no ships at D2-D5", true, p.isValidPlacement(shipvect));
-        shipvect.clear();
+        assertEquals("Expected to be true since no ships at D2-D5", true, p.isValidPlacement(getShipvect()));
+        getShipvect().clear();
     }
 
     @Test
-    public void test_isValidPlacement_InArrayBounds_OutOfArrayBounds(){
+    public void test_isValidPlacement_InArrayBounds(){
         PlayerBoard p = new PlayerBoard();
         // All squares empty
         for (int i = 0; i< 4; i++){
             int[] coords = new int[2];
             coords[0] = i;
             coords[1] = 3;
-            shipvect.add(coords);
+            getShipvect().add(coords);
         } //D1-D4 ship
 
-        assertEquals("Expected to be a valid placement since it is inside bounds", true, p.isValidPlacement(shipvect));
-        shipvect.clear();
+        assertEquals("Expected to be a valid placement since it is inside bounds", true, p.isValidPlacement(getShipvect()));
+        getShipvect().clear();
+
+    }
+
+    @Test
+    public void test_isValidPlacement_OutOfArrayBounds(){
+        PlayerBoard p = new PlayerBoard();
+        // All squares empty
 
         for (int i = 0; i< 4; i++){
             int[] coords = new int[2];
             coords[0] = i-1;
             coords[1] = 3;
-            shipvect.add(coords);
+            getShipvect().add(coords);
         } //D0-D3 ship out of bounds
-        assertEquals("Expected to be invalid because E0 does not exist.", false, p.isValidPlacement(shipvect));
-        shipvect.clear();
+        assertEquals("Expected to be invalid because E0 does not exist.", false, p.isValidPlacement(getShipvect()));
+        getShipvect().clear();
 
         for (int i = 0; i< 4; i++){
             int[] coords = new int[2];
             coords[0] = i+9;
             coords[1] = 10;
-            shipvect.add(coords);
+            getShipvect().add(coords);
         } //K10-K13 ship out of bounds
-        assertEquals("Expected to be invalid because column K does not exist.", false, p.isValidPlacement(shipvect));
-        shipvect.clear();
+        assertEquals("Expected to be invalid because column K does not exist.", false, p.isValidPlacement(getShipvect()));
+        getShipvect().clear();
     }
 
     @Test
@@ -235,11 +333,11 @@ public class PlayerBoardTest {
             int[] coords = new int[2];
             coords[0] = i;
             coords[1] = 3;
-            shipvect.add(coords);
+            getShipvect().add(coords);
         } //D1-D4 ship
 
-        assertEquals("Expected to be a valid placement since ship is continuous", true, p.isValidPlacement(shipvect));
-        shipvect.clear();
+        assertEquals("Expected to be a valid placement since ship is continuous", true, getP().isValidPlacement(getShipvect()));
+        getShipvect().clear();
 
         for (int i = 0; i< 5; i++){
             if(i ==2){
@@ -248,21 +346,21 @@ public class PlayerBoardTest {
             int[] coords = new int[2];
             coords[0] = i;
             coords[1] = 3;
-            shipvect.add(coords);
+            getShipvect().add(coords);
         } //D1-D2 and D4-D5 invalid ship
 
-        assertEquals("Expected to be invalid because ship is not continuous vertically.", false, p.isValidPlacement(shipvect));
-        shipvect.clear();
+        assertEquals("Expected to be invalid because ship is not continuous vertically.", false, getP().isValidPlacement(getShipvect()));
+        getShipvect().clear();
 
         for (int i = 0; i< 4; i++){
             int[] coords = new int[2];
             coords[0] = 1;
             coords[1] = i;
-            shipvect.add(coords);
+            getShipvect().add(coords);
         } //A2-D2 ship
 
-        assertEquals("Expected to be a valid placement since ship is continuous", true, p.isValidPlacement(shipvect));
-        shipvect.clear();
+        assertEquals("Expected to be a valid placement since ship is continuous", true, getP().isValidPlacement(getShipvect()));
+        getShipvect().clear();
 
         for (int i = 0; i< 5; i++){
             if(i ==2){
@@ -271,34 +369,60 @@ public class PlayerBoardTest {
             int[] coords = new int[2];
             coords[0] = 1;
             coords[1] = i;
-            shipvect.add(coords);
+            getShipvect().add(coords);
         } //A2-B2 and D2-E2 invalid ship
 
-        assertEquals("Expected to be invalid because ship is not continuous horizontally.", false, p.isValidPlacement(shipvect));
-        shipvect.clear();
+        assertEquals("Expected to be invalid because ship is not continuous horizontally.", false, getP().isValidPlacement(getShipvect()));
+        getShipvect().clear();
 
     }
 
     @Test
-    public void test_Place_Ship(){ //GUI Version. In GUI code, checks for valid placement before calling function.
+    public void test_Place_Ship_valid(){ //GUI Version. In GUI code, checks for valid placement before calling function.
         PlayerBoard p = new PlayerBoard();
         for (int i = 0; i< 4; i++){
             int[] coords = new int[2];
             coords[0] = i;
             coords[1] = 3;
-            shipvect.add(coords);
+            getShipvect().add(coords);
         } //D1-D4 ship
-        p.placeShip(shipvect, p.getShips()[1]);
+        p.placeShip(getShipvect(), p.getShips()[1]);
 
         assertEquals("Expected D1 to be filled with a ship",3,p.getBoardElement(0,3));
         assertEquals("Expected D2 to be filled with a ship",3,p.getBoardElement(1,3));
         assertEquals("Expected D3 to be filled with a ship",3,p.getBoardElement(2,3));
         assertEquals("Expected D4 to be filled with a ship",3,p.getBoardElement(3,3));
         assertEquals("Expected D5 to be empty.",0,p.getBoardElement(4,3));
-        shipvect.clear();
+        getShipvect().clear();
 
     }
 
+    @Test
+    public void test_PlaceShip_Invalid(){ //GUI Version. In GUI code, checks for valid placement before calling function.
+        PlayerBoard p = new PlayerBoard();
+        for (int i = -1; i< 4; i++){
+            int[] coords = new int[2];
+            coords[0] = i;
+            coords[1] = 3;
+            getShipvect().add(coords);
+        } //D0-D4 ship
+        p.placeShip(getShipvect(), p.getShips()[1]);
+
+        assertEquals("Expected D1 to be empty",0,p.getBoardElement(0,3));
+        assertEquals("Expected D2 to be empty",0,p.getBoardElement(1,3));
+        assertEquals("Expected D3 to be empty",0,p.getBoardElement(2,3));
+        getShipvect().clear();
+    }
+
+
+    public PlayerBoard getP() {
+        return p;
+    }
+
+
+    public Vector<int[]> getShipvect() {
+        return shipvect;
+    }
 
 
 }

@@ -88,7 +88,9 @@ class Ship{
      * @param length Length to be set for the ship.
      */
     public void setLength(int length) {
-        this.length = length;
+        if(length>0){
+            this.length = length;
+        }
     }
 
     /**
