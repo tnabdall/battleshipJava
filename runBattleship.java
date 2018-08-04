@@ -123,7 +123,10 @@ class runBattleship{
 			
 			
 		}while(enemyBoard.getNumberOfShipElements()>0 && playerBoard.getNumberOfShipElements()>0); //When one player loses all ships, games over.
-		if(playerBoard.getNumberOfShipElements()==0){
+		if(playerBoard.getNumberOfShipElements()==0&&enemyBoard.getNumberOfShipElements()==0){
+			System.out.println("A tie! Play again.");
+		}
+		else if (playerBoard.getNumberOfShipElements()==0){
 			System.out.println("You lose. Better luck next time.");
 		}
 		else{

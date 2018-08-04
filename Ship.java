@@ -84,6 +84,11 @@ class Ship{
 		}
 	}
 
+    /**
+     * Checks to see if ship is alive on a game board.
+     * @param g The gameBoard to check if the ship is alive on
+     * @return True or False
+     */
 	public boolean isAlive(GameBoard g){
 	    int health = length;
 	    for (int i =0; i< coords.length; i++){
