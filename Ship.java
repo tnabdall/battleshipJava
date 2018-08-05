@@ -67,13 +67,26 @@ class Ship{
      * @param index Index of Ship coordinates
      * @return The row and column of that coordinate.
      */
-    public int[] getCoords(int index) { return coords[index]; }
+    public int[] getCoords(int index) {
+        int[] copy = new int[2];
+        for (int i = 0; i< 2; i++){
+            copy[i] = coords[index][i];
+        }
+        return copy;
+    }
 
     /**
      * Get all coordinates of the ship.
      * @return Lengthx2 Matrix containing all coordinates of the ship.
      */
-	public int[][] getAllCoords() {return coords;}
+	public int[][] getAllCoords() {
+	    int[][] copy = new int[length][2];
+	    for (int i = 0; i<length; i++){
+	        for (int j = 0; j<2; j++){
+	            copy[i][j] = this.coords[i][j];
+            }
+        }
+	    return copy;}
 
     /**
      * Method to print coordinates of the ship. For testing purposes mainly.

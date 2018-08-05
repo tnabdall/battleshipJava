@@ -22,6 +22,11 @@ public class StartMenu {
 	private Label message = new Label (" ");
 	private Label messageColor = new Label (" "); //Stores color for game configuration
 
+
+
+	private String playerColor = "CYAN";
+	private int difficulty = 3;
+
 	/**
 	 * Method that handles all the windows for game configuration.
 	 */
@@ -82,6 +87,7 @@ public class StartMenu {
 				message.setText("Level 1");
 				message.setFont(Font.font ("Verdana", 15));
 				message.setTextFill(Color.web("WHITE"));
+				difficulty = 3;
 	
 		} } );
 		
@@ -91,6 +97,7 @@ public class StartMenu {
 				message.setText("Level 2");
 				message.setFont(Font.font ("Verdana", 15));
 				message.setTextFill(Color.web("WHITE"));
+				difficulty = 0;
 		} } );	
 		
 		button3.setOnAction ( new EventHandler<ActionEvent>(){
@@ -99,6 +106,7 @@ public class StartMenu {
 				message.setText("Level 3");
 				message.setFont(Font.font ("Verdana", 15));
 				message.setTextFill(Color.web("WHITE"));
+				difficulty = 1;
 		} } );	
 		
 		button4.setOnAction ( new EventHandler<ActionEvent>(){
@@ -159,6 +167,7 @@ public class StartMenu {
 				messageColor.setText("Red");
 				messageColor.setFont(Font.font ("Verdana", 15));
 				messageColor.setTextFill(Color.web("RED"));
+				playerColor = "RED";
 
 		} } );
 		
@@ -169,6 +178,7 @@ public class StartMenu {
 				messageColor.setText("Yellow");
 				messageColor.setFont(Font.font ("Verdana", 15));
 				messageColor.setTextFill(Color.web("YELLOW"));
+				playerColor = "YELLOW";
 
 		} } );
 		
@@ -179,6 +189,7 @@ public class StartMenu {
 				messageColor.setText("Lime");
 				messageColor.setFont(Font.font ("Verdana", 15));
 				messageColor.setTextFill(Color.web("LIME"));
+				playerColor = "LIME";
 
 		} } );
 		// Set text for toggle Button
@@ -188,6 +199,7 @@ public class StartMenu {
 				messageColor.setText("Purple");
 				messageColor.setFont(Font.font ("Verdana", 15));
 				messageColor.setTextFill(Color.web("PURPLE"));
+				playerColor = "PURPLE";
 
 		} } );
 		// Set text for toggle Button
@@ -197,6 +209,7 @@ public class StartMenu {
 				messageColor.setText("Cyan");
 				messageColor.setFont(Font.font ("Verdana", 15));
 				messageColor.setTextFill(Color.web("CYAN"));
+				playerColor = "CYAN";
 
 		} } );
 		//Button 10 for NEXT SCENE
@@ -317,5 +330,13 @@ public class StartMenu {
 	 */
 	public String getPlayerName() {
 		return playerName;
+	}
+
+	public String getPlayerColor() {
+		return playerColor;
+	}
+
+	public int getDifficulty() {
+		return difficulty;
 	}
 }

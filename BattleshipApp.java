@@ -27,7 +27,7 @@ public class BattleshipApp extends Application {
     // Variables to help run game.
     private static PlayerBoard pboard = new PlayerBoard();
     private static EnemyBoard eboard = new EnemyBoard();
-    private static AIv2 AI = new AIv2(pboard);
+    private static AIv2 enemyAI = new AIv2(pboard);
 
 
     // Enemy grid root
@@ -59,8 +59,8 @@ public class BattleshipApp extends Application {
 	private VBox bridge = new VBox();
 
 	// Column constraints to make the boards resizable to window size.
-	private ColumnConstraints[] colCons = new ColumnConstraints[10];
-	private ColumnConstraints[] colCons2 = new ColumnConstraints[10];
+	//private ColumnConstraints[] colCons = new ColumnConstraints[10];
+	//private ColumnConstraints[] colCons2 = new ColumnConstraints[10];
 
 	// Variables to create the scene for placing ships.
 	private BorderPane placeShipRoot = new BorderPane();
@@ -103,12 +103,8 @@ public class BattleshipApp extends Application {
 		startMenu.start();
 		pllbl.setText(startMenu.getPlayerName()+"'s Board");
 		System.out.println(startMenu.getMessage().getText());
-		if (startMenu.getMessage().getText().equals("Level 1")){
-			AI.setDifficulty(3); //random
-		}
-		else{
-			AI.setDifficulty(0); //normal
-		}
+		enemyAI.setDifficulty(startMenu.getDifficulty());
+		pllbl.setTextFill(Color.web(startMenu.getPlayerColor()));
 
         // Iterate through all the grid elements in both player and enemy boards to set them up.
     	for(int i = 0; i<10; i++){
@@ -190,7 +186,8 @@ public class BattleshipApp extends Application {
 							placeShipLabel.setText("Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipCounter,4)].getName() + " with length of " + ships[Math.min(shipCounter,4)].getLength());
 							if(shipCounter>=ships.length){
 							    pboard.printBoard();
-							    AI = new AIv2(pboard);
+							    enemyAI = new AIv2(pboard);
+							    enemyAI.setDifficulty(startMenu.getDifficulty());
 								primaryStage.setScene(mainGame);
 							}
 						}
@@ -234,10 +231,10 @@ public class BattleshipApp extends Application {
         // For enemy's grid. Updates the row and column to fire upon.
         for (int i = 0; i< enemyGrid.length; i++){
 			// Sets column constraints for each grid member.
-			colCons[i] = new ColumnConstraints();
-			colCons[i].setPercentWidth(100/(enemyGrid.length+4));
-			colCons2[i] = new ColumnConstraints();
-			colCons2[i].setPercentWidth(100/(enemyGrid.length+4));
+			//colCons[i] = new ColumnConstraints();
+			//colCons[i].setPercentWidth(100/(enemyGrid.length+4));
+			//colCons2[i] = new ColumnConstraints();
+			//colCons2[i].setPercentWidth(100/(enemyGrid.length+4));
 			
 			// Creates new buttons and adds some spacing.
             for (int j = 0; j< enemyGrid.length; j++){
@@ -271,8 +268,8 @@ public class BattleshipApp extends Application {
                 player.add(playerGrid[i][j],j+1,i+1);
             }
             // Add column constraints to make game look neater.
-			enemy.getColumnConstraints().add(colCons[i]);
-			player.getColumnConstraints().add(colCons2[i]);
+			//enemy.getColumnConstraints().add(colCons[i]);
+			//player.getColumnConstraints().add(colCons2[i]);
         }
 		
 		// Sets enemy board and player board labels
@@ -292,17 +289,23 @@ public class BattleshipApp extends Application {
 		// First, the hit message, Second, the player BorderPane
 		bridge.getChildren().add(hit);
 		bridge.getChildren().add(root2);
-		
         root.setBottom(bridge);
-		
+
+
 		//Centering stuff
 		root.setAlignment(bridge, Pos.CENTER);
+		root.setAlignment(enemy,Pos.CENTER);
+		root2.setAlignment(player, Pos.CENTER);
 		root.setAlignment(enlbl, Pos.CENTER);
 		root2.setAlignment(pllbl, Pos.CENTER);
 		placeShipGrid.setAlignment(Pos.CENTER);
 		placeShipRoot.setAlignment(placeShipGrid, Pos.CENTER);
 		placeShipRoot.setAlignment(placeShipLabel,Pos.CENTER);
 		bridge.setAlignment(Pos.TOP_CENTER);
+		root.setAlignment(hit,Pos.CENTER);
+		root2.setAlignment(result, Pos.CENTER);
+		enemy.setAlignment(Pos.CENTER);
+		player.setAlignment(Pos.CENTER);
 
 
         primaryStage.setTitle("Battleship");
@@ -381,10 +384,10 @@ public class BattleshipApp extends Application {
                 }
                 System.out.println("Player shot at " + rowi + " " + colj);
 
-                AI.runDifficulty(); //Get AIS next move
+                enemyAI.runDifficulty(); //Get AIS next move
 
-                System.out.println("Enemy shot at " + AI.getRow() + " " + AI.getCol());
-                pboard.fire(AI.getRow(), AI.getCol());
+                System.out.println("Enemy shot at " + enemyAI.getRow() + " " + enemyAI.getCol());
+                pboard.fire(enemyAI.getRow(), enemyAI.getCol());
                 updateBoard(); // Update the game board
                 checkWin(); // Check if win.
             }

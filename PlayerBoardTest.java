@@ -28,12 +28,12 @@ public class PlayerBoardTest {
     public void test_Constructor(){
         PlayerBoard p = new PlayerBoard();
         int[][] emptyBoard = new int[10][10];
-        int[][] pBoard = p.getBoard();
+
 
         boolean elementsEqual = true;
         for (int i = 0; i<emptyBoard.length; i++){
             for (int j = 0; j<emptyBoard[0].length; j++){
-                if(pBoard[i][j]!= emptyBoard[i][j]){
+                if(p.getBoardElement(i,j)!= emptyBoard[i][j]){
                     elementsEqual = false;
                 }
             }
@@ -45,14 +45,15 @@ public class PlayerBoardTest {
     @Test
     public void test_Copy_Constructor(){
         PlayerBoard p = getTestBoard();
-        int[][] pBoard = p.getBoard();
+
         PlayerBoard copyP = new PlayerBoard(p);
-        int[][] copyPBoard = copyP.getBoard();
+        //
+
 
         boolean elementsEqual = true;
-        for (int i = 0; i<pBoard.length; i++){
-            for (int j = 0; j<pBoard[0].length; j++){
-                if(pBoard[i][j]!= copyPBoard[i][j]){
+        for (int i = 0; i<10; i++){
+            for (int j = 0; j<10; j++){
+                if(p.getBoardElement(i,j)!= copyP.getBoardElement(i,j)){
                     elementsEqual = false;
                 }
             }

@@ -399,14 +399,6 @@ public class GameBoard{
         coords[1] = column;
         return coords;
     }
-	
-	/**
-	Returns game board to player.
-	@return Returns the game board.
-	*/
-    public int[][] getBoard() {
-        return board; 
-    }
 
 	/**
 	 *
