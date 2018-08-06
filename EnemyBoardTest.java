@@ -8,6 +8,32 @@ public class EnemyBoardTest {
     EnemyBoard e = new EnemyBoard();
     Vector<int[]> shipvect= new Vector<int[]>();
 
+    @Test
+    public void test_Constructor(){
+        EnemyBoard e = new EnemyBoard();
+        assertEquals("Expected 17 ship elements",17,e.getNumberOfShipElements());
+        assertEquals("Expected 5 ships placed.",5,e.getShips().length);
+    }
+
+    @Test
+    public void test_Copy_Constructor(){
+        PlayerBoardTest pTest = new PlayerBoardTest();
+        PlayerBoard p = pTest.getTestBoard();
+        EnemyBoard eCopy = new EnemyBoard(p);
+        boolean shipElementsEquals = p.getNumberOfShipElements() == eCopy.getNumberOfShipElements();
+        boolean arrayEquals = true;
+        for (int i = 0; i< 10; i++){
+            for (int j = 0; j<10; j++){
+                if (p.getBoardElement(i,j)!=eCopy.getBoardElement(i,j)){
+                    arrayEquals = false;
+                }
+            }
+        }
+
+        assertEquals("Number of ship elements should be the same", true, shipElementsEquals);
+        assertEquals("Game board array should be the same", true, arrayEquals);
+
+    }
 
     @Test
     public void test_fire_Hit_and_NumberOfShipElements(){
