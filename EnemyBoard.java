@@ -3,6 +3,20 @@ import java.util.Random;
 */
 public class EnemyBoard extends GameBoard{
 
+	/**
+	 * Default constructor to initialize enemy board.
+	 */
+	public EnemyBoard(){
+		super();
+	}
+
+	/** Copy constructor to copy the 2nd player board for GUI
+	 * @param g The gameBoard to copy
+	 */
+	public EnemyBoard(GameBoard g){
+		super(g);
+	}
+
 	/** Fires at square on board. To be used by GUI.
 	 @param row Row to fire at.
 	 @param col Column to fire at.

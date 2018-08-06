@@ -34,8 +34,6 @@ public class BattleshipApp extends Application {
     private BorderPane root = new BorderPane();
     private GridPane enemy = new GridPane();
     private static Button[][] enemyGrid = new Button[10][10];
-	private Button HINT1 = new Button("PLAYER 1 HINT");
-	private Button HINT2 = new Button("PLAYER 2 HINT");
 	
     // Player grid root
     private BorderPane root2 = new BorderPane();
@@ -48,7 +46,6 @@ public class BattleshipApp extends Application {
 	// Labels for the enemy and game board
 	private Label enlbl = new Label("Enemy Board");
 	private Label pllbl = new Label("Player Board");
-	private Label pl2lbl = new Label("Player 2 Board");
 
 	// A-J and 1-10 labels for enemy and player boards.
 	private Label[] columns = new Label[10];
@@ -76,21 +73,23 @@ public class BattleshipApp extends Application {
 	private Vector<int[]> shipvect = new Vector<int[]>();
 	// The array of ships from player board to be placed.
 	private Ship[] ships = pboard.getShips();
+	private Ship[] ships2 = pBoard2.getShips();
 	// A counter to go through the ships array. Helps with ending ship placement.
 	private int shipCounter = 0;
 	private int shipCounter2 =0; //for Player 2
 
 	// Label to be placed on top of Placing Ships scene
-	private Label placeShipLabel = new Label("Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[0].getName() + " with length of " + ships[0].getLength());
+	private Label placeShipLabel;
 
 
 	private StartMenu startMenu = new StartMenu(); //For Game Configuration
 
-	private static PlayerBoard pBoard2 = new PlayerBoard();
-	private BorderPane root1 = new BorderPane();
-	private GridPane player2 = new GridPane();
-	private static Button[][] player2Grid = new Button[10][10];
-	private boolean player2Turn = false;
+	private static PlayerBoard pBoard2 = new PlayerBoard(); // Used to setup player 2 board.
+	private boolean player2Turn = false; // Turn logic for 2 players.
+
+    private Scene placeShips = new Scene(placeShipRoot,350,350); // First scene to place the player's ships
+    private Scene placeShips2 = new Scene(placeShipRoot2, 350, 350);
+    private Scene mainGame = new Scene(root, 400, 640); // Second scene to run the battleship game
 
 
 
@@ -105,11 +104,10 @@ public class BattleshipApp extends Application {
 	 */
 	public void start(Stage primaryStage) throws Exception
     {
-		Scene placeShips = new Scene(placeShipRoot,350,350); // First scene to place the player's ships
-		Scene placeShips2 = new Scene(placeShipRoot2, 350, 350);
-		Scene mainGame = new Scene(root, 400, 640); // Second scene to run the battleship game
+
 		// For game configuration
 		startMenu.start();
+		placeShipLabel = new Label(startMenu.getPlayerName()+". Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[0].getName() + " with length of " + ships[0].getLength());
 		pllbl.setText(startMenu.getPlayerName()+"'s Board");
 		int difficulty = startMenu.getDifficulty();
 		boolean p2 = false;
@@ -128,6 +126,9 @@ public class BattleshipApp extends Application {
 			//2 Player code.
 		}
 		pllbl.setTextFill(Color.web(startMenu.getPlayerColor()));
+		if(p2){
+            enlbl.setTextFill(Color.web(startMenu.getPlayerColor()));
+        }
 
 
 		System.out.println(difficulty);
@@ -140,103 +141,19 @@ public class BattleshipApp extends Application {
     	placeShipRoot.setCenter(placeShipGrid); // Puts the grid at the center of the scene
 		placeShipRoot.setTop(placeShipLabel); // Lets you know how and what ships to place
 
+        placeShipRoot2.setCenter(placeShipGrid2);
+
+
 
 
         // Iterate through all the grid elements in both player and enemy boards to set them up.
-    	for(int i = 0; i<10; i++){
-    		for (int j = 0; j<10; j++){
-    		    // Initialize element
-				placeShipGridElements[i][j] = new Label("");
-				placeShipGridElements[i][j].setMaxWidth(1);
-				placeShipGridElements[i][j].setMaxHeight(1);
-				// Sets a blue image for unplaced ships.
-				placeShipGridElements[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"),25,25,true,true)));
-
-				// Hold the row and column variables for event handling definitions
-				int row = i;
-				int col = j;
-
-				// This allows the game to know that a drag event was started.
-				placeShipGridElements[i][j].setOnDragDetected(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						placeShipGridElements[row][col].startFullDrag();
-					}
-				});
-
-
-				// This adds the coordinates of the square entered to the shipvect array. Also, changes the square to yellow.
-				placeShipGridElements[i][j].setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
-					@Override
-					public void handle(MouseDragEvent event) {
-						int[] coords = new int[2];
-						coords[0]  = GridPane.getRowIndex((Label)event.getSource());
-						coords[1]  = GridPane.getColumnIndex((Label)event.getSource());
-						if(!shipvect.contains(coords)) {
-							shipvect.add(coords);
-							//System.out.println(coords[0] + " " + coords[1]);
-							placeShipGridElements[row][col].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("yellowsquare.jpg"), 25, 25, true, true)));
-						}
-					}
-				});
-
-                /* This is where the main logic for the ship placement is done.
-                First we check to see what the size of the vector holding the coordinates is and if it matches the length of the ship to place.
-                Next, we see if its a valid ship placement on the board.
-                Finally, we place the ship.
-                 */
-				placeShipGridElements[i][j].setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
-
-					@Override
-					public void handle(MouseDragEvent event) {
-						//System.out.println("vector size " + shipvect.size());
-                        // Checks to see that the selected squares are the same length of the ship placed.
-						if (shipvect.size() != ships[shipCounter].getLength()) {
-							for (int i = 0; i < shipvect.size(); i++) {
-								placeShipGridElements[shipvect.elementAt(i)[0]][shipvect.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
-							}
-							shipvect.clear();
-						}
-						/* Checks to see that the ship placement is valid.
-						If it is, increase the counter to place the next ship.
-						Once all ships are placed, move on to the main game.
-						 */
-						else if (pboard.isValidPlacement(shipvect)) {
-							pboard.placeShip(shipvect, ships[shipCounter]);
-							shipCounter+=1;
-							shipvect.clear();
-							placeShipLabel.setText("Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipCounter,4)].getName() + " with length of " + ships[Math.min(shipCounter,4)].getLength());
-							if(shipCounter>=ships.length){
-							    pboard.printBoard();
-							    enemyAI = new AIv2(pboard);
-							    enemyAI.setDifficulty(startMenu.getDifficulty());
-							    if(startMenu.getDifficulty() !=-1) {
-									primaryStage.setScene(mainGame);
-								}
-								else{
-							    	primaryStage.setScene(placeShips2);
-								}
-
-							}
-						}
-						// If the placement is invalid, clear the vector with the coordinates and make the squares blue again.
-						else {
-							for (int i = 0; i < shipvect.size(); i++) {
-								placeShipGridElements[shipvect.elementAt(i)[0]][shipvect.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
-							}
-							shipvect.clear();
-						}
-					}
-
-				});
-
-
-
-
-                // Adds the new label element to the grid.
-				placeShipGrid.add(placeShipGridElements[i][j],j,i);
-			}
-		}
+        if(p2){
+            placeShips(primaryStage, true, 1);
+            placeShips(primaryStage, true, 2);
+        }
+        else {
+            placeShips(primaryStage, false, 1);
+        }
 
 
         //pboard.makeRandomBoard();
@@ -322,9 +239,7 @@ public class BattleshipApp extends Application {
 		// Sets enemy board and player board labels
 		root.setTop(enlbl);
 		root2.setTop(pllbl);
-		
-		root.setRight(HINT1);
-		root2.setRight(HINT2);
+
 		
 		// Sets enemy grid in center
         root.setCenter(enemy);
@@ -346,8 +261,11 @@ public class BattleshipApp extends Application {
 		root.setAlignment(enlbl, Pos.CENTER);
 		root2.setAlignment(pllbl, Pos.CENTER);
 		placeShipGrid.setAlignment(Pos.CENTER);
+		placeShipGrid2.setAlignment(Pos.CENTER);
 		placeShipRoot.setAlignment(placeShipGrid, Pos.CENTER);
 		placeShipRoot.setAlignment(placeShipLabel,Pos.CENTER);
+        placeShipRoot2.setAlignment(placeShipGrid2, Pos.CENTER);
+
 		bridge.setAlignment(Pos.TOP_CENTER);
 		root.setAlignment(hit,Pos.CENTER);
 		root2.setAlignment(result, Pos.CENTER);
@@ -417,15 +335,219 @@ public class BattleshipApp extends Application {
 				hit.setText("It's a tie!");
 				hit.setTextFill(Color.web("Red"));
 			} else if (eboard.getNumberOfShipElements() == 0) {
-				hit.setText("Player 1 Wins! Congratulations!");
+				hit.setText(startMenu.getPlayerName()+" Wins! Congratulations!");
 				hit.setTextFill(Color.web("Red"));
 			} else if (pboard.getNumberOfShipElements() == 0) {
-				hit.setText("Player 2 Wins! Congratulations!");
+				hit.setText(startMenu.getPlayer2Name()+" Wins! Congratulations!");
 				hit.setTextFill(Color.web("Red"));
 			}
 		}
 
     }
+
+    public void placeShips(Stage primaryStage, boolean p2, int player){
+
+        for(int i = 0; i<10; i++){
+            for (int j = 0; j<10; j++){
+                // Initialize element
+                placeShipGridElements[i][j] = new Label("");
+                placeShipGridElements[i][j].setMaxWidth(1);
+                placeShipGridElements[i][j].setMaxHeight(1);
+                // Sets a blue image for unplaced ships.
+                placeShipGridElements[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"),25,25,true,true)));
+
+                // Hold the row and column variables for event handling definitions
+                int row = i;
+                int col = j;
+
+                // This allows the game to know that a drag event was started.
+                placeShipGridElements[i][j].setOnDragDetected(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        placeShipGridElements[row][col].startFullDrag();
+                    }
+                });
+
+
+                // This adds the coordinates of the square entered to the shipvect array. Also, changes the square to yellow.
+                placeShipGridElements[i][j].setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
+                    @Override
+                    public void handle(MouseDragEvent event) {
+                        int[] coords = new int[2];
+                        coords[0]  = GridPane.getRowIndex((Label)event.getSource());
+                        coords[1]  = GridPane.getColumnIndex((Label)event.getSource());
+                        if(!shipvect.contains(coords)) {
+                            shipvect.add(coords);
+                            //System.out.println(coords[0] + " " + coords[1]);
+                            placeShipGridElements[row][col].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("yellowsquare.jpg"), 25, 25, true, true)));
+                        }
+                    }
+                });
+
+                /* This is where the main logic for the ship placement is done.
+                First we check to see what the size of the vector holding the coordinates is and if it matches the length of the ship to place.
+                Next, we see if its a valid ship placement on the board.
+                Finally, we place the ship.
+                 */
+                placeShipGridElements[i][j].setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
+
+                    @Override
+                    public void handle(MouseDragEvent event) {
+                        //System.out.println("vector size " + shipvect.size());
+                        // Checks to see that the selected squares are the same length of the ship placed.
+                        if (shipvect.size() != ships[shipCounter].getLength()) {
+                            for (int i = 0; i < shipvect.size(); i++) {
+                                placeShipGridElements[shipvect.elementAt(i)[0]][shipvect.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+                            }
+                            shipvect.clear();
+                        }
+						/* Checks to see that the ship placement is valid.
+						If it is, increase the counter to place the next ship.
+						Once all ships are placed, move on to the main game.
+						 */
+                        else if (pboard.isValidPlacement(shipvect)) {
+                            pboard.placeShip(shipvect, ships[shipCounter]);
+                            shipCounter+=1;
+                            shipvect.clear();
+                            if(p2){
+                                placeShipLabel.setText(startMenu.getPlayerName()+". Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipCounter,4)].getName() + " with length of " + ships[Math.min(shipCounter,4)].getLength());
+
+                            }
+                            else {
+                                placeShipLabel.setText("Please place all ships by clicking and dragging your selection." + "\nPlease place " + ships[Math.min(shipCounter, 4)].getName() + " with length of " + ships[Math.min(shipCounter, 4)].getLength());
+                            }
+                            if(shipCounter>=ships.length){
+                                pboard.printBoard();
+                                enemyAI = new AIv2(pboard);
+                                enemyAI.setDifficulty(startMenu.getDifficulty());
+                                if(!p2) {
+                                    primaryStage.setScene(mainGame);
+                                }
+                                else{
+                                    placeShipRoot2.setTop(placeShipLabel);
+                                    placeShipLabel.setText(startMenu.getPlayer2Name()+". Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipCounter2,4)].getName() + " with length of " + ships[Math.min(shipCounter2,4)].getLength());
+                                    placeShipRoot2.setAlignment(placeShipLabel,Pos.CENTER);
+                                    primaryStage.setScene(placeShips2);
+                                }
+
+                            }
+                        }
+                        // If the placement is invalid, clear the vector with the coordinates and make the squares blue again.
+                        else {
+                            for (int i = 0; i < shipvect.size(); i++) {
+                                placeShipGridElements[shipvect.elementAt(i)[0]][shipvect.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+                            }
+                            shipvect.clear();
+                        }
+                    }
+
+                });
+
+
+
+
+                // Adds the new label element to the grid.
+                placeShipGrid.add(placeShipGridElements[i][j],j,i);
+            }
+        }
+        if(p2){
+            for(int i = 0; i<10; i++){
+                for (int j = 0; j<10; j++){
+                    // Initialize element
+                    placeShipGridElements2[i][j] = new Label("");
+                    placeShipGridElements2[i][j].setMaxWidth(1);
+                    placeShipGridElements2[i][j].setMaxHeight(1);
+                    // Sets a blue image for unplaced ships.
+                    placeShipGridElements2[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"),25,25,true,true)));
+
+                    // Hold the row and column variables for event handling definitions
+                    int row = i;
+                    int col = j;
+
+                    // This allows the game to know that a drag event was started.
+                    placeShipGridElements2[i][j].setOnDragDetected(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            placeShipGridElements2[row][col].startFullDrag();
+                        }
+                    });
+
+
+                    // This adds the coordinates of the square entered to the shipvect array. Also, changes the square to yellow.
+                    placeShipGridElements2[i][j].setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
+                        @Override
+                        public void handle(MouseDragEvent event) {
+                            int[] coords = new int[2];
+                            coords[0]  = GridPane.getRowIndex((Label)event.getSource());
+                            coords[1]  = GridPane.getColumnIndex((Label)event.getSource());
+                            if(!shipvect.contains(coords)) {
+                                shipvect.add(coords);
+                                //System.out.println(coords[0] + " " + coords[1]);
+                                placeShipGridElements2[row][col].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("yellowsquare.jpg"), 25, 25, true, true)));
+                            }
+                        }
+                    });
+
+                /* This is where the main logic for the ship placement is done.
+                First we check to see what the size of the vector holding the coordinates is and if it matches the length of the ship to place.
+                Next, we see if its a valid ship placement on the board.
+                Finally, we place the ship.
+                 */
+                    placeShipGridElements2[i][j].setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
+
+                        @Override
+                        public void handle(MouseDragEvent event) {
+                            //System.out.println("vector size " + shipvect.size());
+                            // Checks to see that the selected squares are the same length of the ship placed.
+                            if (shipvect.size() != ships2[shipCounter2].getLength()) {
+                                for (int i = 0; i < shipvect.size(); i++) {
+                                    placeShipGridElements2[shipvect.elementAt(i)[0]][shipvect.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+                                }
+                                shipvect.clear();
+                            }
+						/* Checks to see that the ship placement is valid.
+						If it is, increase the counter to place the next ship.
+						Once all ships are placed, move on to the main game.
+						 */
+                            else if (pBoard2.isValidPlacement(shipvect)) {
+                                pBoard2.placeShip(shipvect, ships2[shipCounter2]);
+                                shipCounter2+=1;
+                                shipvect.clear();
+                                placeShipLabel.setText(startMenu.getPlayer2Name()+". Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipCounter2,4)].getName() + " with length of " + ships[Math.min(shipCounter2,4)].getLength());
+                                if(shipCounter2>=ships2.length){
+                                    pBoard2.printBoard();
+                                    enemyAI = new AIv2(pboard);
+                                    enemyAI.setDifficulty(startMenu.getDifficulty());
+                                    eboard = new EnemyBoard(pBoard2);
+
+                                    primaryStage.setScene(mainGame);
+
+
+
+                                }
+                            }
+                            // If the placement is invalid, clear the vector with the coordinates and make the squares blue again.
+                            else {
+                                for (int i = 0; i < shipvect.size(); i++) {
+                                    placeShipGridElements2[shipvect.elementAt(i)[0]][shipvect.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+                                }
+                                shipvect.clear();
+                            }
+                        }
+
+                    });
+
+
+
+
+                    // Adds the new label element to the grid.
+                    placeShipGrid2.add(placeShipGridElements2[i][j],j,i);
+                }
+            }
+
+        }
+    }
+
 
     /**
      * Handles the firing and the game logic.
@@ -470,8 +592,9 @@ public class BattleshipApp extends Application {
 							} else {
 								hit.setText("Miss" + ". It is now P1's Turn.");
 							}
+                            player2Turn = false;
 						}
-						player2Turn = false;
+
 
 
 					}
@@ -487,8 +610,9 @@ public class BattleshipApp extends Application {
 							} else {
 								hit.setText("Miss" + ". It is now P2's Turn.");
 							}
+                            player2Turn = true;
 						}
-						player2Turn = true;
+
 					}
 				}
 
