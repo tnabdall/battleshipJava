@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
@@ -252,6 +253,8 @@ public class BattleshipApp extends Application {
 		bridge.getChildren().add(hit);
 		bridge.getChildren().add(root2);
         root.setBottom(bridge);
+
+        root.setStyle("-fx-background-color: #D8D8D8;");
 
 
 		//Centering stuff
