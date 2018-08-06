@@ -1,17 +1,13 @@
 import java.util.Vector;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.geometry.Insets;
@@ -27,7 +23,7 @@ public class BattleshipApp extends Application {
     // Variables to help run game.
     private static PlayerBoard pboard = new PlayerBoard();
     private static EnemyBoard eboard = new EnemyBoard();
-    private static AIv2 enemyAI = new AIv2(pboard);
+    private static AI enemyAI = new AI(pboard);
 
 
     // Enemy grid root
@@ -418,7 +414,7 @@ public class BattleshipApp extends Application {
                             }
                             if(shipCounter>=ships.length){
                                 pboard.printBoard();
-                                enemyAI = new AIv2(pboard);
+                                enemyAI = new AI(pboard);
                                 enemyAI.setDifficulty(startMenu.getDifficulty());
                                 if(!p2) {
                                     primaryStage.setScene(mainGame);
@@ -516,7 +512,7 @@ public class BattleshipApp extends Application {
                                 placeShipLabel.setText(startMenu.getPlayer2Name()+". Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipCounter2,4)].getName() + " with length of " + ships[Math.min(shipCounter2,4)].getLength());
                                 if(shipCounter2>=ships2.length){
                                     pBoard2.printBoard();
-                                    enemyAI = new AIv2(pboard);
+                                    enemyAI = new AI(pboard);
                                     enemyAI.setDifficulty(startMenu.getDifficulty());
                                     eboard = new EnemyBoard(pBoard2);
 

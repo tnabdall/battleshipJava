@@ -94,10 +94,10 @@ class runBattleship{
 		Introduction();
 		PlayerBoard playerBoard = setupPlayerBoard();
 		EnemyBoard enemyBoard = setupEnemyBoard();
-		//AIv2 AI = new AIv2(playerBoard);
+		//AI AI = new AI(playerBoard);
 		Scanner keyboard = new Scanner(System.in);
 		System.out.print("Which difficulty would you like to play on (0 for Normal, 1 for Challenge, 2 for Impossible, 3 for Random): ");
-		AIv2 AI = new AIv2(playerBoard, keyboard.nextInt());
+		AI AI = new AI(playerBoard, keyboard.nextInt());
 		//AI.setDifficulty(keyboard.nextInt());
 		do{
 			if(randomPlayerFire == true){
