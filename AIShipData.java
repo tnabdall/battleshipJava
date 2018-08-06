@@ -3,17 +3,13 @@
  */
 public class AIShipData {
 
-	private Ship hitShip;
-	private int initRow;
-	private int initCol;
-	private String direction;
-	private int health;
-	private int timesHit;
-	private boolean isSunk = false;
-
-	public String toString() {
-		return "name: " + hitShip.getName() + " health: " + health + " direction: " + direction;
-	}
+	private Ship hitShip; // The ship that the AI has hit.
+	private int initRow; // The row location of the first hit on a ship.
+	private int initCol; // The column location of the first hit on a ship.
+	private String direction; // The direction the AI was facing when the AI hit a ship twice.
+	private int health; // The health of the hit ship.
+	private int timesHit; // The number of times the AI has hit a shit.
+	private boolean isSunk = false; // If the hit ship has been sunk or not.
 
 	/**
 	 * Constructor class to initialize the ship that the AI has hit
