@@ -94,10 +94,11 @@ class runBattleship{
 		Introduction();
 		PlayerBoard playerBoard = setupPlayerBoard();
 		EnemyBoard enemyBoard = setupEnemyBoard();
-		AIv2 AI = new AIv2(playerBoard);
+		//AIv2 AI = new AIv2(playerBoard);
 		Scanner keyboard = new Scanner(System.in);
-		System.out.print("Which difficulty would you like to play on (0 for Normal, 3 for Random): ");
-		AI.setDifficulty(keyboard.nextInt());
+		System.out.print("Which difficulty would you like to play on (0 for Normal, 1 for Challenge, 2 for Impossible, 3 for Random): ");
+		AIv2 AI = new AIv2(playerBoard, keyboard.nextInt());
+		//AI.setDifficulty(keyboard.nextInt());
 		do{
 			if(randomPlayerFire == true){
 				enemyBoard.randomFire(); //Just for quick testing. Random firing from player.
@@ -127,6 +128,7 @@ class runBattleship{
 			System.out.println("A tie! Play again.");
 		}
 		else if (playerBoard.getNumberOfShipElements()==0){
+			System.out.println("The AI won in " + AI.getTurn() + " turns.");
 			System.out.println("You lose. Better luck next time.");
 		}
 		else{

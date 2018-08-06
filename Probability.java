@@ -1,48 +1,30 @@
+/** The probability class to calculate the highest probability of there being a ship on a location
+ * on the gameboard. The AI uses this class for the challenge difficulty.
+ *
+ */
+
+
 public class Probability {
 
 
-    private PlayerBoard prob;//copy of playerboard
-    private int[][] probBoard = new int[10][10];
-    private Ship[] ships;
+    private PlayerBoard prob; // The playerboard
+    private int[][] probBoard = new int[10][10]; //The board with probability calculations
+    private Ship[] ships; // The list of ship objects
 
 
-/*
-  public Probability(){
-    PlayerBoard prob = new Probability();
-    highest = 0;
-  }
-
-  public Probability(Playerboard prob){
-    this.prob = prob;
-    highest = 0;
-	}
-	*/
-
+    /** The constructor for the probability class.
+     * @param prob is the player's board.
+     */
     public Probability(PlayerBoard prob) {
         this.prob = prob;
         this.ships = prob.getShips();
     }
 
-    /*
-      public void setProbSize(){
-        for (int i = 0; i < 10; i++){
-          i++;
-        }
-          this.i = i;
-        for (int j = 0; j < 10; j++){
-          j++;
-        }
-        this.j = j;
-      }
-
-      public int getLength(){
-        return this.i;
-      }
-
-      public int getHeight(){
-        return this.j;
-      }
-    */
+    /** The method to test if a location in the board can be played on.
+     * @param row is the row of the location
+     * @param col is the column of the location
+     * @return if the location on the board is playable.
+     */
     public boolean canPlay(int row, int col) {
         if (prob.locStatus(row, col) == 0 || prob.locStatus(row, col) == 3) {
             return true;
@@ -51,6 +33,13 @@ public class Probability {
         }
     }
 
+    /** The method to calculate probability of there being a ship on a location on the board.
+     * It checks all the lengths of the ships that are still alive. It checks the length of the
+     * ships that are alive from that location in all four directions. If all the locations in one direction
+     * are playable for that ship's length then that location gets 1 point in probability.
+     * The location with the highest probability is then returned to the AI.
+     * @return the coordinates of the location with the highest probability of there being a ship.
+     */
     public int[] setCoordToPlay() {
         int probability = 0;
         int highest = 0;
@@ -182,14 +171,16 @@ public class Probability {
 
 
         }
-        System.out.println(highest + " This is from Prob");
+        /* For Testing
         printBoard();
+        */
 
 
         return coords;
 
     }
 
+    /* For Testing
     public void printBoard() {
         System.out.println("      PROBABILITY BOARD     ");
         System.out.println("   A B C D E F G H I J"); // Column letters
@@ -208,32 +199,6 @@ public class Probability {
             System.out.print("|\n"); // End row with border and new line
         }
         System.out.println("   --------------------"); // Bottom border
-
     }
-
-    /*
-    //Setter and Getter for probability
-      public void setProb(int highest){
-        this.highest = highest;
-      }
-    // actual value for the spot
-      public int getProb(){
-        return this.highest;
-        System.out.println(this.highest);
-      }
-
-    //
-      public Coordinate getCoordToPlay(){
-        return coordToPlay;
-      }
     */
-//multiplier for the edge for the board
-    private boolean isEdge(int i, int j) {
-        return true;
-    }
-
-    //multiplier for corners
-    private boolean isCorner(int i, int j) {
-        return true;
-    }
 }

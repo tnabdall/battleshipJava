@@ -84,7 +84,6 @@ public class GameBoard{
 				for (int j = 0; j < shipcoords.length; j++) {
 					if (shipcoords[j][0] == row && shipcoords[j][1] == col) {
 						//For testing
-						System.out.println("getShipObject");
 						return ships[i];
 					}
 				}
