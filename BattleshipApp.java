@@ -68,6 +68,10 @@ public class BattleshipApp extends Application {
 	private GridPane placeShipGrid = new GridPane();
 	private Label[][] placeShipGridElements = new Label[10][10];
 
+	private BorderPane placeShipRoot2 = new BorderPane();
+	private GridPane placeShipGrid2 = new GridPane();
+	private Label[][] placeShipGridElements2 = new Label[10][10];
+
     // Holds the coordinates of the ship that is trying to be placed.
 	private Vector<int[]> shipvect = new Vector<int[]>();
 	// The array of ships from player board to be placed.
@@ -102,12 +106,32 @@ public class BattleshipApp extends Application {
 	public void start(Stage primaryStage) throws Exception
     {
 		Scene placeShips = new Scene(placeShipRoot,350,350); // First scene to place the player's ships
+		Scene placeShips2 = new Scene(placeShipRoot2, 350, 350);
 		Scene mainGame = new Scene(root, 400, 640); // Second scene to run the battleship game
+		// For game configuration
+		startMenu.start();
+		pllbl.setText(startMenu.getPlayerName()+"'s Board");
 		int difficulty = startMenu.getDifficulty();
 		boolean p2 = false;
 		if (difficulty  == -1){
 			p2 = true;
 		}
+		System.out.println(p2);
+		if(p2){
+			enlbl.setText(startMenu.getPlayer2Name()+"'s Board");
+		}
+
+		if (!p2) {
+			enemyAI.setDifficulty(startMenu.getDifficulty());
+		}
+		else{
+			//2 Player code.
+		}
+		pllbl.setTextFill(Color.web(startMenu.getPlayerColor()));
+
+
+		System.out.println(difficulty);
+
 
 		if(!p2) {
 			eboard.makeRandomBoard();
@@ -116,21 +140,7 @@ public class BattleshipApp extends Application {
     	placeShipRoot.setCenter(placeShipGrid); // Puts the grid at the center of the scene
 		placeShipRoot.setTop(placeShipLabel); // Lets you know how and what ships to place
 
-		// For game configuration
-		startMenu.start();
-		pllbl.setText(startMenu.getPlayerName()+"'s Board");
-		if(p2){
-			// set Player 2 name
-		}
 
-		System.out.println(startMenu.getMessage().getText());
-		if (!p2) {
-			enemyAI.setDifficulty(startMenu.getDifficulty());
-		}
-		else{
-			//2 Player code.
-		}
-		pllbl.setTextFill(Color.web(startMenu.getPlayerColor()));
 
         // Iterate through all the grid elements in both player and enemy boards to set them up.
     	for(int i = 0; i<10; i++){
@@ -200,7 +210,13 @@ public class BattleshipApp extends Application {
 							    pboard.printBoard();
 							    enemyAI = new AIv2(pboard);
 							    enemyAI.setDifficulty(startMenu.getDifficulty());
-								primaryStage.setScene(mainGame);
+							    if(startMenu.getDifficulty() !=-1) {
+									primaryStage.setScene(mainGame);
+								}
+								else{
+							    	primaryStage.setScene(placeShips2);
+								}
+
 							}
 						}
 						// If the placement is invalid, clear the vector with the coordinates and make the squares blue again.
@@ -268,15 +284,29 @@ public class BattleshipApp extends Application {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                     	if (difficulty==-1) {
-							fire(actionEvent, rowi, colj,true );
+							fire(actionEvent, rowi, colj,true,1 );
 						}
 						else{
-                    		fire(actionEvent, rowi, colj, false);
+                    		fire(actionEvent, rowi, colj, false,1);
 						}
 					}
 
 
                 });
+
+				playerGrid[i][j].setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent actionEvent) {
+						if (difficulty==-1) {
+							fire(actionEvent, rowi, colj,true,2 );
+						}
+						else{
+
+						}
+					}
+
+
+				});
 
                 enemyGrid[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
                 playerGrid[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
@@ -335,8 +365,9 @@ public class BattleshipApp extends Application {
 
     /**
      * Updates the GUI board after every fire.
+	 * @param p2
      */
-    public void updateBoard(){
+    public void updateBoard(boolean p2){
         for (int i = 0; i< enemyGrid.length; i++){
             for (int j = 0; j< enemyGrid[i].length; j++){
                 if(eboard.getBoardElement(i,j)==1){
@@ -346,7 +377,9 @@ public class BattleshipApp extends Application {
                     enemyGrid[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("greensquare.jpg"), 25, 25, true, true)));
                 }
                 if(pboard.getBoardElement(i,j)==3){
-                    playerGrid[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("yellowsquare.jpg"), 25, 25, true, true)));
+                	if(!p2) {
+						playerGrid[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("yellowsquare.jpg"), 25, 25, true, true)));
+					}
                 }
                 else if(pboard.getBoardElement(i,j)==2){
                     playerGrid[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("greensquare.jpg"), 25, 25, true, true)));
@@ -364,21 +397,33 @@ public class BattleshipApp extends Application {
     }
 
     /** Checks to see if game is over. Prints a message if so.
-     *
+     * @param p2 2 player game?
      */
-    public void checkWin(){
-        if (eboard.getNumberOfShipElements()==0 && pboard.getNumberOfShipElements() == 0){
-            hit.setText("It's a tie!");
-            hit.setTextFill(Color.web("Red"));
-        }
-        else if (eboard.getNumberOfShipElements() == 0){
-            hit.setText("You win! Congratulations!");
-            hit.setTextFill(Color.web("Red"));
-        }
-        else if (pboard.getNumberOfShipElements()==0){
-            hit.setText("You lose. Better luck next time.");
-            hit.setTextFill(Color.web("Red"));
-        }
+    public void checkWin(boolean p2){
+        if (!p2) {
+			if (eboard.getNumberOfShipElements() == 0 && pboard.getNumberOfShipElements() == 0) {
+				hit.setText("It's a tie!");
+				hit.setTextFill(Color.web("Red"));
+			} else if (eboard.getNumberOfShipElements() == 0) {
+				hit.setText("You win! Congratulations!");
+				hit.setTextFill(Color.web("Red"));
+			} else if (pboard.getNumberOfShipElements() == 0) {
+				hit.setText("You lose. Better luck next time.");
+				hit.setTextFill(Color.web("Red"));
+			}
+		}
+		else{
+			if (eboard.getNumberOfShipElements() == 0 && pboard.getNumberOfShipElements() == 0) {
+				hit.setText("It's a tie!");
+				hit.setTextFill(Color.web("Red"));
+			} else if (eboard.getNumberOfShipElements() == 0) {
+				hit.setText("Player 1 Wins! Congratulations!");
+				hit.setTextFill(Color.web("Red"));
+			} else if (pboard.getNumberOfShipElements() == 0) {
+				hit.setText("Player 2 Wins! Congratulations!");
+				hit.setTextFill(Color.web("Red"));
+			}
+		}
 
     }
 
@@ -389,7 +434,7 @@ public class BattleshipApp extends Application {
 	 * @param colj The column to be fired on.
 	 * @param player2 Is it a 2 player game?
      */
-    public void fire(ActionEvent actionEvent, int rowi, int colj,boolean player2) {
+    public void fire(ActionEvent actionEvent, int rowi, int colj,boolean player2, int player) {
 		if (!player2) {
 			if (eboard.getNumberOfShipElements() > 0 && pboard.getNumberOfShipElements() > 0) { //Don't let the game continue once 1 player is dead.
 				if (eboard.getBoardElement(rowi, colj) == 3 || eboard.getBoardElement(rowi, colj) == 0) { // Check to make sure it hasn't been fired on already.
@@ -407,45 +452,48 @@ public class BattleshipApp extends Application {
 
 					//System.out.println("Enemy shot at " + enemyAI.getRow() + " " + enemyAI.getCol());
 					pboard.fire(enemyAI.getRow(), enemyAI.getCol());
-					updateBoard(); // Update the game board
-					checkWin(); // Check if win.
+					updateBoard(player2); // Update the game board
+					checkWin(player2); // Check if win.
 				}
 			}
 		}
 		else{
 			if (eboard.getNumberOfShipElements() > 0 && pboard.getNumberOfShipElements()>0){
-				if(player2Turn){
-					if(pboard.getBoardElement(rowi,colj)==3 || pboard.getBoardElement(rowi, colj) == 0 ) {
-						pboard.fire(rowi, colj);
+				if (player ==2) {
+					if (player2Turn) {
+						if (pboard.getBoardElement(rowi, colj) == 3 || pboard.getBoardElement(rowi, colj) == 0) {
+							pboard.fire(rowi, colj);
 
-						if(pboard.getBoardElement(rowi,colj) == 2){
-							hit.setText("Hit: " + pboard.getShipFiredOn(rowi, colj) + " with length of "
-									+ Integer.toString(pboard.getShipFiredOnLength(rowi, colj))+". It is now P1's Turn.");
+							if (pboard.getBoardElement(rowi, colj) == 2) {
+								hit.setText("Hit: " + pboard.getShipFiredOn(rowi, colj) + " with length of "
+										+ Integer.toString(pboard.getShipFiredOnLength(rowi, colj)) + ". It is now P1's Turn.");
+							} else {
+								hit.setText("Miss" + ". It is now P1's Turn.");
+							}
 						}
-						else{
-							hit.setText("Miss"+". It is now P1's Turn.");
-						}
+						player2Turn = false;
+
+
 					}
-					player2Turn = false;
-
 				}
 				else{
-					if(eboard.getBoardElement(rowi,colj)==3 || eboard.getBoardElement(rowi, colj) == 0 ) {
-						eboard.fire(rowi, colj);
+					if(!player2Turn) {
+						if (eboard.getBoardElement(rowi, colj) == 3 || eboard.getBoardElement(rowi, colj) == 0) {
+							eboard.fire(rowi, colj);
 
-						if(eboard.getBoardElement(rowi,colj) == 2){
-							hit.setText("Hit: " + eboard.getShipFiredOn(rowi, colj) + " with length of "
-									+ Integer.toString(eboard.getShipFiredOnLength(rowi, colj))+". It is now P2's Turn.");
+							if (eboard.getBoardElement(rowi, colj) == 2) {
+								hit.setText("Hit: " + eboard.getShipFiredOn(rowi, colj) + " with length of "
+										+ Integer.toString(eboard.getShipFiredOnLength(rowi, colj)) + ". It is now P2's Turn.");
+							} else {
+								hit.setText("Miss" + ". It is now P2's Turn.");
+							}
 						}
-						else{
-							hit.setText("Miss"+". It is now P2's Turn.");
-						}
+						player2Turn = true;
 					}
-					player2Turn = true;
 				}
 
-				updateBoard(); // Update the game board
-				checkWin(); // Check if win.
+				updateBoard(player2); // Update the game board
+				checkWin(player2); // Check if win.
 
 			}
 

@@ -17,8 +17,8 @@ public class StartMenu {
 
     private Stage window;
     private Scene scene1, scene2, scene3, scene4;
-	private TextField enterName;
-	private String playerName; //Player's name
+	private TextField enterName, enterName2;
+	private String playerName, player2Name; //Player's name
 	private Label message = new Label (" ");
 	private Label messageColor = new Label (" "); //Stores color for game configuration
 
@@ -132,6 +132,7 @@ public class StartMenu {
 				message.setFont(Font.font ("Verdana", 15));
 				message.setTextFill(Color.web("WHITE"));
 				difficulty = -1; // 2 Player
+
 			} } );
 		
 		//Button 5 for RED
@@ -229,11 +230,13 @@ public class StartMenu {
 				playerColor = "CYAN";
 
 		} } );
+
+		GridPane layout3 = new GridPane();
 		//Button 10 for NEXT SCENE
         Button  button10 = new Button ("NEXT");
 		button10.setMinHeight(30.0); button10.setPrefHeight(30.0); button10.setMaxHeight(30.0); 
 		button10.setMinWidth(50); button10.setPrefWidth(50); button10.setMaxWidth(50);
-		button10.setOnAction(e -> window.setScene(scene3));
+		button10.setOnAction(e -> {window.setScene(scene3); if(difficulty==-1){layout3.add(enterName2, 18,24);}});
 		GridPane.setHalignment(button10, HPos.RIGHT);
 		
 		// Button 11 for Instruction Box
@@ -273,6 +276,9 @@ public class StartMenu {
 		//button11.setOnAction(e -> window.setScene(scene4));
 		button11.setOnAction(e -> {
 			playerName = enterName.getText();
+			if(difficulty==-1){
+				player2Name = enterName2.getText();
+			}
 			window.close();
 
 		});
@@ -282,17 +288,22 @@ public class StartMenu {
 		// TextField
 		enterName = new TextField ("Player"); // Default text of 'Player Name'
 		enterName.setPrefHeight(30);
+		enterName2 = new TextField("Player 2");
+		enterName2.setPrefHeight(30);
 		
 		// BCKG Image for Name area
 		BackgroundImage my3BI = new BackgroundImage ( new Image ("BckgForGrid.jpg", 500, 500, false, false),
 			 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		
 		 //Layout 3
-		GridPane layout3 = new GridPane();
+
 		layout3.setVgap(10);
 		layout3.setHgap(10);
 		layout3.add(button11, 18 , 30);
 		layout3.add(enterName, 18, 17);
+		if (difficulty == -1){
+			layout3.add(enterName2, 18,24);
+		}
 		layout3.setBackground(new Background (my3BI));
         scene3 = new Scene(layout3, 500, 500);
 			 
@@ -321,7 +332,7 @@ public class StartMenu {
 			 
         //Display scene 1 at first
         window.setScene(scene1);
-        window.setTitle("Battleship -- Demo2 Version");
+        window.setTitle("Battleship");
 		window.setResizable(false);
         window.showAndWait();
 	
@@ -350,10 +361,22 @@ public class StartMenu {
 		return playerName;
 	}
 
+	/**
+	 *
+	 * @return Returns the 2nd players name
+	 */
+	public String getPlayer2Name() {
+		return player2Name;
+	}
+
 	public String getPlayerColor() {
 		return playerColor;
 	}
 
+	/**
+	 *
+	 * @return Returns the game difficulty (-1 for 2 Player, 0 for normal, 1 for challenge, 2 for impossible, 3 for random)
+	 */
 	public int getDifficulty() {
 		return difficulty;
 	}
