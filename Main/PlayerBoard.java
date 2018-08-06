@@ -254,9 +254,9 @@ public class PlayerBoard extends GameBoard{
 
 	/** Prints the game board. Can be used for user or enemy boards.
 	 * @param playerNumber The # of the player (1 or 2)
-	 * @param HideShips Should we hide ships on the board?
+	 * @param hideShips Should we hide ships on the board?
 	 */
-	public void printBoard(int playerNumber, boolean HideShips){
+	public void printBoard(int playerNumber, boolean hideShips){
 		System.out.println("      PLAYER "+playerNumber+" BOARD     ");
 		System.out.println("   A B C D E F G H I J"); // Column letters
 		//System.out.println(" --------------------"); // Top border
@@ -269,7 +269,7 @@ public class PlayerBoard extends GameBoard{
 			}
 			for (int j = 0; j<10; j++){
 				System.out.print("|"); // Print border
-				System.out.print(boardMarker(getBoardElement(i,j),true)); //Print marker according to board
+				System.out.print(boardMarker(getBoardElement(i,j),hideShips)); //Print marker according to board
 			}
 			System.out.print("|\n"); // End row with border and new line
 		}
