@@ -72,13 +72,20 @@ public class StartMenu {
 		button4.setMinHeight(30.0); button4.setPrefHeight(30.0); button4.setMaxHeight(30.0); 
 		button4.setMinWidth(30); button4.setPrefWidth(30); button4.setMaxWidth(30);
 		GridPane.setHalignment(button4, HPos.CENTER);
+
+		//Button 5 for 2 Player
+		ToggleButton  button5 = new ToggleButton ("2P");
+		button5.setMinHeight(30.0); button5.setPrefHeight(30.0); button5.setMaxHeight(30.0);
+		button5.setMinWidth(30); button5.setPrefWidth(30); button5.setMaxWidth(30);
+		GridPane.setHalignment(button5, HPos.CENTER);
 		
-		// ToggleButton group for level 1-4
+		// ToggleButton group for level 1-4 and 2P
 		ToggleGroup groupLevel = new ToggleGroup();
 		button1.setToggleGroup(groupLevel);
 		button2.setToggleGroup(groupLevel);
 		button3.setToggleGroup(groupLevel);
 		button4.setToggleGroup(groupLevel);
+		button5.setToggleGroup(groupLevel);
 		
 		// Set text for toggle Button
 		button1.setOnAction ( new EventHandler<ActionEvent>(){
@@ -117,13 +124,22 @@ public class StartMenu {
 				message.setTextFill(Color.web("WHITE"));
 				difficulty = 2;
 		} } );
+
+		button5.setOnAction ( new EventHandler<ActionEvent>(){
+			@Override
+			public void handle (ActionEvent event){
+				message.setText("2 Player");
+				message.setFont(Font.font ("Verdana", 15));
+				message.setTextFill(Color.web("WHITE"));
+				difficulty = -1; // 2 Player
+			} } );
 		
 		//Button 5 for RED
-        ToggleButton  button5 = new ToggleButton ("R");
-		button5.setStyle("-fx-base: red ;");
-		button5.setMinHeight(30.0); button5.setPrefHeight(30.0); button5.setMaxHeight(30.0); 
-		button5.setMinWidth(30.0); button5.setPrefWidth(30); button5.setMaxWidth(30);
-		GridPane.setHalignment(button5, HPos.CENTER);
+        ToggleButton  buttonR = new ToggleButton ("R");
+		buttonR.setStyle("-fx-base: red ;");
+		buttonR.setMinHeight(30.0); buttonR.setPrefHeight(30.0); buttonR.setMaxHeight(30.0); 
+		buttonR.setMinWidth(30.0); buttonR.setPrefWidth(30); buttonR.setMaxWidth(30);
+		GridPane.setHalignment(buttonR, HPos.CENTER);
 		
 		//Button 6 for YELLOW
         ToggleButton  button6 = new ToggleButton ("Y");
@@ -155,14 +171,14 @@ public class StartMenu {
 		
 		// ToggleButton group for level 1-4
 		ToggleGroup groupColor = new ToggleGroup();
-		button5.setToggleGroup(groupColor);
+		buttonR.setToggleGroup(groupColor);
 		button6.setToggleGroup(groupColor);
 		button7.setToggleGroup(groupColor);
 		button8.setToggleGroup(groupColor);
 		button9.setToggleGroup(groupColor);
 
 		// Set text for toggle Button
-		button5.setOnAction ( new EventHandler<ActionEvent>(){
+		buttonR.setOnAction ( new EventHandler<ActionEvent>(){
 			@Override
 			public void handle (ActionEvent event){
 				messageColor.setText("Red");
@@ -238,7 +254,8 @@ public class StartMenu {
 		layout2.add(button2, 51, 3);
 		layout2.add(button3, 51, 4);
 		layout2.add(button4, 51, 5);
-		layout2.add(button5, 49, 11);
+		layout2.add(button5,52,2);
+		layout2.add(buttonR, 49, 11);
 		layout2.add(button6, 50, 11);
 		layout2.add(button7, 51, 11);
 		layout2.add(button8, 52, 11);
@@ -246,7 +263,7 @@ public class StartMenu {
 		layout2.add(button10, 54, 14);
 		layout2.add(buttonINSTRUCTION, 10, 14);
 		
-		layout2.setBackground(new Background (my2BI));    
+		layout2.setBackground(new Background (my2BI));
 		scene2 = new Scene(layout2, 500, 500);
   
 		// Button11 for scene 3 to 2

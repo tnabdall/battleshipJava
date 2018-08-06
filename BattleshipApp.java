@@ -43,11 +43,12 @@ public class BattleshipApp extends Application {
     private static Button[][] playerGrid = new Button[10][10];
     // Labels for the end game result and hit/miss messages
 	private static Label result = new Label("");
-	protected static Label hit = new Label("");
+	private static Label hit = new Label("");
 
 	// Labels for the enemy and game board
 	private Label enlbl = new Label("Enemy Board");
 	private Label pllbl = new Label("Player Board");
+	private Label pl2lbl = new Label("Player 2 Board");
 
 	// A-J and 1-10 labels for enemy and player boards.
 	private Label[] columns = new Label[10];
@@ -55,7 +56,7 @@ public class BattleshipApp extends Application {
 	private Label[] columns2 = new Label[10];
 	private Label[] rows2 = new Label[10];
 
-	// Bridges together the player and enemy baords.
+	// Bridges together the player and enemy boards.
 	private VBox bridge = new VBox();
 
 	// Column constraints to make the boards resizable to window size.
@@ -73,12 +74,20 @@ public class BattleshipApp extends Application {
 	private Ship[] ships = pboard.getShips();
 	// A counter to go through the ships array. Helps with ending ship placement.
 	private int shipCounter = 0;
+	private int shipCounter2 =0; //for Player 2
 
 	// Label to be placed on top of Placing Ships scene
 	private Label placeShipLabel = new Label("Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[0].getName() + " with length of " + ships[0].getLength());
 
 
 	private StartMenu startMenu = new StartMenu(); //For Game Configuration
+
+	private static PlayerBoard pBoard2 = new PlayerBoard();
+	private BorderPane root1 = new BorderPane();
+	private GridPane player2 = new GridPane();
+	private static Button[][] player2Grid = new Button[10][10];
+	private boolean player2Turn = false;
+
 
 
     public static void main(String[] args){
@@ -94,7 +103,15 @@ public class BattleshipApp extends Application {
     {
 		Scene placeShips = new Scene(placeShipRoot,350,350); // First scene to place the player's ships
 		Scene mainGame = new Scene(root, 400, 640); // Second scene to run the battleship game
-		eboard.makeRandomBoard();
+		int difficulty = startMenu.getDifficulty();
+		boolean p2 = false;
+		if (difficulty  == -1){
+			p2 = true;
+		}
+
+		if(!p2) {
+			eboard.makeRandomBoard();
+		}
 
     	placeShipRoot.setCenter(placeShipGrid); // Puts the grid at the center of the scene
 		placeShipRoot.setTop(placeShipLabel); // Lets you know how and what ships to place
@@ -102,8 +119,17 @@ public class BattleshipApp extends Application {
 		// For game configuration
 		startMenu.start();
 		pllbl.setText(startMenu.getPlayerName()+"'s Board");
+		if(p2){
+			// set Player 2 name
+		}
+
 		System.out.println(startMenu.getMessage().getText());
-		enemyAI.setDifficulty(startMenu.getDifficulty());
+		if (!p2) {
+			enemyAI.setDifficulty(startMenu.getDifficulty());
+		}
+		else{
+			//2 Player code.
+		}
 		pllbl.setTextFill(Color.web(startMenu.getPlayerColor()));
 
         // Iterate through all the grid elements in both player and enemy boards to set them up.
@@ -128,20 +154,6 @@ public class BattleshipApp extends Application {
 					}
 				});
 
-                // This is not used right now. Could add some functionality later.
-				placeShipGridElements[i][j].setOnMousePressed(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						int[] coords = new int[2];
-						coords[0]  = GridPane.getRowIndex((Label)event.getSource());
-						coords[1]  = GridPane.getColumnIndex((Label)event.getSource());
-						//shipvect.add(coords);
-						//System.out.println(coords[0]+ " "+coords[1]);
-						//placeShipGridElements[row][col].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("yellowsquare.jpg"),25,25,true,true)));
-
-
-					}
-				});
 
 				// This adds the coordinates of the square entered to the shipvect array. Also, changes the square to yellow.
 				placeShipGridElements[i][j].setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
@@ -255,7 +267,12 @@ public class BattleshipApp extends Application {
                 enemyGrid[i][j].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-						fire(actionEvent, rowi, colj);
+                    	if (difficulty==-1) {
+							fire(actionEvent, rowi, colj,true );
+						}
+						else{
+                    		fire(actionEvent, rowi, colj, false);
+						}
 					}
 
 
@@ -370,29 +387,71 @@ public class BattleshipApp extends Application {
      * @param actionEvent A button click.
 	 * @param rowi The row to be fired on.
 	 * @param colj The column to be fired on.
+	 * @param player2 Is it a 2 player game?
      */
-    public void fire(ActionEvent actionEvent, int rowi, int colj){
-        if(eboard.getNumberOfShipElements()>0 && pboard.getNumberOfShipElements()>0){ //Don't let the game continue once 1 player is dead.
-            if(eboard.getBoardElement(rowi,colj)==3 || eboard.getBoardElement(rowi,colj)==0 ) { // Check to make sure it hasn't been fired on already.
-                eboard.fire(rowi, colj);
-                // Printing message to player hit or miss.
-                if (eboard.getBoardElement(rowi, colj) == 2) {
-                    hit.setText("Hit: " + eboard.getShipFiredOn(rowi, colj) + " with length of "
-                            + Integer.toString(eboard.getShipFiredOnLength(rowi, colj)));
-                } else {
-                    hit.setText("Miss");
-                }
-                System.out.println("Player shot at " + rowi + " " + colj);
+    public void fire(ActionEvent actionEvent, int rowi, int colj,boolean player2) {
+		if (!player2) {
+			if (eboard.getNumberOfShipElements() > 0 && pboard.getNumberOfShipElements() > 0) { //Don't let the game continue once 1 player is dead.
+				if (eboard.getBoardElement(rowi, colj) == 3 || eboard.getBoardElement(rowi, colj) == 0) { // Check to make sure it hasn't been fired on already.
+					eboard.fire(rowi, colj);
+					// Printing message to player hit or miss.
+					if (eboard.getBoardElement(rowi, colj) == 2) {
+						hit.setText("Hit: " + eboard.getShipFiredOn(rowi, colj) + " with length of "
+								+ Integer.toString(eboard.getShipFiredOnLength(rowi, colj)));
+					} else {
+						hit.setText("Miss");
+					}
+					//System.out.println("Player shot at " + rowi + " " + colj);
 
-                enemyAI.runDifficulty(); //Get AIS next move
+					enemyAI.runDifficulty(); //Get AIS next move
 
-                System.out.println("Enemy shot at " + enemyAI.getRow() + " " + enemyAI.getCol());
-                pboard.fire(enemyAI.getRow(), enemyAI.getCol());
-                updateBoard(); // Update the game board
-                checkWin(); // Check if win.
-            }
-        }
-    }
+					//System.out.println("Enemy shot at " + enemyAI.getRow() + " " + enemyAI.getCol());
+					pboard.fire(enemyAI.getRow(), enemyAI.getCol());
+					updateBoard(); // Update the game board
+					checkWin(); // Check if win.
+				}
+			}
+		}
+		else{
+			if (eboard.getNumberOfShipElements() > 0 && pboard.getNumberOfShipElements()>0){
+				if(player2Turn){
+					if(pboard.getBoardElement(rowi,colj)==3 || pboard.getBoardElement(rowi, colj) == 0 ) {
+						pboard.fire(rowi, colj);
+
+						if(pboard.getBoardElement(rowi,colj) == 2){
+							hit.setText("Hit: " + pboard.getShipFiredOn(rowi, colj) + " with length of "
+									+ Integer.toString(pboard.getShipFiredOnLength(rowi, colj))+". It is now P1's Turn.");
+						}
+						else{
+							hit.setText("Miss"+". It is now P1's Turn.");
+						}
+					}
+					player2Turn = false;
+
+				}
+				else{
+					if(eboard.getBoardElement(rowi,colj)==3 || eboard.getBoardElement(rowi, colj) == 0 ) {
+						eboard.fire(rowi, colj);
+
+						if(eboard.getBoardElement(rowi,colj) == 2){
+							hit.setText("Hit: " + eboard.getShipFiredOn(rowi, colj) + " with length of "
+									+ Integer.toString(eboard.getShipFiredOnLength(rowi, colj))+". It is now P2's Turn.");
+						}
+						else{
+							hit.setText("Miss"+". It is now P2's Turn.");
+						}
+					}
+					player2Turn = true;
+				}
+
+				updateBoard(); // Update the game board
+				checkWin(); // Check if win.
+
+			}
+
+		}
+	}
+
 }
 
 /*
