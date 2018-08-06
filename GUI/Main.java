@@ -1,10 +1,11 @@
+package GUI;
+
 import javafx.application.*;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import javafx.scene.canvas.*;
 import javafx.scene.layout.BackgroundImage;
 import javafx.geometry.*;
 import javafx.event.EventHandler;
@@ -13,31 +14,28 @@ import javafx.scene.text.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 
-public class StartMenu {
+public class Main extends Application {
 
-    private Stage window;
-    private Scene scene1, scene2, scene3, scene4;
-	private TextField enterName, enterName2;
-	private String playerName, player2Name; //Player's name
-	private Label message = new Label (" ");
-	private Label messageColor = new Label (" "); //Stores color for game configuration
+    Stage window;
+    Scene scene1, scene2, scene3, scene4, scene5, scene6;
+	TextField enterName, enterNameP1, enterNameP2;
+	Label message = new Label (" ");
+	Label messageColor = new Label (" ");
+	
 
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-
-	private String playerColor = "CYAN";
-	private int difficulty = 3;
-
-	/**
-	 * Method that handles all the windows for game configuration.
-	 */
-    public void start() {
-        window = new Stage();
+    @Override
+    public void start(Stage primaryStage) {
+        window = primaryStage;
 
         //MAIN Button 
         Button buttonMain = new Button("Click to Start");
 		buttonMain.setMinHeight(30.0); buttonMain.setPrefHeight(30.0); buttonMain.setMaxHeight(30.0); 
 		buttonMain.setMinWidth(90.0); buttonMain.setPrefWidth(90.0); buttonMain.setMaxWidth(90.0);
-        buttonMain.setOnAction(e -> window.setScene(scene2));
+        buttonMain.setOnAction(e -> window.setScene(scene5));
 		
 		// MAIN Image 
 		BackgroundImage myBI = new BackgroundImage ( new Image ("Mainpic.jpg", 500, 500, false, false),
@@ -49,6 +47,106 @@ public class StartMenu {
 		layout1.setBackground(new Background (myBI));
         scene1 = new Scene(layout1, 500, 500);
      
+	 
+		//GAME TYPE Button 
+        Button GameTypePP = new Button("PLAYER VS. PLAYER");
+		GameTypePP.setMinHeight(30.0); GameTypePP.setPrefHeight(30.0); GameTypePP.setMaxHeight(30.0); 
+		GameTypePP.setMinWidth(140); GameTypePP.setPrefWidth(140); GameTypePP.setMaxWidth(140);
+       GameTypePP.setOnAction(e -> window.setScene(scene6));
+		
+		Button GameTypePC = new Button("PLAYER VS. Main.AI");
+		GameTypePC.setMinHeight(30.0); GameTypePC.setPrefHeight(30.0); GameTypePC.setMaxHeight(30.0); 
+		GameTypePC.setMinWidth(140); GameTypePC.setPrefWidth(140); GameTypePC.setMaxWidth(140);
+        GameTypePC.setOnAction(e -> window.setScene(scene2));
+		
+		
+		// TextField
+		enterNameP1 = new TextField ("Player 1 Name"); // Default text of 'Player Name'
+		enterNameP1.setPrefHeight(30);
+		enterNameP1.setMinWidth(100);
+		
+		// TextField
+		enterNameP2 = new TextField ("Player 2 Name"); // Default text of 'Player Name'
+		enterNameP2.setPrefHeight(30);
+		enterNameP2.setMinWidth(100);
+
+		//Button 5 for RED
+        ToggleButton buttonP1R = new ToggleButton ("R");
+		buttonP1R.setStyle("-fx-base: red ;");
+		buttonP1R.setMinHeight(30.0); buttonP1R.setPrefHeight(30.0); buttonP1R.setMaxHeight(30.0); 
+		buttonP1R.setMinWidth(30.0); buttonP1R.setPrefWidth(30); buttonP1R.setMaxWidth(30);
+		GridPane.setHalignment(buttonP1R, HPos.CENTER);
+		
+		//Button 6 for YELLOW
+        ToggleButton buttonP1Y = new ToggleButton ("Y");
+		buttonP1Y.setStyle("-fx-base: yellow ;");
+		buttonP1Y.setMinHeight(30.0); buttonP1Y.setPrefHeight(30.0); buttonP1Y.setMaxHeight(30.0); 
+		buttonP1Y.setMinWidth(30); buttonP1Y.setPrefWidth(30); buttonP1Y.setMaxWidth(30);
+		GridPane.setHalignment(buttonP1Y, HPos.CENTER);
+		
+		//Button 7 for GREEN
+        ToggleButton  buttonP1G = new ToggleButton ("G");
+		buttonP1G.setStyle("-fx-base: lime ;");
+		buttonP1G.setMinHeight(30.0); buttonP1G.setPrefHeight(30.0); buttonP1G.setMaxHeight(30.0); 
+		buttonP1G.setMinWidth(30); buttonP1G.setPrefWidth(30); buttonP1G.setMaxWidth(30);
+		GridPane.setHalignment(buttonP1G, HPos.CENTER);
+		
+		//Button 8 for PURPLE
+        ToggleButton  buttonP1P = new ToggleButton ("P");
+		buttonP1P.setStyle("-fx-base: purple  ;");
+		buttonP1P.setMinHeight(30.0); buttonP1P.setPrefHeight(30.0); buttonP1P.setMaxHeight(30.0); 
+		buttonP1P.setMinWidth(30); buttonP1P.setPrefWidth(30); buttonP1P.setMaxWidth(30);
+		GridPane.setHalignment(buttonP1P, HPos.CENTER);
+		
+		//Button 9 for BLUE
+        ToggleButton  buttonP1B = new ToggleButton ("B");
+		buttonP1B.setStyle("-fx-base: cyan ;");
+		buttonP1B.setMinHeight(30.0); buttonP1B.setPrefHeight(30.0); buttonP1B.setMaxHeight(30.0); 
+		buttonP1B.setMinWidth(30); buttonP1B.setPrefWidth(30); buttonP1B.setMaxWidth(30);
+		GridPane.setHalignment(buttonP1B, HPos.CENTER);
+		
+		// ToggleButton group for level 1-4
+		ToggleGroup groupColor1 = new ToggleGroup();
+		buttonP1R.setToggleGroup(groupColor1);
+		buttonP1Y.setToggleGroup(groupColor1);
+		buttonP1G.setToggleGroup(groupColor1);
+		buttonP1P.setToggleGroup(groupColor1);
+		buttonP1B.setToggleGroup(groupColor1);
+
+		// MAIN Image 
+		BackgroundImage my6BI = new BackgroundImage ( new Image ("playervsplayer.jpg", 500, 500, false, false),
+			 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+		  
+		 //Layout 5 - children laid out in vertical column
+        GridPane layout6 = new GridPane();
+		layout6.setVgap(10);
+		layout6.setHgap(10);
+		layout6.setBackground(new Background (my6BI));
+		layout6.add(buttonP1R, 17, 21);
+		layout6.add(buttonP1Y, 18, 21);
+		layout6.add(buttonP1G, 19, 21);
+		layout6.add(buttonP1P, 20, 21);
+		layout6.add(buttonP1B, 21, 21);
+		layout6.add(enterNameP1, 4, 15);
+		layout6.add(enterNameP2, 16, 15);
+        scene6 = new Scene(layout6, 500, 500);
+		
+		
+		// MAIN Image 
+		BackgroundImage my5BI = new BackgroundImage ( new Image ("GameType.jpg", 500, 500, false, false),
+			 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+		  
+		 //Layout 5 - children laid out in vertical column
+        GridPane layout5 = new GridPane();
+		layout5.setVgap(10);
+		layout5.setHgap(10);
+		layout5.setBackground(new Background (my5BI));
+		layout5.add(GameTypePP, 5, 30);
+		layout5.add(GameTypePC, 17, 30);
+        scene5 = new Scene(layout5, 500, 500);
+		
+
+	
 	 //Button 1 for level 1
         ToggleButton  button1 = new ToggleButton ("L1");
 		button1.setMinHeight(30.0); button1.setPrefHeight(30.0); button1.setMaxHeight(30.0); 
@@ -72,20 +170,13 @@ public class StartMenu {
 		button4.setMinHeight(30.0); button4.setPrefHeight(30.0); button4.setMaxHeight(30.0); 
 		button4.setMinWidth(30); button4.setPrefWidth(30); button4.setMaxWidth(30);
 		GridPane.setHalignment(button4, HPos.CENTER);
-
-		//Button 5 for 2 Player
-		ToggleButton  button5 = new ToggleButton ("2P");
-		button5.setMinHeight(30.0); button5.setPrefHeight(30.0); button5.setMaxHeight(30.0);
-		button5.setMinWidth(30); button5.setPrefWidth(30); button5.setMaxWidth(30);
-		GridPane.setHalignment(button5, HPos.CENTER);
 		
-		// ToggleButton group for level 1-4 and 2P
+		// ToggleButton group for level 1-4
 		ToggleGroup groupLevel = new ToggleGroup();
 		button1.setToggleGroup(groupLevel);
 		button2.setToggleGroup(groupLevel);
 		button3.setToggleGroup(groupLevel);
 		button4.setToggleGroup(groupLevel);
-		button5.setToggleGroup(groupLevel);
 		
 		// Set text for toggle Button
 		button1.setOnAction ( new EventHandler<ActionEvent>(){
@@ -94,7 +185,6 @@ public class StartMenu {
 				message.setText("Level 1");
 				message.setFont(Font.font ("Verdana", 15));
 				message.setTextFill(Color.web("WHITE"));
-				difficulty = 3;
 	
 		} } );
 		
@@ -104,7 +194,6 @@ public class StartMenu {
 				message.setText("Level 2");
 				message.setFont(Font.font ("Verdana", 15));
 				message.setTextFill(Color.web("WHITE"));
-				difficulty = 0;
 		} } );	
 		
 		button3.setOnAction ( new EventHandler<ActionEvent>(){
@@ -113,7 +202,6 @@ public class StartMenu {
 				message.setText("Level 3");
 				message.setFont(Font.font ("Verdana", 15));
 				message.setTextFill(Color.web("WHITE"));
-				difficulty = 1;
 		} } );	
 		
 		button4.setOnAction ( new EventHandler<ActionEvent>(){
@@ -122,25 +210,14 @@ public class StartMenu {
 				message.setText("Level 4");
 				message.setFont(Font.font ("Verdana", 15));
 				message.setTextFill(Color.web("WHITE"));
-				difficulty = 2;
 		} } );
-
-		button5.setOnAction ( new EventHandler<ActionEvent>(){
-			@Override
-			public void handle (ActionEvent event){
-				message.setText("2 Player");
-				message.setFont(Font.font ("Verdana", 15));
-				message.setTextFill(Color.web("WHITE"));
-				difficulty = -1; // 2 Player
-
-			} } );
 		
 		//Button 5 for RED
-        ToggleButton  buttonR = new ToggleButton ("R");
-		buttonR.setStyle("-fx-base: red ;");
-		buttonR.setMinHeight(30.0); buttonR.setPrefHeight(30.0); buttonR.setMaxHeight(30.0); 
-		buttonR.setMinWidth(30.0); buttonR.setPrefWidth(30); buttonR.setMaxWidth(30);
-		GridPane.setHalignment(buttonR, HPos.CENTER);
+        ToggleButton  button5 = new ToggleButton ("R");
+		button5.setStyle("-fx-base: red ;");
+		button5.setMinHeight(30.0); button5.setPrefHeight(30.0); button5.setMaxHeight(30.0); 
+		button5.setMinWidth(30.0); button5.setPrefWidth(30); button5.setMaxWidth(30);
+		GridPane.setHalignment(button5, HPos.CENTER);
 		
 		//Button 6 for YELLOW
         ToggleButton  button6 = new ToggleButton ("Y");
@@ -172,20 +249,19 @@ public class StartMenu {
 		
 		// ToggleButton group for level 1-4
 		ToggleGroup groupColor = new ToggleGroup();
-		buttonR.setToggleGroup(groupColor);
+		button5.setToggleGroup(groupColor);
 		button6.setToggleGroup(groupColor);
 		button7.setToggleGroup(groupColor);
 		button8.setToggleGroup(groupColor);
 		button9.setToggleGroup(groupColor);
 
 		// Set text for toggle Button
-		buttonR.setOnAction ( new EventHandler<ActionEvent>(){
+		button5.setOnAction ( new EventHandler<ActionEvent>(){
 			@Override
 			public void handle (ActionEvent event){
 				messageColor.setText("Red");
 				messageColor.setFont(Font.font ("Verdana", 15));
 				messageColor.setTextFill(Color.web("RED"));
-				playerColor = "RED";
 
 		} } );
 		
@@ -196,7 +272,6 @@ public class StartMenu {
 				messageColor.setText("Yellow");
 				messageColor.setFont(Font.font ("Verdana", 15));
 				messageColor.setTextFill(Color.web("YELLOW"));
-				playerColor = "YELLOW";
 
 		} } );
 		
@@ -207,7 +282,6 @@ public class StartMenu {
 				messageColor.setText("Lime");
 				messageColor.setFont(Font.font ("Verdana", 15));
 				messageColor.setTextFill(Color.web("LIME"));
-				playerColor = "LIME";
 
 		} } );
 		// Set text for toggle Button
@@ -217,7 +291,6 @@ public class StartMenu {
 				messageColor.setText("Purple");
 				messageColor.setFont(Font.font ("Verdana", 15));
 				messageColor.setTextFill(Color.web("PURPLE"));
-				playerColor = "PURPLE";
 
 		} } );
 		// Set text for toggle Button
@@ -227,16 +300,13 @@ public class StartMenu {
 				messageColor.setText("Cyan");
 				messageColor.setFont(Font.font ("Verdana", 15));
 				messageColor.setTextFill(Color.web("CYAN"));
-				playerColor = "CYAN";
 
 		} } );
-
-		GridPane layout3 = new GridPane();
 		//Button 10 for NEXT SCENE
         Button  button10 = new Button ("NEXT");
 		button10.setMinHeight(30.0); button10.setPrefHeight(30.0); button10.setMaxHeight(30.0); 
 		button10.setMinWidth(50); button10.setPrefWidth(50); button10.setMaxWidth(50);
-		button10.setOnAction(e -> {window.setScene(scene3); if(difficulty==-1){layout3.add(enterName2, 18,24);}});
+		button10.setOnAction(e -> window.setScene(scene3));
 		GridPane.setHalignment(button10, HPos.RIGHT);
 		
 		// Button 11 for Instruction Box
@@ -257,8 +327,7 @@ public class StartMenu {
 		layout2.add(button2, 51, 3);
 		layout2.add(button3, 51, 4);
 		layout2.add(button4, 51, 5);
-		layout2.add(button5,52,2);
-		layout2.add(buttonR, 49, 11);
+		layout2.add(button5, 49, 11);
 		layout2.add(button6, 50, 11);
 		layout2.add(button7, 51, 11);
 		layout2.add(button8, 52, 11);
@@ -266,44 +335,31 @@ public class StartMenu {
 		layout2.add(button10, 54, 14);
 		layout2.add(buttonINSTRUCTION, 10, 14);
 		
-		layout2.setBackground(new Background (my2BI));
+		layout2.setBackground(new Background (my2BI));    
 		scene2 = new Scene(layout2, 500, 500);
   
 		// Button11 for scene 3 to 2
         Button  button11 = new Button ("GO");
 		button11.setMinHeight(30.0); button11.setPrefHeight(30.0); button11.setMaxHeight(30.0); 
 		button11.setMinWidth(50); button11.setPrefWidth(50); button11.setMaxWidth(50);
-		//button11.setOnAction(e -> window.setScene(scene4));
-		button11.setOnAction(e -> {
-			playerName = enterName.getText();
-			if(difficulty==-1){
-				player2Name = enterName2.getText();
-			}
-			window.close();
-
-		});
+		button11.setOnAction(e -> window.setScene(scene4));
 		GridPane.setHalignment(button11, HPos.CENTER);
 
 		
 		// TextField
-		enterName = new TextField ("Player"); // Default text of 'Player Name'
+		enterName = new TextField ("Player Name"); // Default text of 'Player Name'
 		enterName.setPrefHeight(30);
-		enterName2 = new TextField("Player 2");
-		enterName2.setPrefHeight(30);
 		
 		// BCKG Image for Name area
 		BackgroundImage my3BI = new BackgroundImage ( new Image ("BckgForGrid.jpg", 500, 500, false, false),
 			 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		
 		 //Layout 3
-
+		GridPane layout3 = new GridPane();
 		layout3.setVgap(10);
 		layout3.setHgap(10);
 		layout3.add(button11, 18 , 30);
 		layout3.add(enterName, 18, 17);
-		if (difficulty == -1){
-			layout3.add(enterName2, 18,24);
-		}
 		layout3.setBackground(new Background (my3BI));
         scene3 = new Scene(layout3, 500, 500);
 			 
@@ -332,52 +388,10 @@ public class StartMenu {
 			 
         //Display scene 1 at first
         window.setScene(scene1);
-        window.setTitle("Battleship");
+        window.setTitle("Battleship -- Demo2 Version");
 		window.setResizable(false);
-        window.showAndWait();
+        window.show();
 	
     }
 
-    /**
-
-	 @return Returns the level chosen.
-     */
-	public Label getMessage() {
-		return message;
-	}
-
-	/**
-	 * @return Returns the color chosen.
-	 */
-	public Label getMessageColor() {
-		return messageColor;
-	}
-
-	/**
-	 *
-	 * @return Returns the player's name.
-	 */
-	public String getPlayerName() {
-		return playerName;
-	}
-
-	/**
-	 *
-	 * @return Returns the 2nd players name
-	 */
-	public String getPlayer2Name() {
-		return player2Name;
-	}
-
-	public String getPlayerColor() {
-		return playerColor;
-	}
-
-	/**
-	 *
-	 * @return Returns the game difficulty (-1 for 2 Player, 0 for normal, 1 for challenge, 2 for impossible, 3 for random)
-	 */
-	public int getDifficulty() {
-		return difficulty;
-	}
 }

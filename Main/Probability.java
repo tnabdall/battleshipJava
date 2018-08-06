@@ -1,5 +1,7 @@
+package Main;
+
 /** The probability class to calculate the highest probability of there being a ship on a location
- * on the gameboard. The AI uses this class for the challenge difficulty.
+ * on the gameboard. The Main.AI uses this class for the challenge difficulty.
  *
  */
 
@@ -37,7 +39,7 @@ public class Probability {
      * It checks all the lengths of the ships that are still alive. It checks the length of the
      * ships that are alive from that location in all four directions. If all the locations in one direction
      * are playable for that ship's length then that location gets 1 point in probability.
-     * The location with the highest probability is then returned to the AI.
+     * The location with the highest probability is then returned to the Main.AI.
      * @return the coordinates of the location with the highest probability of there being a ship.
      */
     public int[] setCoordToPlay() {

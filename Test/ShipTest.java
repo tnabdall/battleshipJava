@@ -1,3 +1,7 @@
+package Test;
+
+import Main.*;
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -6,16 +10,16 @@ public class ShipTest {
 	@Test
 	public void test_Constructor(){
 		Ship test = new Ship("Bob", 5);
-		assertEquals("Name should be Bob", "Bob",test.getName());
-		assertEquals("Length should be 5", 5, test.getLength());
+		Assert.assertEquals("Name should be Bob", "Bob",test.getName());
+		Assert.assertEquals("Length should be 5", 5, test.getLength());
 		int[][] coords = new int[2][2];
 		coords[0][0]=5;
 		coords[0][1]=4;
 		coords[1][0]=5;
 		coords[1][0]=5;
 		Ship test2 = new Ship("Betty", 2, coords);
-		assertEquals("Name should be Betty", "Betty",test2.getName());
-		assertEquals("Length should be 2", 2, test2.getLength());
+		Assert.assertEquals("Name should be Betty", "Betty",test2.getName());
+		Assert.assertEquals("Length should be 2", 2, test2.getLength());
 		
 		boolean equals = true;
 		int[][] shipcoords = test2.getAllCoords();
@@ -69,7 +73,7 @@ public class ShipTest {
 		Ship test = new Ship("Betty", 2, coords);
 		test.setLength(4);
 
-		assertEquals("Both lengths should be 4", 4, test.getLength());
+		Assert.assertEquals("Both lengths should be 4", 4, test.getLength());
 
 	}
 
@@ -110,7 +114,7 @@ public class ShipTest {
 
 		test.setName("John");
 
-		assertEquals("Name should now be John", "John",test.getName());
+		Assert.assertEquals("Name should now be John", "John",test.getName());
 
 	}
 
@@ -119,7 +123,7 @@ public class ShipTest {
 		PlayerBoardTest pTest = new PlayerBoardTest();
 		PlayerBoard testBoard = pTest.getTestBoard();
 		Ship carrier = testBoard.getShips()[0];
-		assertEquals("Carrier should be alive 0 hits", true, carrier.isAlive(testBoard));
+		Assert.assertEquals("Carrier should be alive 0 hits", true, carrier.isAlive(testBoard));
 
 	}
 
@@ -132,7 +136,7 @@ public class ShipTest {
 		testBoard.fire(0,1);
 		testBoard.fire(0,2);
 		testBoard.fire(0,3);
-		assertEquals("Carrier should be alive 4 hits", true, carrier.isAlive(testBoard));
+		Assert.assertEquals("Carrier should be alive 4 hits", true, carrier.isAlive(testBoard));
 
 	}
 
@@ -146,7 +150,7 @@ public class ShipTest {
 		testBoard.fire(0,2);
 		testBoard.fire(0,3);
 		testBoard.fire(0,4);
-		assertEquals("Carrier should be dead 5 hits", false, carrier.isAlive(testBoard));
+		Assert.assertEquals("Carrier should be dead 5 hits", false, carrier.isAlive(testBoard));
 
 	}
 

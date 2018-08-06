@@ -10,9 +10,9 @@ Class
 
 Description
 
-GameBoard
+Main.GameBoard
 Array (2d) 10x10 gameboard (1s or 0s to indicate hit)
-Ship variables for 5 different ship pieces
+Main.Ship variables for 5 different ship pieces
 Method: PlaceShip
 Method: MarkHitOrMiss
 Method: RevealDestroyedShip
@@ -25,7 +25,7 @@ Method: RunGame1Player
 Method: RunGame2Player
 Method: GameDone
 
-Ship
+Main.Ship
 Length
 Name
 

@@ -1,6 +1,11 @@
+package Test;
+
+import Main.*;
 import static org.junit.Assert.*;
 
 import java.util.Vector;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 public class PlayerBoardTest {
@@ -64,16 +69,16 @@ public class PlayerBoardTest {
     @Test
     public void test_loc_status_Boundary(){
         PlayerBoard p = getTestBoard();
-        assertEquals("Should have returned a 3 at (0,0)", 3, p.locStatus(0,0));
-        assertEquals("Should have returned a 0 at (9,9)", 0, p.locStatus(9,9));
-        assertEquals("Should have returned a 4 at (10,9) because out of bounds", 4,p.locStatus(10,9));
+        Assert.assertEquals("Should have returned a 3 at (0,0)", 3, p.locStatus(0,0));
+        Assert.assertEquals("Should have returned a 0 at (9,9)", 0, p.locStatus(9,9));
+        Assert.assertEquals("Should have returned a 4 at (10,9) because out of bounds", 4,p.locStatus(10,9));
     }
 
     @Test
     public void test_loc_status_Invalid(){
         PlayerBoard p = getTestBoard();
-        assertEquals("Should have returned a 4 at (-1,0) because out of bounds", 4,p.locStatus(-1,0));
-        assertEquals("Should have returned a 4 at (10,9) because out of bounds", 4,p.locStatus(10,9));
+        Assert.assertEquals("Should have returned a 4 at (-1,0) because out of bounds", 4,p.locStatus(-1,0));
+        Assert.assertEquals("Should have returned a 4 at (10,9) because out of bounds", 4,p.locStatus(10,9));
     }
 
     @Test
@@ -81,9 +86,9 @@ public class PlayerBoardTest {
         PlayerBoard p = getTestBoard();
         p.fire(0,0);
         p.fire(1,0);
-        assertEquals("Should have returned a 2 after firing at (0,0)", 2, p.locStatus(0,0));
-        assertEquals("Should have returned a 1 after firing at (1,0)", 1, p.locStatus(1,0));
-        assertEquals("Should have returned a 3 at (0,1)", 3, p.locStatus(0,1));
+        Assert.assertEquals("Should have returned a 2 after firing at (0,0)", 2, p.locStatus(0,0));
+        Assert.assertEquals("Should have returned a 1 after firing at (1,0)", 1, p.locStatus(1,0));
+        Assert.assertEquals("Should have returned a 3 at (0,1)", 3, p.locStatus(0,1));
     }
 
     @Test
@@ -91,8 +96,8 @@ public class PlayerBoardTest {
         p = getTestBoard();
         p.fire(0,0);
         p.fire(9,9);
-        assertEquals("Fired at (0,0). Expected a 2 (O) at (0,0)",2,p.locStatus(0,0));
-        assertEquals("Fired at (9,9). Expected a 1 (X) at (9,9)",1,p.locStatus(9,9));
+        Assert.assertEquals("Fired at (0,0). Expected a 2 (O) at (0,0)",2,p.locStatus(0,0));
+        Assert.assertEquals("Fired at (9,9). Expected a 1 (X) at (9,9)",1,p.locStatus(9,9));
     }
 
     @Test
@@ -132,10 +137,10 @@ public class PlayerBoardTest {
                --------------------
          */
 
-         assertEquals("Expected a 3 (+) at (2,3)", 3, p.locStatus(2,3));
-         assertEquals("Fired at (0,4). Expected a 2 (O) at (0,4)",2,p.locStatus(0,4));
-         assertEquals("Fired at (0,5). Expected a 1 (X) at (0,5)",1,p.locStatus(0,5));
-         assertEquals("Expected a 0 at (8,8)",0,p.locStatus(8,8));
+         Assert.assertEquals("Expected a 3 (+) at (2,3)", 3, p.locStatus(2,3));
+         Assert.assertEquals("Fired at (0,4). Expected a 2 (O) at (0,4)",2,p.locStatus(0,4));
+         Assert.assertEquals("Fired at (0,5). Expected a 1 (X) at (0,5)",1,p.locStatus(0,5));
+         Assert.assertEquals("Expected a 0 at (8,8)",0,p.locStatus(8,8));
 
     }
 
@@ -160,7 +165,7 @@ public class PlayerBoardTest {
         p.fire(-1,-1); // will have exception if not taken care of in fire method
         p.fire(10,10);
         p.fire(0,0);
-        assertEquals("Expected JUnit test to run without an exception.",2,p.getBoardElement(0,0));
+        Assert.assertEquals("Expected JUnit test to run without an exception.",2,p.getBoardElement(0,0));
 
     }
 
@@ -224,11 +229,11 @@ public class PlayerBoardTest {
          */
 
         p.fire(0,0);
-        assertEquals("Expect 16 elements since a ship was hit after firing at A1", 16, p.getNumberOfShipElements());
+        Assert.assertEquals("Expect 16 elements since a ship was hit after firing at A1", 16, p.getNumberOfShipElements());
         p.fire(0,0);
-        assertEquals("Expect 16 elements since I tried to fire at A1 which has already been hit", 16, p.getNumberOfShipElements());
+        Assert.assertEquals("Expect 16 elements since I tried to fire at A1 which has already been hit", 16, p.getNumberOfShipElements());
         p.fire(4,9);
-        assertEquals("Expect 16 elements since no ship was hit after firing at J5", 16, p.getNumberOfShipElements());
+        Assert.assertEquals("Expect 16 elements since no ship was hit after firing at J5", 16, p.getNumberOfShipElements());
 
     }
 
@@ -274,7 +279,7 @@ public class PlayerBoardTest {
         } //D1-D4 ship
 
 
-        assertEquals("Expected to be false since ship exists at D1" , false, p.isValidPlacement(getShipvect()));
+        Assert.assertEquals("Expected to be false since ship exists at D1" , false, p.isValidPlacement(getShipvect()));
         getShipvect().clear();
         for (int i = 0; i< 4; i++){
             int[] coords = new int[2];
@@ -283,7 +288,7 @@ public class PlayerBoardTest {
             getShipvect().add(coords);
         } //D2-D5 ship
 
-        assertEquals("Expected to be true since no ships at D2-D5", true, p.isValidPlacement(getShipvect()));
+        Assert.assertEquals("Expected to be true since no ships at D2-D5", true, p.isValidPlacement(getShipvect()));
         getShipvect().clear();
     }
 
@@ -298,7 +303,7 @@ public class PlayerBoardTest {
             getShipvect().add(coords);
         } //D1-D4 ship
 
-        assertEquals("Expected to be a valid placement since it is inside bounds", true, p.isValidPlacement(getShipvect()));
+        Assert.assertEquals("Expected to be a valid placement since it is inside bounds", true, p.isValidPlacement(getShipvect()));
         getShipvect().clear();
 
     }
@@ -314,7 +319,7 @@ public class PlayerBoardTest {
             coords[1] = 3;
             getShipvect().add(coords);
         } //D0-D3 ship out of bounds
-        assertEquals("Expected to be invalid because E0 does not exist.", false, p.isValidPlacement(getShipvect()));
+        Assert.assertEquals("Expected to be invalid because E0 does not exist.", false, p.isValidPlacement(getShipvect()));
         getShipvect().clear();
 
         for (int i = 0; i< 4; i++){
@@ -323,7 +328,7 @@ public class PlayerBoardTest {
             coords[1] = 10;
             getShipvect().add(coords);
         } //K10-K13 ship out of bounds
-        assertEquals("Expected to be invalid because column K does not exist.", false, p.isValidPlacement(getShipvect()));
+        Assert.assertEquals("Expected to be invalid because column K does not exist.", false, p.isValidPlacement(getShipvect()));
         getShipvect().clear();
     }
 
@@ -337,7 +342,7 @@ public class PlayerBoardTest {
             getShipvect().add(coords);
         } //D1-D4 ship
 
-        assertEquals("Expected to be a valid placement since ship is continuous", true, getP().isValidPlacement(getShipvect()));
+        Assert.assertEquals("Expected to be a valid placement since ship is continuous", true, getP().isValidPlacement(getShipvect()));
         getShipvect().clear();
 
         for (int i = 0; i< 5; i++){
@@ -350,7 +355,7 @@ public class PlayerBoardTest {
             getShipvect().add(coords);
         } //D1-D2 and D4-D5 invalid ship
 
-        assertEquals("Expected to be invalid because ship is not continuous vertically.", false, getP().isValidPlacement(getShipvect()));
+        Assert.assertEquals("Expected to be invalid because ship is not continuous vertically.", false, getP().isValidPlacement(getShipvect()));
         getShipvect().clear();
 
         for (int i = 0; i< 4; i++){
@@ -360,7 +365,7 @@ public class PlayerBoardTest {
             getShipvect().add(coords);
         } //A2-D2 ship
 
-        assertEquals("Expected to be a valid placement since ship is continuous", true, getP().isValidPlacement(getShipvect()));
+        Assert.assertEquals("Expected to be a valid placement since ship is continuous", true, getP().isValidPlacement(getShipvect()));
         getShipvect().clear();
 
         for (int i = 0; i< 5; i++){
@@ -373,7 +378,7 @@ public class PlayerBoardTest {
             getShipvect().add(coords);
         } //A2-B2 and D2-E2 invalid ship
 
-        assertEquals("Expected to be invalid because ship is not continuous horizontally.", false, getP().isValidPlacement(getShipvect()));
+        Assert.assertEquals("Expected to be invalid because ship is not continuous horizontally.", false, getP().isValidPlacement(getShipvect()));
         getShipvect().clear();
 
     }
@@ -389,11 +394,11 @@ public class PlayerBoardTest {
         } //D1-D4 ship
         p.placeShip(getShipvect(), p.getShips()[1]);
 
-        assertEquals("Expected D1 to be filled with a ship",3,p.getBoardElement(0,3));
-        assertEquals("Expected D2 to be filled with a ship",3,p.getBoardElement(1,3));
-        assertEquals("Expected D3 to be filled with a ship",3,p.getBoardElement(2,3));
-        assertEquals("Expected D4 to be filled with a ship",3,p.getBoardElement(3,3));
-        assertEquals("Expected D5 to be empty.",0,p.getBoardElement(4,3));
+        Assert.assertEquals("Expected D1 to be filled with a ship",3,p.getBoardElement(0,3));
+        Assert.assertEquals("Expected D2 to be filled with a ship",3,p.getBoardElement(1,3));
+        Assert.assertEquals("Expected D3 to be filled with a ship",3,p.getBoardElement(2,3));
+        Assert.assertEquals("Expected D4 to be filled with a ship",3,p.getBoardElement(3,3));
+        Assert.assertEquals("Expected D5 to be empty.",0,p.getBoardElement(4,3));
         getShipvect().clear();
 
     }
@@ -409,9 +414,9 @@ public class PlayerBoardTest {
         } //D0-D4 ship
         p.placeShip(getShipvect(), p.getShips()[1]);
 
-        assertEquals("Expected D1 to be empty",0,p.getBoardElement(0,3));
-        assertEquals("Expected D2 to be empty",0,p.getBoardElement(1,3));
-        assertEquals("Expected D3 to be empty",0,p.getBoardElement(2,3));
+        Assert.assertEquals("Expected D1 to be empty",0,p.getBoardElement(0,3));
+        Assert.assertEquals("Expected D2 to be empty",0,p.getBoardElement(1,3));
+        Assert.assertEquals("Expected D3 to be empty",0,p.getBoardElement(2,3));
         getShipvect().clear();
     }
 
