@@ -112,7 +112,7 @@ public class AI {
 			checkTargetShip();
 		}
 		if (target == null) {
-			if (turn > 0) {
+			if (turn >= 0) {
 				int[] coords = prob.setCoordToPlay();
 				row = coords[0];
 				col = coords[1];
