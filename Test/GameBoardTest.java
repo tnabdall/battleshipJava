@@ -1,7 +1,12 @@
+package Test;
+import Main.*;
+
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
 import java.util.Vector;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 public class GameBoardTest {
@@ -12,8 +17,8 @@ public class GameBoardTest {
     @Test
     public void test_GameBoard_Constructor() {
         GameBoard g = new GameBoard();
-        assertEquals("There should be 5 ships.", 5, g.getShips().length, 0.00001);
-        assertEquals("Number of ship elements should be 17", 17, g.getNumberOfShipElements(), 0.00001);
+        Assert.assertEquals("There should be 5 ships.", 5, g.getShips().length, 0.00001);
+        Assert.assertEquals("Number of ship elements should be 17", 17, g.getNumberOfShipElements(), 0.00001);
     }
 
     @Test
@@ -88,13 +93,13 @@ public class GameBoardTest {
         int[] coords = new int[2];
         coords[0] = 0;
         coords[1] = 0;
-        assertEquals("This should be Carrier", "Carrier", g.getShipFiredOn(0, 0));
-        assertEquals("This should be Carrier", "Carrier", g.getShipFiredOn(coords));
-        assertEquals("Carrier should have a length of 5", 5, g.getShipFiredOnLength(coords), 0.0001);
-        assertEquals("Carrier should have a length of 5", 5, g.getShipFiredOnLength(0, 0), 0.0001);
-        assertEquals("This should be Destroyer", "Destroyer", g.getShipFiredOn(8, 0));
-        assertEquals("This should be Destroyer", "Destroyer", g.getShipFiredOn(8, 0));
-        assertEquals("Destroyer should have a length of 2", 2, g.getShipFiredOnLength(8, 0), 0.0001);
+        Assert.assertEquals("This should be Carrier", "Carrier", g.getShipFiredOn(0, 0));
+        Assert.assertEquals("This should be Carrier", "Carrier", g.getShipFiredOn(coords));
+        Assert.assertEquals("Carrier should have a length of 5", 5, g.getShipFiredOnLength(coords), 0.0001);
+        Assert.assertEquals("Carrier should have a length of 5", 5, g.getShipFiredOnLength(0, 0), 0.0001);
+        Assert.assertEquals("This should be Destroyer", "Destroyer", g.getShipFiredOn(8, 0));
+        Assert.assertEquals("This should be Destroyer", "Destroyer", g.getShipFiredOn(8, 0));
+        Assert.assertEquals("Destroyer should have a length of 2", 2, g.getShipFiredOnLength(8, 0), 0.0001);
     }
 
     @Test
@@ -128,10 +133,10 @@ public class GameBoardTest {
         int[] coords = new int[2];
         coords[0] = 9;
         coords[1] = 9;
-        assertEquals("This should be Unknown", "Unknown", g.getShipFiredOn(9, 9));
-        assertEquals("This should be Unknown", "Unknown", g.getShipFiredOn(coords));
-        assertEquals("Should return -1 because no ship at (9,9)", -1, g.getShipFiredOnLength(coords), 0.0001);
-        assertEquals("Should return -1 because no ship at (9,9)", -1, g.getShipFiredOnLength(9, 9), 0.0001);
+        Assert.assertEquals("This should be Unknown", "Unknown", g.getShipFiredOn(9, 9));
+        Assert.assertEquals("This should be Unknown", "Unknown", g.getShipFiredOn(coords));
+        Assert.assertEquals("Should return -1 because no ship at (9,9)", -1, g.getShipFiredOnLength(coords), 0.0001);
+        Assert.assertEquals("Should return -1 because no ship at (9,9)", -1, g.getShipFiredOnLength(9, 9), 0.0001);
     }
 
     @Test
@@ -147,17 +152,17 @@ public class GameBoardTest {
             g.placeShip(shipvect, ships[i]);
             shipvect.clear();
         }
-        assertEquals("Should be Unknown because out of bounds", "Unknown", g.getShipFiredOn(-1, -1));
-        assertEquals("Should be Unkown because out of bounds", "Unknown", g.getShipFiredOn(new int[]{-1, -1}));
-        assertEquals("Should be -1 because out of bounds", -1, g.getShipFiredOnLength(new int[]{-1, -1}));
-        assertEquals("Should be -1 because out of bounds", -1, g.getShipFiredOnLength(10, 5));
+        Assert.assertEquals("Should be Unknown because out of bounds", "Unknown", g.getShipFiredOn(-1, -1));
+        Assert.assertEquals("Should be Unkown because out of bounds", "Unknown", g.getShipFiredOn(new int[]{-1, -1}));
+        Assert.assertEquals("Should be -1 because out of bounds", -1, g.getShipFiredOnLength(new int[]{-1, -1}));
+        Assert.assertEquals("Should be -1 because out of bounds", -1, g.getShipFiredOnLength(10, 5));
     }
 
     @Test
     public void test_makeRandomBoard_NumberOfShipElements() {
         GameBoard g = new GameBoard();
         g.makeRandomBoard();
-        assertEquals("Expected to get 17 elements placed on the random board.", 17, g.getNumberOfShipElements(), 0.0001);
+        Assert.assertEquals("Expected to get 17 elements placed on the random board.", 17, g.getNumberOfShipElements(), 0.0001);
     }
 
     @Test
@@ -167,7 +172,7 @@ public class GameBoardTest {
         int[] firstcoord = new int[2];
         firstcoord[0] = 1;
         firstcoord[1] = 1;
-        assertEquals("Expected false. Out of bounds.", false, g.isValidPlacement(firstcoord, "l", g.getShips()[0]));
+        Assert.assertEquals("Expected false. Out of bounds.", false, g.isValidPlacement(firstcoord, "l", g.getShips()[0]));
 
     }
 
@@ -178,7 +183,7 @@ public class GameBoardTest {
         int[] firstcoord = new int[2];
         firstcoord[0] = 1;
         firstcoord[1] = 1;
-        assertEquals("Expected true. Inside bounds.", true, g.isValidPlacement(firstcoord, "d", g.getShips()[0]));
+        Assert.assertEquals("Expected true. Inside bounds.", true, g.isValidPlacement(firstcoord, "d", g.getShips()[0]));
 
     }
 
@@ -189,12 +194,12 @@ public class GameBoardTest {
         int[] firstcoord = new int[2];
         firstcoord[0] = 4;
         firstcoord[1] = 4;
-        assertEquals("Expected true. Ship inside bounds. (4,4) up ", true, g.isValidPlacement(firstcoord, "u", g.getShips()[0]));
-        assertEquals("Expected true. Ship inside bounds. (4,4) left ", true, g.isValidPlacement(firstcoord, "l", g.getShips()[0]));
+        Assert.assertEquals("Expected true. Ship inside bounds. (4,4) up ", true, g.isValidPlacement(firstcoord, "u", g.getShips()[0]));
+        Assert.assertEquals("Expected true. Ship inside bounds. (4,4) left ", true, g.isValidPlacement(firstcoord, "l", g.getShips()[0]));
         firstcoord[0] = 5;
         firstcoord[1] = 5;
-        assertEquals("Expected true. Ship inside bounds. (5,5) right ", true, g.isValidPlacement(firstcoord, "r", g.getShips()[0]));
-        assertEquals("Expected true. Ship inside bounds. (5,5) down ", true, g.isValidPlacement(firstcoord, "d", g.getShips()[0]));
+        Assert.assertEquals("Expected true. Ship inside bounds. (5,5) right ", true, g.isValidPlacement(firstcoord, "r", g.getShips()[0]));
+        Assert.assertEquals("Expected true. Ship inside bounds. (5,5) down ", true, g.isValidPlacement(firstcoord, "d", g.getShips()[0]));
 
     }
 
@@ -216,25 +221,25 @@ public class GameBoardTest {
         firstcoord[0] = 1;
         firstcoord[1] = 1;
         //Test for battleship placement into carrier
-        assertEquals("Expected false. Battleship going into carrier.", false, g.isValidPlacement(firstcoord, "r", g.getShips()[1]));
+        Assert.assertEquals("Expected false. Battleship going into carrier.", false, g.isValidPlacement(firstcoord, "r", g.getShips()[1]));
         //Test for destroyer placement into carrier
-        assertEquals("Expected false. Destroyer going into carrier.", false, g.isValidPlacement(firstcoord, "r", g.getShips()[4]));
+        Assert.assertEquals("Expected false. Destroyer going into carrier.", false, g.isValidPlacement(firstcoord, "r", g.getShips()[4]));
         firstcoord[1] = 6;
         //Test for battleship placement just before carrier.
-        assertEquals("Expected true. Battleship not going into carrier.", true, g.isValidPlacement(firstcoord, "l", g.getShips()[1]));
+        Assert.assertEquals("Expected true. Battleship not going into carrier.", true, g.isValidPlacement(firstcoord, "l", g.getShips()[1]));
         //Test for destroyer placement just before carrier
         firstcoord[1] = 0;
-        assertEquals("Expected false. Destroyer not going into carrier.", true, g.isValidPlacement(firstcoord, "r", g.getShips()[4]));
+        Assert.assertEquals("Expected false. Destroyer not going into carrier.", true, g.isValidPlacement(firstcoord, "r", g.getShips()[4]));
     }
 
     @Test
     public void test_BoardMarker() {
         GameBoard g = new GameBoard();
-        assertEquals("0 Should be blank", " ", g.boardMarker(0));
-        assertEquals("1 Should be X", "X", g.boardMarker(1));
-        assertEquals("2 should be O", "O", g.boardMarker(2));
-        assertEquals("3 should be + on player board", "+", g.boardMarker(3));
-        assertEquals("3 should be blank on enemy board", " ", g.boardMarker(3, true));
+        Assert.assertEquals("0 Should be blank", " ", g.boardMarker(0));
+        Assert.assertEquals("1 Should be X", "X", g.boardMarker(1));
+        Assert.assertEquals("2 should be O", "O", g.boardMarker(2));
+        Assert.assertEquals("3 should be + on player board", "+", g.boardMarker(3));
+        Assert.assertEquals("3 should be blank on enemy board", " ", g.boardMarker(3, true));
     }
 
     @Test
@@ -242,9 +247,9 @@ public class GameBoardTest {
         GameBoard g = new GameBoard();
         g.setBoardElement(2, 2, 3);
         g.setBoardElement(3, 3, 1);
-        assertEquals("Expected 3 at (2,2)", 3, g.getBoardElement(2, 2));
-        assertEquals("Expected 1 at (3,3)", 1, g.getBoardElement(3, 3));
-        assertEquals("Expected 0 at (8,8)", 0, g.getBoardElement(8, 8));
+        Assert.assertEquals("Expected 3 at (2,2)", 3, g.getBoardElement(2, 2));
+        Assert.assertEquals("Expected 1 at (3,3)", 1, g.getBoardElement(3, 3));
+        Assert.assertEquals("Expected 0 at (8,8)", 0, g.getBoardElement(8, 8));
     }
 
     @Test
@@ -252,7 +257,7 @@ public class GameBoardTest {
         GameBoard g = new GameBoard();
         g.setBoardElement(-1, 2, 3);
         g.setBoardElement(2, 2, 3);
-        assertEquals("Test should run without exceptions.", 3, g.getBoardElement(2, 2));
+        Assert.assertEquals("Test should run without exceptions.", 3, g.getBoardElement(2, 2));
     }
 
 
@@ -260,14 +265,14 @@ public class GameBoardTest {
     public void test_DecrementShipElements() {
         GameBoard g = new GameBoard();
         //Starts with 17 ship elements
-        assertEquals("Should start with 17 ship elements", 17, g.getNumberOfShipElements());
+        Assert.assertEquals("Should start with 17 ship elements", 17, g.getNumberOfShipElements());
         g.decrementShipElements();
         g.decrementShipElements();
-        assertEquals("Should now have 15 ship elements", 15, g.getNumberOfShipElements());
+        Assert.assertEquals("Should now have 15 ship elements", 15, g.getNumberOfShipElements());
         for (int i = 0; i < 17; i++) {
             g.decrementShipElements();
         }
-        assertEquals("Should now have 0 ship elements", 0, g.getNumberOfShipElements());
+        Assert.assertEquals("Should now have 0 ship elements", 0, g.getNumberOfShipElements());
 
     }
 
@@ -332,7 +337,7 @@ public class GameBoardTest {
          */
 
         g.fire(2, 2);
-        assertEquals("Should have been true after firing at 2,2", true, g.hasFired(2, 2));
+        Assert.assertEquals("Should have been true after firing at 2,2", true, g.hasFired(2, 2));
 
 
     }
@@ -367,8 +372,8 @@ public class GameBoardTest {
          */
 
         g.fire(2, 2);
-        assertEquals("Should have been false since we did not fire at 0,0", false, g.hasFired(0, 0));
-        assertEquals("Should have been false since we did not fire at 1,0", false, g.hasFired(1, 0));
+        Assert.assertEquals("Should have been false since we did not fire at 0,0", false, g.hasFired(0, 0));
+        Assert.assertEquals("Should have been false since we did not fire at 1,0", false, g.hasFired(1, 0));
 
 
     }
