@@ -26,7 +26,6 @@ public class AIShipData {
 		this.initRow = initRow;
 		this.initCol = initCol;
 		setHealth();
-		System.out.println(health + "-is the health");
 	}
 
 	/**
@@ -103,13 +102,11 @@ public class AIShipData {
 	public void minusShipHealth() {
 		health -= 1;
 		timesHit += 1;
-		System.out.println(health + "-is the health");
 		if (health == 0) {
 			isSunk = true;
 		} else {
 			isSunk = false;
 		}
-		System.out.println("isSunk?" + isSunk);
 	}
 
 	/**
