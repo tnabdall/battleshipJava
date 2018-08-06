@@ -22,7 +22,9 @@ import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
-
+/**
+ * Runs the battleship GUI.
+ */
 public class BattleshipApp extends Application {
 
     // Variables to help run game.
@@ -110,12 +112,14 @@ public class BattleshipApp extends Application {
 		startMenu.start();
 		placeShipLabel = new Label(startMenu.getPlayerName()+". Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[0].getName() + " with length of " + ships[0].getLength());
 		pllbl.setText(startMenu.getPlayerName()+"'s Board");
-		int difficulty = startMenu.getDifficulty();
+		int difficulty = startMenu.getDifficulty(); // Gets difficulty
+
+        // Checks to see if its a 2 player game
 		boolean p2 = false;
 		if (difficulty  == -1){
 			p2 = true;
 		}
-		System.out.println(p2);
+
 		if(p2){
 			enlbl.setText(startMenu.getPlayer2Name()+"'s Board");
 		}
@@ -135,7 +139,7 @@ public class BattleshipApp extends Application {
 		System.out.println(difficulty);
 
 
-		if(!p2) {
+		if(!p2) { //If one player, makes random board for enemy.
 			eboard.makeRandomBoard();
 		}
 
@@ -176,11 +180,7 @@ public class BattleshipApp extends Application {
 
         // For enemy's grid. Updates the row and column to fire upon.
         for (int i = 0; i< enemyGrid.length; i++){
-			// Sets column constraints for each grid member.
-			//colCons[i] = new ColumnConstraints();
-			//colCons[i].setPercentWidth(100/(enemyGrid.length+4));
-			//colCons2[i] = new ColumnConstraints();
-			//colCons2[i].setPercentWidth(100/(enemyGrid.length+4));
+
 			
 			// Creates new buttons and adds some spacing.
             for (int j = 0; j< enemyGrid.length; j++){
@@ -232,9 +232,7 @@ public class BattleshipApp extends Application {
 
                 player.add(playerGrid[i][j],j+1,i+1);
             }
-            // Add column constraints to make game look neater.
-			//enemy.getColumnConstraints().add(colCons[i]);
-			//player.getColumnConstraints().add(colCons2[i]);
+
         }
 		
 		// Sets enemy board and player board labels
@@ -277,7 +275,7 @@ public class BattleshipApp extends Application {
 
 
         primaryStage.setTitle("Battleship");
-        primaryStage.setScene(placeShips);
+        primaryStage.setScene(placeShips); // Start with the placeShips scene for Player 1.
         primaryStage.show();
 		
 
@@ -298,7 +296,7 @@ public class BattleshipApp extends Application {
                     enemyGrid[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("greensquare.jpg"), 25, 25, true, true)));
                 }
                 if(pboard.getBoardElement(i,j)==3){
-                	if(!p2) {
+                	if(!p2) { // Dont show ships in 2 player game.
 						playerGrid[i][j].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("yellowsquare.jpg"), 25, 25, true, true)));
 					}
                 }
@@ -348,6 +346,12 @@ public class BattleshipApp extends Application {
 
     }
 
+    /**
+     * Runs the place ship window for the game.
+     * @param primaryStage Stage to show
+     * @param p2 Is it a 2 player game?
+     * @param player Which player?
+     */
     public void placeShips(Stage primaryStage, boolean p2, int player){
 
         for(int i = 0; i<10; i++){

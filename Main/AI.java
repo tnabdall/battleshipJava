@@ -6,6 +6,9 @@ package Main; /** The Main.AI class for the game of Battleship.
 import java.util.Random;
 import java.util.ArrayList;
 
+/**
+ * Handles Enemy AI moves.
+ */
 public class AI {
 
 	private static int turn; //The number of turns the Main.AI has played.

@@ -13,6 +13,9 @@ import javafx.scene.text.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 
+/**
+ * Runs the GUI Configuration.
+ */
 public class StartMenu {
 
     private Stage window;
@@ -338,20 +341,7 @@ public class StartMenu {
 	
     }
 
-    /**
 
-	 @return Returns the level chosen.
-     */
-	public Label getMessage() {
-		return message;
-	}
-
-	/**
-	 * @return Returns the color chosen.
-	 */
-	public Label getMessageColor() {
-		return messageColor;
-	}
 
 	/**
 	 *

@@ -4,8 +4,6 @@ package Main;
  * on the gameboard. The Main.AI uses this class for the challenge difficulty.
  *
  */
-
-
 public class Probability {
 
 

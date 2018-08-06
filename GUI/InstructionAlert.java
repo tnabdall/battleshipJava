@@ -7,7 +7,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.image.*;
 
-
+/**
+ * Displays Game Instructions.
+ */
 public class InstructionAlert {
 
     /**
