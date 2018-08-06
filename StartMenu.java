@@ -115,6 +115,7 @@ public class StartMenu {
 				message.setText("Level 4");
 				message.setFont(Font.font ("Verdana", 15));
 				message.setTextFill(Color.web("WHITE"));
+				difficulty = 2;
 		} } );
 		
 		//Button 5 for RED

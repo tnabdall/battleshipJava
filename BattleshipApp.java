@@ -351,16 +351,16 @@ public class BattleshipApp extends Application {
      */
     public void checkWin(){
         if (eboard.getNumberOfShipElements()==0 && pboard.getNumberOfShipElements() == 0){
-            result.setText("It's a tie!");
-            result.setTextFill(Color.web("Red"));
+            hit.setText("It's a tie!");
+            hit.setTextFill(Color.web("Red"));
         }
         else if (eboard.getNumberOfShipElements() == 0){
-            result.setText("You win! Congratulations!");
-            result.setTextFill(Color.web("Red"));
+            hit.setText("You win! Congratulations!");
+            hit.setTextFill(Color.web("Red"));
         }
         else if (pboard.getNumberOfShipElements()==0){
-            result.setText("You lose. Better luck next time.");
-            result.setTextFill(Color.web("Red"));
+            hit.setText("You lose. Better luck next time.");
+            hit.setTextFill(Color.web("Red"));
         }
 
     }
