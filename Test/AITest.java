@@ -11,6 +11,8 @@ import java.util.Vector;
 
 public class AITest {
 
+    Vector<int[]> shipvect = new Vector<int[]>();
+
     @Test
     public void test_Random_Difficulty(){
         PlayerBoardTest pTest = new PlayerBoardTest();
@@ -126,6 +128,285 @@ public class AITest {
             }
         }
         assertEquals("Should have hit all 5 times on impossible", 5, counter);
+    }
+
+    /** Sets up all the ships on the edges of the playerboard.
+     * @return the playerboard for the AI to use.
+     */
+    public PlayerBoard getBoardEdge(){
+        PlayerBoard p = new PlayerBoard();
+        Ship[] ships = p.getShips();
+        for (int i = 0; i < ships[0].getLength(); i++) {
+            int[] coords = new int[2];
+            coords[0] = 0;
+            coords[1] = 0 + i;
+            shipvect.add(coords);
+        }
+        p.placeShip(shipvect, ships[0]);
+        shipvect.clear();
+
+        for (int i = 0; i < ships[1].getLength(); i++) {
+            int[] coords = new int[2];
+            coords[0] = 1 + i;
+            coords[1] = 0;
+            shipvect.add(coords);
+        }
+        p.placeShip(shipvect, ships[1]);
+        shipvect.clear();
+
+        for (int i = 0; i < ships[2].getLength(); i++) {
+            int[] coords = new int[2];
+            coords[0] = 9;
+            coords[1] = 0 + i;
+            shipvect.add(coords);
+        }
+        p.placeShip(shipvect, ships[2]);
+        shipvect.clear();
+
+        for (int i = 0; i < ships[3].getLength(); i++) {
+            int[] coords = new int[2];
+            coords[0] = 9 - i;
+            coords[1] = 9;
+            shipvect.add(coords);
+        }
+        p.placeShip(shipvect, ships[3]);
+        shipvect.clear();
+
+        for (int i = 0; i < ships[4].getLength(); i++) {
+            int[] coords = new int[2];
+            coords[0] = 0 + i;
+            coords[1] = 9;
+            shipvect.add(coords);
+        }
+        p.placeShip(shipvect, ships[4]);
+        shipvect.clear();
+        return new PlayerBoard(p);
+    }
+
+    /** Checks to see if the normal difficulty runs successfully.
+     * Also checks if the AI goes out of bounds.
+     */
+    @Test
+    public void test_normalDifficulty() {
+        PlayerBoard p = getBoardEdge();
+        EnemyBoard e = new EnemyBoard();
+        AI a = new AI(p, 0);
+        boolean success = false;
+        boolean outOfBounds = false;
+        while (p.getNumberOfShipElements() != 0 && e.getNumberOfShipElements() != 0) {
+            e.randomFire();
+            a.runDifficulty();
+            if (p.locStatus(a.getRow(), a.getCol()) == 4) {
+                outOfBounds = true;
+                assertEquals("AI went out of bounds.", false, outOfBounds);
+                break;
+            }
+            p.fire(a.getRow(), a.getCol());
+            if (p.getNumberOfShipElements() == 0) {
+                success = true;
+            }
+        }
+        assertEquals("AI normal difficulty should have played the game successfully.", true, success);
+
+    }
+
+    /** Checks to see if the challenge difficulty runs successfully.
+     * Also checks if the AI goes out of bounds.
+     */
+    @Test
+    public void test_challengeDifficulty() {
+        PlayerBoard p = getBoardEdge();
+        EnemyBoard e = new EnemyBoard();
+        AI a = new AI(p, 1);
+        boolean success = false;
+        boolean outOfBounds = false;
+        while (p.getNumberOfShipElements() != 0 && e.getNumberOfShipElements() != 0) {
+            e.randomFire();
+            a.runDifficulty();
+            if (p.locStatus(a.getRow(), a.getCol()) == 4) {
+                outOfBounds = true;
+                assertEquals("AI went out of bounds.", false, outOfBounds);
+                break;
+            }
+            p.fire(a.getRow(), a.getCol());
+
+            if (p.getNumberOfShipElements() == 0) {
+                success = true;
+            }
+        }
+        assertEquals("AI challenge difficulty should have played the game successfully.", true, success);
+
+
+    }
+
+    /** Checks to see if the impossible difficulty runs correctly.
+     */
+    @Test
+    public void test_impossibleDifficulty() {
+        PlayerBoard p = new PlayerBoard();
+        EnemyBoard e = new EnemyBoard();
+        p.makeRandomBoard();
+        AI a = new AI(p, 2);
+        boolean success = false;
+        while (p.getNumberOfShipElements() != 0 && e.getNumberOfShipElements() != 0) {
+            e.randomFire();
+            a.runDifficulty();
+            p.fire(a.getRow(), a.getCol());
+            if (p.getNumberOfShipElements() == 0 && a.getTurn() == 17) {
+                success = true;
+            }
+        }
+        assertEquals("AI impossible difficulty should have played the game successfully in 17 turns.",
+                true, success);
+    }
+
+    /** Checks to see if the AI runs on normal difficulty by default when given
+     * a negative difficulty setting.
+     */
+    @Test
+    public void test_runDifficulty_negative() {
+        PlayerBoard p = new PlayerBoard();
+        p.makeRandomBoard();
+        AI a = new AI(p, -1);
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+        boolean success = false;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (p.locStatus(i, j) == 1 || p.locStatus(i, j) == 2) {
+                    success = true;
+                }
+            }
+        }
+        assertEquals("Initialized AI with -1 difficulty. AI should play normal difficulty.", true, success);
+    }
+
+    /** Checks to see if the AI runs on normal difficulty by default when given
+     * a difficulty setting that is too high.
+     */
+    @Test
+    public void test_runDifficulty_tooHigh() {
+        PlayerBoard p = new PlayerBoard();
+        p.makeRandomBoard();
+        AI a = new AI(p, 4);
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+        boolean success = false;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (p.locStatus(i, j) == 1 || p.locStatus(i, j) == 2) {
+                    success = true;
+                }
+            }
+        }
+        assertEquals("Initialized AI with 4 difficulty. AI should play normal difficulty.", true, success);
+    }
+
+    /** Checks to see if the AI runs on a valid difficulty.
+     */
+    @Test
+    public void test_runDifficulty_valid() {
+        PlayerBoard p = new PlayerBoard();
+        p.makeRandomBoard();
+        AI a = new AI(p, 2);
+
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+
+        assertEquals("Ran three turns with impossible AI difficulty (2). Ship elements should be 14",
+                14, p.getNumberOfShipElements());
+    }
+
+    /** Checks if using the setter to the set AI to a negative difficulty sets the AI to
+     * the default normal difficulty.
+     */
+    @Test
+    public void test_setDifficulty_negative() {
+        PlayerBoard p = new PlayerBoard();
+        p.makeRandomBoard();
+        AI a = new AI(p);
+        a.setDifficulty(-1);
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+
+        boolean success = false;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (p.locStatus(i, j) == 1 || p.locStatus(i, j) == 2) {
+                    success = true;
+                }
+            }
+        }
+        assertEquals("Initialized AI with 4 difficulty. AI should play normal difficulty.", true, success);
+    }
+
+    /** Checks if using the setter to set the AI to a difficulty that is higher than 3
+     *  defaults the AI to normal difficulty.
+     */
+    @Test
+    public void test_setDifficulty_tooHigh() {
+        PlayerBoard p = new PlayerBoard();
+        p.makeRandomBoard();
+        AI a = new AI(p);
+        a.setDifficulty(4);
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+
+        boolean success = false;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (p.locStatus(i, j) == 1 || p.locStatus(i, j) == 2) {
+                    success = true;
+                }
+            }
+        }
+        assertEquals("Initialized AI with 4 difficulty. AI should play normal difficulty.", true, success);
+    }
+
+    /** Checks if using the setter to set the AI to impossible difficulty functions properly.
+     *
+     */
+    @Test
+    public void test_setDifficulty_impossible() {
+        PlayerBoard p = new PlayerBoard();
+        p.makeRandomBoard();
+        AI a = new AI(p);
+        a.setDifficulty(2);
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+
+        assertEquals("Ran three turns with impossible AI difficulty (2). Ship elements should be 14",
+                14, p.getNumberOfShipElements());
+    }
+
+    /** Checks if the turn count is correct.
+     */
+    @Test
+    public void test_checkTurn() {
+        PlayerBoard p = new PlayerBoard();
+        p.makeRandomBoard();
+        AI a = new AI(p, 3);
+
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+        a.runDifficulty();
+        p.fire(a.getRow(), a.getCol());
+
+        assertEquals("AI played 4 turns. Turn should be 4.", 4, a.getTurn());
     }
 
 

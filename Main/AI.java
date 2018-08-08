@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class AI {
 
-	private static int turn; //The number of turns the Main.AI has played.
+	private int turn; //The number of turns the AI has played.
 
 	private int difficulty = 0; // The difficulty of the Main.AI. 0 for normal, 1 for challenge, 2 for impossible, 3 for random
 
@@ -31,8 +31,16 @@ public class AI {
 	public AI(){
 		PlayerBoard playerBoard = new PlayerBoard();
 		prob = new Probability(playerBoard);
-
 	}
+
+	public AI(AI copy) {
+	    row = copy.row;
+	    col = copy.col;
+	    status = copy.status;
+	    turn = copy.turn;
+	    direction = copy.direction;
+	    target = copy.target;
+    }
 
 	/** Constructor for the Main.AI
 	 * @param playerBoard is the user's board
@@ -42,7 +50,11 @@ public class AI {
 	public AI(PlayerBoard playerBoard, int difficulty) {
 		prob = new Probability(playerBoard);
 		this.playerBoard = playerBoard;
-		this.difficulty = difficulty;
+		if (difficulty >= 0 && difficulty <= 3) {
+			this.difficulty = difficulty;
+		} else {
+			this.difficulty = 0;
+		}
 	}
 
 	/** Constructor for Main.AI
@@ -58,19 +70,25 @@ public class AI {
 	 * @param difficulty is the difficulty the Main.AI will be set to.
 	 */
 	public void setDifficulty(int difficulty) {
-		this.difficulty = difficulty;
+		if (difficulty >= 0 && difficulty <= 3) {
+			this.difficulty = difficulty;
+		} else {
+			this.difficulty = 0;
+		}
 	}
 
 	/** Getter method for row
 	*/
 	public int getRow() {
-		return row;
+		AI copy = new AI(this);
+	    return copy.row;
 	}
 
 	/** Getter method for column
 	*/
 	public int getCol() {
-		return col;
+		AI copy = new AI(this);
+	    return copy.col;
 	}
 
 	/** Calculates next move depending on the difficulty setting.
@@ -112,16 +130,12 @@ public class AI {
 			checkTargetShip();
 		}
 		if (target == null) {
-			if (turn >= 0) {
-				int[] coords = prob.setCoordToPlay();
-				row = coords[0];
-				col = coords[1];
-				if (playerBoard.locStatus(row, col) == 3) {
-					newShip(new AIShipData(playerBoard.getShipObject(row, col), row, col));
-					target.minusShipHealth();
-				}
-			} else {
-				playRandom();
+			int[] coords = prob.setCoordToPlay();
+			row = coords[0];
+			col = coords[1];
+			if (playerBoard.locStatus(row, col) == 3) {
+				newShip(new AIShipData(playerBoard.getShipObject(row, col), row, col));
+				target.minusShipHealth();
 			}
 		} else if (target.getTimesHit() > 0) {
 			playStrategic();
@@ -416,7 +430,11 @@ public class AI {
 		}
 	}
 
-	public static int getTurn() {
+    /** Getter method for the number of turns the AI has played.
+     * @return the number of turns the AI has played.
+     */
+	public int getTurn() {
+		AI copy = new AI(this);
 		return turn;
 	}
 }

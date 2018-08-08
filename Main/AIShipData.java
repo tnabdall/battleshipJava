@@ -20,9 +20,13 @@ public class AIShipData {
 	 * @param initCol is the column that the hit ship was on
 	 */
 	public AIShipData(Ship hitShip, int initRow, int initCol) {
+		if (initRow >= 0 && initRow <= 9) {
+			this.initRow = initRow;
+		}
+		if (initCol >= 0 && initCol <= 9) {
+			this.initCol = initCol;
+		}
 		this.hitShip = hitShip;
-		this.initRow = initRow;
-		this.initCol = initCol;
 		setHealth();
 	}
 
@@ -34,6 +38,15 @@ public class AIShipData {
 	public AIShipData(int initRow, int initCol) {
 		this.initRow = initRow;
 		this.initCol = initCol;
+	}
+
+	public AIShipData(AIShipData copy) {
+		initRow = copy.initRow;
+		initCol = copy.initCol;
+		direction = copy.direction;
+		hitShip = copy.hitShip;
+		isSunk = copy.isSunk;
+		timesHit = copy.timesHit;
 	}
 
 	/**
@@ -50,7 +63,8 @@ public class AIShipData {
 	 * @return is the row
 	 */
 	public int getInitRow() {
-		return initRow;
+		AIShipData copy = new AIShipData(this);
+		return copy.initRow;
 	}
 
 	/**
@@ -58,7 +72,8 @@ public class AIShipData {
 	 * @return is the column
 	 */
 	public int getInitCol() {
-		return initCol;
+		AIShipData copy = new AIShipData(this);
+		return copy.initCol;
 	}
 
 	/**
@@ -66,7 +81,9 @@ public class AIShipData {
 	 * @param direction is the direction the Main.AI was facing.
 	 */
 	public void setDirection(String direction) {
-		this.direction = direction;
+        if (direction == "left" || direction == "right" || direction == "up" || direction == "down") {
+            this.direction = direction;
+        }
 	}
 
 	/**
@@ -74,7 +91,8 @@ public class AIShipData {
 	 * @return is the direction.
 	 */
 	public String getDirection() {
-		return direction;
+		AIShipData copy = new AIShipData(this);
+		return copy.direction;
 	}
 
 	/**
@@ -82,7 +100,8 @@ public class AIShipData {
 	 * @return the ship object.
 	 */
 	public Ship getHitShip() {
-		return hitShip;
+		AIShipData copy = new AIShipData(this);
+		return copy.hitShip;
 	}
 
 	/**
@@ -112,7 +131,8 @@ public class AIShipData {
 	 * @return if the ship has been sunk or not.
 	 */
 	public boolean getIsSunk() {
-		return isSunk;
+		AIShipData copy = new AIShipData(this);
+		return copy.isSunk;
 	}
 
 	/**
@@ -120,7 +140,8 @@ public class AIShipData {
 	 * @return the number of times a ship has been hit.
 	 */
 	public int getTimesHit() {
-		return timesHit;
+		AIShipData copy = new AIShipData(this);
+		return copy.timesHit;
 	}
 
 }
