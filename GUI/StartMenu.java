@@ -40,6 +40,7 @@ public class StartMenu {
         Button buttonMain = new Button("Click to Start");
 		buttonMain.setMinHeight(30.0); buttonMain.setPrefHeight(30.0); buttonMain.setMaxHeight(30.0); 
 		buttonMain.setMinWidth(90.0); buttonMain.setPrefWidth(90.0); buttonMain.setMaxWidth(90.0);
+		// Switches to main game config scene.
         buttonMain.setOnAction(e -> window.setScene(scene2));
 		
 		// MAIN Image 
@@ -239,6 +240,7 @@ public class StartMenu {
         Button  button10 = new Button ("NEXT");
 		button10.setMinHeight(30.0); button10.setPrefHeight(30.0); button10.setMaxHeight(30.0); 
 		button10.setMinWidth(50); button10.setPrefWidth(50); button10.setMaxWidth(50);
+		// Switches to next scene.
 		button10.setOnAction(e -> {window.setScene(scene3); if(difficulty==-1){layout3.add(enterName2, 18,24);}});
 		GridPane.setHalignment(button10, HPos.RIGHT);
 		
@@ -251,7 +253,7 @@ public class StartMenu {
 		BackgroundImage my2BI = new BackgroundImage ( new Image ("FinalMenu.jpg", 500, 500, false, false),
 			 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 
-        //Layout 2
+        //Layout 2 Main Game Config Screen
         GridPane layout2 = new GridPane();
 		layout2.setVgap(15);
 		layout2.setHgap(5);
@@ -272,7 +274,7 @@ public class StartMenu {
 		layout2.setBackground(new Background (my2BI));
 		scene2 = new Scene(layout2, 500, 500);
   
-		// Button11 for scene 3 to 2
+		// Button11 for scene 2 to 3
         Button  button11 = new Button ("GO");
 		button11.setMinHeight(30.0); button11.setPrefHeight(30.0); button11.setMaxHeight(30.0); 
 		button11.setMinWidth(50); button11.setPrefWidth(50); button11.setMaxWidth(50);
@@ -288,7 +290,7 @@ public class StartMenu {
 		GridPane.setHalignment(button11, HPos.CENTER);
 
 		
-		// TextField
+		// TextField for Player Name Entry
 		enterName = new TextField ("Player"); // Default text of 'Player Name'
 		enterName.setPrefHeight(30);
 		enterName2 = new TextField("Player 2");
@@ -298,8 +300,7 @@ public class StartMenu {
 		BackgroundImage my3BI = new BackgroundImage ( new Image ("BckgForGrid.jpg", 500, 500, false, false),
 			 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		
-		 //Layout 3
-
+		 //Layout 3 - For entering player Name
 		layout3.setVgap(10);
 		layout3.setHgap(10);
 		layout3.add(button11, 18 , 30);
@@ -359,6 +360,10 @@ public class StartMenu {
 		return player2Name;
 	}
 
+	/**
+	 *
+	 * @return Return the desired player colors.
+	 */
 	public String getPlayerColor() {
 		return playerColor;
 	}
