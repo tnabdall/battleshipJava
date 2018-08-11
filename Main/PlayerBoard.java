@@ -7,19 +7,28 @@ import java.util.Vector;
 It will contain functions that allow the enemy Main.AI to receive information about the player's board to help it make decisions.
 */
 public class PlayerBoard extends GameBoard{
-	/** Method similar to hasFired() except it provides the exact status of the location.
-	 * empty == 0, miss == 1, hit == 2, unhit ship == 3, out of bounds == 4
-	 * @return status returns the value of a location.
-	 */
 
+	/**
+	 * Main constructor. Calls gameBoard constructor.
+	 */
 	public PlayerBoard(){
 		super();
 	}
 
+	/**
+	 * Copy constructor for player board
+	 * @param copyBoard Board to copy.
+	 */
 	public PlayerBoard(PlayerBoard copyBoard){
 		super(copyBoard);
 	}
 
+	/** Method similar to getBoardElement() except it catches exceptions as 4 for AI logic handling.
+	 * empty == 0, miss == 1, hit == 2, unhit ship == 3, out of bounds == 4
+	 * @param row Row in array
+	 * @param col Column in array
+	 * @return status returns the value of a location.
+	 */
 	public int locStatus(int row, int col) {
 		int status;
 		try {

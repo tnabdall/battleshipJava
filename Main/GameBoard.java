@@ -13,7 +13,7 @@ public class GameBoard{
 
     private int[][] board = new int[10][10]; // Variable containing the board. 10x 10 matrix.
 	
-	private int numberOfShipElements = 0;
+	private int numberOfShipElements = 0; // Ship Health.
 	
 	/**
 	Constructor for Main.GameBoard.
@@ -29,7 +29,11 @@ public class GameBoard{
 		numberOfShipElements = 17;
     }
 
-    public GameBoard(GameBoard other){
+	/**
+	 * Copy constructor
+	 * @param other Other Gameboard to copy
+	 */
+	public GameBoard(GameBoard other){
     	for (int i = 0; i<other.getShips().length; i++){
     		ships[i] = new Ship(other.getShips()[i]);
 		}

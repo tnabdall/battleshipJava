@@ -1,5 +1,8 @@
 package Main;
 
+import java.util.Random;
+import java.util.Vector;
+
 /** The probability class to calculate the highest probability of there being a ship on a location
  * on the gameboard. The Main.AI uses this class for the challenge difficulty.
  *
@@ -10,6 +13,7 @@ public class Probability {
     private PlayerBoard prob; // The playerboard
     private int[][] probBoard = new int[10][10]; //The board with probability calculations
     private Ship[] ships; // The list of ship objects
+    private Vector<int[]> highestProbList = new Vector<int[]>();
 
 
     /** The constructor for the probability class.
@@ -43,7 +47,7 @@ public class Probability {
     public int[] setCoordToPlay() {
         int probability = 0;
         int highest = 0;
-        int[] coords = {0, 0};
+
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -163,8 +167,17 @@ public class Probability {
                 }
                 if (probBoard[i][j] > highest) {
                     highest = probBoard[i][j];
-                    coords[0] = i;
-                    coords[1] = j;
+                    highestProbList.clear();
+                    int[] newCoords = new int[2];
+                    newCoords[0] = i;
+                    newCoords[1] = j;
+                    highestProbList.add(newCoords);
+                }
+                else if (probBoard[i][j] == highest){
+                    int[] newCoords = new int[2];
+                    newCoords[0] = i;
+                    newCoords[1] = j;
+                    highestProbList.add(newCoords);
                 }
 
             }
@@ -176,7 +189,7 @@ public class Probability {
         */
 
 
-        return coords;
+        return highestProbList.elementAt(new Random().nextInt(highestProbList.size())); // Returns a coord with the highest probability.
 
     }
 

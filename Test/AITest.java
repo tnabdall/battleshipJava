@@ -29,9 +29,16 @@ public class AITest {
 
         AI.runDifficulty();
 
-        boolean logicalHit = Math.abs(AI.getRow() - firstHitRow) + Math.abs(AI.getCol() - firstHitCol) == 1;
 
-        assertEquals("Expected random fire. Got logical fire.", false,logicalHit);
+        boolean logicalHit = Math.abs(AI.getRow() - firstHitRow) + Math.abs(AI.getCol() - firstHitCol) == 1;
+        p.fire(AI.getRow(),AI.getCol());
+
+        AI.runDifficulty();
+
+        // Second check to make sure first check wasnt randomly lucky. Checks that second hit is within 2 spots from the first hit.
+        boolean logicalHit2 = Math.abs(AI.getRow() - firstHitRow) + Math.abs(AI.getCol() - firstHitCol) == 2;
+
+        assertEquals("Expected random fire. Got logical fire.", false,logicalHit||logicalHit2);
 
     }
 
@@ -91,8 +98,10 @@ public class AITest {
         AI AI = new AI(p,1);
         AI.runDifficulty();
         System.out.println(AI.getRow()+" "+AI.getCol());
-        assertEquals("Expected first row to be 4", 4, AI.getRow());
-        assertEquals("Expected first column to be 4", 4, AI.getCol());
+        boolean rowCheck = AI.getRow()==4 || AI.getRow() == 5;
+        boolean colCheck = AI.getCol() == 4 || AI.getCol() == 5;
+        assertEquals("Expected first row to be 4 or 5", true, rowCheck);
+        assertEquals("Expected first column to be 4 or 5", true, colCheck);
 
     }
 
@@ -106,6 +115,11 @@ public class AITest {
                 p.fire(i,j);
             }
         }
+        p.fire(9,0);
+        p.fire(9,1);
+        p.fire(9,2);
+        p.fire(9,3);
+        p.fire(9,4);
         AI.runDifficulty();
         System.out.println(AI.getRow()+" "+AI.getCol());
         assertEquals("Expected row to be 4", 4, AI.getRow());
