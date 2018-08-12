@@ -39,6 +39,10 @@ public class runBattleship{
 		
 	}
 
+	/**
+	 * Sets up the 2nd player board.
+	 * @return A PlayerBoard Object containing the second player board.
+	 */
 	public PlayerBoard setupPlayer2Board(){
 		clearScreen();
 		PlayerBoard board2 = new PlayerBoard();
@@ -48,6 +52,9 @@ public class runBattleship{
 		return board2;
 	}
 
+	/**
+	 * Clears screen in console version
+	 */
 	public void clearScreen(){
 		for(int i = 0; i< 100; i++) {
 			System.out.println("");
