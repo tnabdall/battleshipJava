@@ -82,6 +82,7 @@ public class AI {
 	}
 
 	/** Getter method for row
+	 * @return The row to fire on
 	*/
 	public int getRow() {
 		AI copy = new AI(this);
@@ -89,6 +90,7 @@ public class AI {
 	}
 
 	/** Getter method for column
+	 * @return The column to fire on
 	*/
 	public int getCol() {
 		AI copy = new AI(this);

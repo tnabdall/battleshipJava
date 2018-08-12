@@ -61,6 +61,7 @@ public class GameBoard{
 
 	/** Assumes that a ship has been hit and checks which ship based on coordinates.
 	@param coords An array containing the row and column of the ship element
+	 @return The name of the ship fired on.
 	*/
 	public String getShipFiredOn(int[] coords){
 		int[][] shipcoords;
@@ -117,6 +118,7 @@ public class GameBoard{
 	/** Assumes that a ship has been hit and checks which ship based on coordinates.
 	@param row The row fired on.
 	@param col The column fired on.
+	 @return the name of the ship fired on
 	*/
 	public String getShipFiredOn(int row, int col){
 		int[][] shipcoords;
@@ -135,6 +137,7 @@ public class GameBoard{
 	
 	/** Gets the length of the ship that is just fired upon. Used to aid players by letting them know the length of the ship for decisions.
 	@param coords An array containing the row and column of the ship element
+	 @return the length of the ship fired on
 	*/
 	public int getShipFiredOnLength(int[] coords){
 		int row = coords[0];
@@ -157,6 +160,7 @@ public class GameBoard{
 	/** Gets the length of the ship that is just fired upon. Used to aid players by letting them know the length of the ship for decisions.
 	@param row The row fired on
 	@param col The column fired on
+	 @return the length of the ship fired on
 	*/
 	public int getShipFiredOnLength(int row, int col){
 		int[] shipcoords;
@@ -380,7 +384,7 @@ public class GameBoard{
 	
 	/** Asks the player for coordinates in the form "A1".
 	1st part of placing a ship.
-	@ return getCoordinates Two element array where first is the board's row index and the second is the board's column index.
+	@return getCoordinates Two element array where first is the board's row index and the second is the board's column index.
 	*/
     public int[] getCoordinates(){
         int[] coords = new int[2];

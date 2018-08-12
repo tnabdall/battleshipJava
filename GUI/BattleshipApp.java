@@ -98,8 +98,8 @@ public class BattleshipApp extends Application {
 
 	/**
 	 * Runs the GUI for the game.
-	 * @param primaryStage
-	 * @throws Exception
+	 * @param primaryStage The main stage being shown
+	 * @throws Exception Any exception
 	 */
 	public void start(Stage primaryStage) throws Exception
     {
@@ -274,7 +274,7 @@ public class BattleshipApp extends Application {
 
     /**
      * Updates the GUI board after every fire. Color depending on hit, miss, empty, or unhit player ships on a vs Computer game.
-	 * @param p2
+	 * @param p2 Is it a 2 player game?
      */
     public void updateBoard(boolean p2){
         for (int i = 0; i< enemyGrid.length; i++){
@@ -550,6 +550,7 @@ public class BattleshipApp extends Application {
 	 * @param rowi The row to be fired on.
 	 * @param colj The column to be fired on.
 	 * @param player2 Is it a 2 player game?
+     * @param player Which player are we setting the fire behaviour for?
      */
     public void fire(ActionEvent actionEvent, int rowi, int colj,boolean player2, int player) {
 		if (!player2) { // Player vs computer logic

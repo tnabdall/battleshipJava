@@ -21,6 +21,7 @@ public class runBattleship{
 
 	/**
 	Function to call to setup player board with a non-random arrangement.
+	 @return returns the Players Board
 	*/
     public PlayerBoard setupPlayerBoard(){
         PlayerBoard board = new PlayerBoard();
@@ -31,6 +32,7 @@ public class runBattleship{
     }
 	/** 
 	Function to call to setup the enemy board with a random arrangement.
+	 @return Returns the enemys board.
 	*/
 	public EnemyBoard setupEnemyBoard(){
 		EnemyBoard board = new EnemyBoard();
