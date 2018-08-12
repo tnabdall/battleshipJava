@@ -40,6 +40,10 @@ public class AIShipData {
 		this.initCol = initCol;
 	}
 
+	/**
+	 * Copy constructor.
+	 * @param copy Other version of AIShipData
+	 */
 	public AIShipData(AIShipData copy) {
 		initRow = copy.initRow;
 		initCol = copy.initCol;

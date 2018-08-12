@@ -225,7 +225,7 @@ public class StartMenu {
 
 		} } );
 		// Set text for toggle Button
-		buttonB	.setOnAction ( new EventHandler<ActionEvent>(){
+		buttonB.setOnAction ( new EventHandler<ActionEvent>(){
 			@Override
 			public void handle (ActionEvent event){
 				messageColor.setText("Cyan");

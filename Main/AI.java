@@ -23,7 +23,7 @@ public class AI {
 	private String direction; // The direction the Main.AI is facing on the board.
 	private Probability prob; // The object of the probability calculator.
 
-	private AIShipData target; // The ship the Main.AI is targetting.
+	private AIShipData target; // The ship the Main.AI is targeting.
 	private ArrayList<AIShipData> hitShips = new ArrayList<AIShipData>(); // An array list of all the ships the Main.AI has hit.
 
 	/** Default constructor for Main.AI
@@ -33,6 +33,10 @@ public class AI {
 		prob = new Probability(playerBoard);
 	}
 
+	/**
+	 * Copy constructor
+	 * @param copy Other version of AI.
+	 */
 	public AI(AI copy) {
 	    row = copy.row;
 	    col = copy.col;
