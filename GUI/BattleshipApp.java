@@ -86,9 +86,9 @@ public class BattleshipApp extends Application {
 	private static PlayerBoard pBoard2 = new PlayerBoard(); // Used to setup player 2 board.
 	private boolean player2Turn = false; // Turn logic for 2 players.
 
-    private Scene placeShips = new Scene(placeShipRoot,350,350); // First scene to place the player's ships
-    private Scene placeShips2 = new Scene(placeShipRoot2, 350, 350); //Optional second scene to set up the second player's ships.
-    private Scene mainGame = new Scene(root, 400, 640); // Second/Third scene to run the battleship game
+    private Scene placeShips = new Scene(placeShipRoot,500,400); // First scene to place the player's ships
+    private Scene placeShips2 = new Scene(placeShipRoot2, 500, 400); //Optional second scene to set up the second player's ships.
+    private Scene mainGame = new Scene(root, 400, 680); // Second/Third scene to run the battleship game
 
 
 
