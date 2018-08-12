@@ -11,7 +11,7 @@ import java.util.Vector;
 
 public class AITest {
 
-    Vector<int[]> shipvect = new Vector<int[]>();
+    private Vector<int[]> shipvect = new Vector<int[]>();
 
     @Test
     public void test_Random_Difficulty(){

@@ -9,8 +9,8 @@ import java.util.Random;
 import java.util.Vector;
 
 public class EnemyBoardTest {
-    EnemyBoard e = new EnemyBoard();
-    Vector<int[]> shipvect= new Vector<int[]>();
+    private EnemyBoard e = new EnemyBoard();
+    private Vector<int[]> shipvect= new Vector<int[]>();
 
     @Test
     public void test_Constructor(){
