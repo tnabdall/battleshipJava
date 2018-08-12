@@ -269,7 +269,7 @@ public class StartMenu {
 		layoutGameConfig.add(buttonP, 35, 11);
 		layoutGameConfig.add(buttonB	, 36, 11);
 		layoutGameConfig.add(buttonToPlayer, 30, 15);
-		layoutGameConfig.add(buttonINSTRUCTION, 10, 14);
+		layoutGameConfig.add(buttonINSTRUCTION, 10, 15);
 		
 		layoutGameConfig.setBackground(new Background (my2BI));
 		sceneConfig = new Scene(layoutGameConfig, 500, 500);
