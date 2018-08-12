@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="Test.AIShipDataTest" project="Battleship3" 
+    file="/Battleship3/Test/AIShipDataTest.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="286" width="231" x="423" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="Test.AITest" project="Battleship3" file="/Battleship3/Test/AITest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="394" width="496" x="1091" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="Test.EnemyBoardTest" project="Battleship3" 
+    file="/Battleship3/Test/EnemyBoardTest.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="196" width="315" x="1627" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="Test.GameBoardTest" project="Battleship3" 
+    file="/Battleship3/Test/GameBoardTest.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="448" width="428" x="623" y="471"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="Test.PlayerBoardTest" project="Battleship3" 
+    file="/Battleship3/Test/PlayerBoardTest.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="466" width="314" x="1091" y="471"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="Test.ShipTest" project="Battleship3" file="/Battleship3/Test/ShipTest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="232" width="195" x="856" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="java.util.Vector" project="Battleship3" 
+    file="C:/Program Files/Java/jre1.8.0_171/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
+    <position height="60" width="104" x="1426" y="977"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <package id="8" language="java" name="org.junit" project="Battleship3" file="/Battleship3/Test/junit-4.12.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="55" width="122" x="694" y="37"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <annotation id="9" language="java" name="org.junit.Test" project="Battleship3" file="/Battleship3/Test/junit-4.12.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="106" width="198" x="185" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <class id="10" language="java" name="org.junit.Assert" project="Battleship3" file="/Battleship3/Test/junit-4.12.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="65" width="104" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <association id="11">    
+    <bendpoint x="1435" y="471"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="12" name="shipvect">        
+        <position height="20" width="59" x="1524" y="747"/>      
+      </attribute>      
+      <multiplicity id="13" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="14">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="15" name="shipvect">        
+        <position height="20" width="55" x="1304" y="951"/>      
+      </attribute>      
+      <multiplicity id="16" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <dependency id="17">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="18">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <association id="19">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="20" name="shipvect">        
+        <position height="20" width="55" x="1452" y="600"/>      
+      </attribute>      
+      <multiplicity id="21" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="22">    
+    <bendpoint x="1536" y="471"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="23" name="shipvect">        
+        <position height="20" width="55" x="1398" y="892"/>      
+      </attribute>      
+      <multiplicity id="24" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <dependency id="25">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="false"/>
+</class-diagram>
