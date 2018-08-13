@@ -24,7 +24,7 @@ public class runBattleship{
 	 @return returns the Players Board
 	*/
     private PlayerBoard setupPlayerBoard(){
-        PlayerBoard board = new PlayerBoard();
+        PlayerBoard board = new PlayerBoard(15,15);
         System.out.println("Player 1.");
         board.placeAllShips();
         return board;

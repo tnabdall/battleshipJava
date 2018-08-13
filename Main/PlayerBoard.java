@@ -16,6 +16,15 @@ public class PlayerBoard extends GameBoard{
 	}
 
 	/**
+	 * Creates playerBoard with specified rows and columns
+	 * @param numRows Number of rows
+	 * @param numCols Number of columns
+	 */
+	public PlayerBoard(int numRows, int numCols){
+		super(numRows,numCols);
+	}
+
+	/**
 	 * Copy constructor for player board
 	 * @param copyBoard Board to copy.
 	 */
@@ -45,8 +54,8 @@ public class PlayerBoard extends GameBoard{
 	 */
 	public int[] getShipLoc() {
 		int[] coords = new int[2];
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < getNUMROWS(); i++) {
+			for (int j = 0; j < getNUMCOLS(); j++) {
 				coords[0] = i;
 				coords[1] = j;
 				if (locStatus(i, j) == 3) {
@@ -120,7 +129,7 @@ public class PlayerBoard extends GameBoard{
     	for (int i = 0; i<shipvect.size(); i++){
     		int row = shipvect.elementAt(i)[0];
     		int col = shipvect.elementAt(i)[1];
-    		if (row<0 || row>9 || col<0 || col>9){
+    		if (row<0 || row>getNUMROWS()-1 || col<0 || col>getNUMCOLS()-1){
     			return false;
 			}
 			else if (getBoardElement(row,col)==3){
@@ -170,8 +179,8 @@ public class PlayerBoard extends GameBoard{
 	public void placeShip(Vector<int[]> shipVect, Ship battleship){
     	for (int i = 0; i<shipVect.size(); i++){
     		try {
-    			if(shipVect.elementAt(i)[0]>9 || shipVect.elementAt(i)[0]<0
-				|| shipVect.elementAt(i)[1]>9 || shipVect.elementAt(i)[1]<0){
+    			if(shipVect.elementAt(i)[0]>getNUMROWS() || shipVect.elementAt(i)[0]<0
+				|| shipVect.elementAt(i)[1]>getNUMCOLS() || shipVect.elementAt(i)[1]<0){
     				throw new ArrayIndexOutOfBoundsException();
 				}
 				setBoardElement(shipVect.elementAt(i)[0], shipVect.elementAt(i)[1], 3);
@@ -217,7 +226,7 @@ public class PlayerBoard extends GameBoard{
 	@param col Column to fire at.
 	*/
 	public void fire(int row, int col){
-		if(row>-1 && row<10 && col>-1 && col <10) {
+		if(row>-1 && row<getNUMROWS() && col>-1 && col <getNUMCOLS()) {
 			int element = getBoardElement(row, col);
 			int[] coords = new int[2];
 			coords[0] = row;
@@ -242,16 +251,21 @@ public class PlayerBoard extends GameBoard{
 	*/
     public void printBoard(){
 		System.out.println("      PLAYER BOARD     ");
-        System.out.println("   A B C D E F G H I J"); // Column letters
+		String header = "   ";
+		int firstColumnLetter = (int) "A".charAt(0);
+		for (int j = 0; j < getNUMCOLS(); j++){
+			header = header.concat(Character.toString((char) (firstColumnLetter + j))+" ");
+		}
+		System.out.println(header);
         //System.out.println(" --------------------"); // Top border
-        for (int i = 0; i<10; i++){
+        for (int i = 0; i<getNUMROWS(); i++){
             if (i<9){
                 System.out.print(i+1+" "); // Print row number
             }
             else{
                 System.out.print(i+1); // So that all rows are aligned as 10 takes an extra character space.
             }
-            for (int j = 0; j<10; j++){
+            for (int j = 0; j<getNUMCOLS(); j++){
                 System.out.print("|"); // Print border
                 System.out.print(boardMarker(getBoardElement(i,j))); //Print marker according to board
             }
@@ -267,16 +281,21 @@ public class PlayerBoard extends GameBoard{
 	 */
 	public void printBoard(int playerNumber, boolean hideShips){
 		System.out.println("      PLAYER "+playerNumber+" BOARD     ");
-		System.out.println("   A B C D E F G H I J"); // Column letters
+		String header = "   ";
+		int firstColumnLetter = (int) "A".charAt(0);
+		for (int j = 0; j < getNUMCOLS(); j++){
+			header = header.concat(Character.toString((char) (firstColumnLetter + j))+" ");
+		}
+		System.out.println(header);
 		//System.out.println(" --------------------"); // Top border
-		for (int i = 0; i<10; i++){
+		for (int i = 0; i<getNUMROWS(); i++){
 			if (i<9){
 				System.out.print(i+1+" "); // Print row number
 			}
 			else{
 				System.out.print(i+1); // So that all rows are aligned as 10 takes an extra character space.
 			}
-			for (int j = 0; j<10; j++){
+			for (int j = 0; j<getNUMCOLS(); j++){
 				System.out.print("|"); // Print border
 				System.out.print(boardMarker(getBoardElement(i,j),hideShips)); //Print marker according to board
 			}
