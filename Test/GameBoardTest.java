@@ -16,7 +16,7 @@ public class GameBoardTest {
 
     @Test
     public void test_GameBoard_Constructor() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         Assert.assertEquals("There should be 5 ships.", 5, g.getShips().length, 0.00001);
         Assert.assertEquals("Number of ship elements should be 17", 17, g.getNumberOfShipElements(), 0.00001);
     }
@@ -36,7 +36,7 @@ public class GameBoardTest {
             shipvect.clear();
         }
 
-        GameBoard gCopy = new GameBoard(g);
+        GameBoard gCopy = new PlayerBoard(g);
 
         boolean equals = true;
         for (int i = 0; i < 10; i++) {
@@ -160,14 +160,14 @@ public class GameBoardTest {
 
     @Test
     public void test_makeRandomBoard_NumberOfShipElements() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         g.makeRandomBoard();
         Assert.assertEquals("Expected to get 17 elements placed on the random board.", 17, g.getNumberOfShipElements(), 0.0001);
     }
 
     @Test
     public void test_isValidPlacement_OutOfBoard() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         // Empty game Board
         int[] firstcoord = new int[2];
         firstcoord[0] = 1;
@@ -178,7 +178,7 @@ public class GameBoardTest {
 
     @Test
     public void test_isValidPlacement_InsideEmptyBoard() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         // Empty game Board
         int[] firstcoord = new int[2];
         firstcoord[0] = 1;
@@ -189,7 +189,7 @@ public class GameBoardTest {
 
     @Test
     public void test_isValidPlacement_ShipPlacedToEdges() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         // Empty game Board
         int[] firstcoord = new int[2];
         firstcoord[0] = 4;
@@ -234,7 +234,7 @@ public class GameBoardTest {
 
     @Test
     public void test_BoardMarker() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         Assert.assertEquals("0 Should be blank", " ", g.boardMarker(0));
         Assert.assertEquals("1 Should be X", "X", g.boardMarker(1));
         Assert.assertEquals("2 should be O", "O", g.boardMarker(2));
@@ -244,7 +244,7 @@ public class GameBoardTest {
 
     @Test
     public void test_setBoardElement_and_getBoardElement_Valid() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         g.setBoardElement(2, 2, 3);
         g.setBoardElement(3, 3, 1);
         Assert.assertEquals("Expected 3 at (2,2)", 3, g.getBoardElement(2, 2));
@@ -254,7 +254,7 @@ public class GameBoardTest {
 
     @Test
     public void test_setBoardElement_and_getBoardElement_InValid() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         g.setBoardElement(-1, 2, 3);
         g.setBoardElement(2, 2, 3);
         Assert.assertEquals("Test should run without exceptions.", 3, g.getBoardElement(2, 2));
@@ -263,7 +263,7 @@ public class GameBoardTest {
 
     @Test
     public void test_DecrementShipElements() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         //Starts with 17 ship elements
         Assert.assertEquals("Should start with 17 ship elements", 17, g.getNumberOfShipElements());
         g.decrementShipElements();
@@ -278,7 +278,7 @@ public class GameBoardTest {
 
     @Test
     public void test_GetCoordinates_A1() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         ByteArrayInputStream in = new ByteArrayInputStream("A1".getBytes());
         System.setIn(in);
 
@@ -289,7 +289,7 @@ public class GameBoardTest {
 
     @Test
     public void test_GetCoordinates_J10() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         ByteArrayInputStream in = new ByteArrayInputStream("J10".getBytes());
         System.setIn(in);
         int[] testcoords = g.getCoordinates();
@@ -299,7 +299,7 @@ public class GameBoardTest {
 
     @Test
     public void test_GetCoordinates_F5() {
-        GameBoard g = new GameBoard();
+        GameBoard g = new PlayerBoard();
         ByteArrayInputStream in = new ByteArrayInputStream("F5".getBytes());
         System.setIn(in);
         int[] testcoords = g.getCoordinates();

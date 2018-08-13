@@ -7,14 +7,19 @@ import java.util.Random;
 Contains common methods and instance variables for both boards.
 Not to be instantiated into its own object.
 */
-public class GameBoard{
+public abstract class GameBoard{
 
     private Ship[] ships = new Ship[5]; // Variable for ships. May implement get number of ships later to allow game to be flexible.
 
     private int[][] board = new int[10][10]; // Variable containing the board. 10x 10 matrix.
 	
 	private int numberOfShipElements = 0; // Ship Health.
-	
+
+	/**
+	 * Subclasses should be able to print Board to GUI console
+	 */
+	public abstract void printBoard();
+
 	/**
 	Constructor for Main.GameBoard.
 	Automatically initializes the board to a blank slate and adds default 5 ships to the game.
