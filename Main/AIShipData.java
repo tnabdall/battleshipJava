@@ -123,11 +123,7 @@ public class AIShipData {
 	public void minusShipHealth() {
 		health -= 1;
 		timesHit += 1;
-		if (health == 0) {
-			isSunk = true;
-		} else {
-			isSunk = false;
-		}
+		isSunk = health == 0;
 	}
 
 	/**

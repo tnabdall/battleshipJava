@@ -111,12 +111,7 @@ public abstract class GameBoard{
 	 * @return True or false
 	 */
 	private boolean isValidCoordinate(int row, int col){
-		if (row<0 || row>9 || col<0 || col>9){
-			return false;
-		}
-		else{
-			return true;
-		}
+		return row >= 0 && row <= 9 && col >= 0 && col <= 9;
 	}
 
 	
@@ -490,12 +485,7 @@ public abstract class GameBoard{
     public boolean hasFired(int row, int col){
         boolean fired = false;
         int element = getBoardElement(row,col);
-        if (element==1 || element ==2){
-            fired = true;
-        }
-        else{
-            fired = false;
-        }
+		fired = element == 1 || element == 2;
         return fired;
     }
 }

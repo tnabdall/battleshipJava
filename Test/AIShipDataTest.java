@@ -1,5 +1,4 @@
-/** JUnit test for the AIShipDataTest class.
- */
+
 package Test;
 
 import Main.*;
@@ -8,6 +7,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import java.io.*;
 
+/** JUnit test for the AIShipDataTest class.
+ */
 public class AIShipDataTest {
 
     /** Checks to see if setting the initial row of a hit ship is set correctly.

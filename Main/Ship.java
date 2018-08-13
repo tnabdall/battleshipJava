@@ -111,12 +111,7 @@ public class Ship{
 	            health-=1;
             }
         }
-        if (health==0){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return health != 0;
     }
 
     /**

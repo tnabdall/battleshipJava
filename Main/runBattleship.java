@@ -23,7 +23,7 @@ public class runBattleship{
 	Function to call to setup player board with a non-random arrangement.
 	 @return returns the Players Board
 	*/
-    public PlayerBoard setupPlayerBoard(){
+    private PlayerBoard setupPlayerBoard(){
         PlayerBoard board = new PlayerBoard();
         System.out.println("Player 1.");
         board.placeAllShips();
@@ -34,7 +34,7 @@ public class runBattleship{
 	Function to call to setup the enemy board with a random arrangement.
 	 @return Returns the enemys board.
 	*/
-	public EnemyBoard setupEnemyBoard(){
+	private EnemyBoard setupEnemyBoard(){
 		EnemyBoard board = new EnemyBoard();
 		board.makeRandomBoard();
 		return board;
@@ -45,7 +45,7 @@ public class runBattleship{
 	 * Sets up the 2nd player board.
 	 * @return A PlayerBoard Object containing the second player board.
 	 */
-	public PlayerBoard setupPlayer2Board(){
+	private PlayerBoard setupPlayer2Board(){
 		clearScreen();
 		PlayerBoard board2 = new PlayerBoard();
 		System.out.println("Player 2.");
@@ -57,16 +57,16 @@ public class runBattleship{
 	/**
 	 * Clears screen in console version
 	 */
-	public void clearScreen(){
+	private void clearScreen(){
 		for(int i = 0; i< 100; i++) {
-			System.out.println("");
+			System.out.println();
 		}
 	}
 
 	/**
 	 * Prints an introduction for the battleship game.
 	 */
-	public void Introduction(){
+	private void Introduction(){
 		System.out.println("Welcome to Battleship.\nThe goal of the game is to sink all of the other oppenent's ships.\n" +
 				"Each player will take turns firing at a coordinate on the other's board.\n" +
 				"Your opponent must announce whether your shot was a Hit or Miss.\nIf it was a Hit, your opponent must announce which ship was hit.\n" +
@@ -85,13 +85,8 @@ public class runBattleship{
 		if (ans.equals("y")){
 			System.out.print("Which demo (1 for human demo, 2 for enemyAI demo)): ");
 			int nans = keyboard.nextInt();
-			System.out.println("");
-			if (nans == 1){
-				return false;
-			}
-			else {
-				return true;
-			}
+			System.out.println();
+			return nans != 1;
 		}
 		else{
 			return false;
@@ -101,7 +96,7 @@ public class runBattleship{
 	Main function to call to run Game.
 	@param randomPlayerFire For testing/demo purposes, does random fire as player's move.
 	*/
-	public void runGame(boolean randomPlayerFire){
+	private void runGame(boolean randomPlayerFire){
 		Introduction();
 		PlayerBoard playerBoard = setupPlayerBoard();
 		EnemyBoard enemyBoard = setupEnemyBoard();
@@ -147,7 +142,7 @@ public class runBattleship{
 		}
 	}
 
-	public void run2Player(){
+	private void run2Player(){
 		Introduction();
 		PlayerBoard player1 = setupPlayerBoard();
 		PlayerBoard player2 = setupPlayer2Board();

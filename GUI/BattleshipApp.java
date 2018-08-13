@@ -99,10 +99,8 @@ public class BattleshipApp extends Application {
 	/**
 	 * Runs the GUI for the game.
 	 * @param primaryStage The main stage being shown
-	 * @throws Exception Any exception
-	 */
-	public void start(Stage primaryStage) throws Exception
-    {
+     */
+	public void start(Stage primaryStage) {
 
 		// For game configuration
 		startMenu.start();
@@ -247,19 +245,19 @@ public class BattleshipApp extends Application {
 
 
 		//Centering stuff
-		root.setAlignment(playerEnemyGridBridge, Pos.CENTER);
-		root.setAlignment(enemyGridPane,Pos.CENTER);
-		root2.setAlignment(playerGridPane, Pos.CENTER);
-		root.setAlignment(enemyBoardLabel, Pos.CENTER);
-		root2.setAlignment(playerBoardLabel, Pos.CENTER);
+		BorderPane.setAlignment(playerEnemyGridBridge, Pos.CENTER);
+		BorderPane.setAlignment(enemyGridPane,Pos.CENTER);
+		BorderPane.setAlignment(playerGridPane, Pos.CENTER);
+		BorderPane.setAlignment(enemyBoardLabel, Pos.CENTER);
+		BorderPane.setAlignment(playerBoardLabel, Pos.CENTER);
 		placeShipGrid.setAlignment(Pos.CENTER);
 		placeShipGrid2.setAlignment(Pos.CENTER);
-		placeShipRoot.setAlignment(placeShipGrid, Pos.CENTER);
-		placeShipRoot.setAlignment(placeShipLabel,Pos.CENTER);
-        placeShipRoot2.setAlignment(placeShipGrid2, Pos.CENTER);
+		BorderPane.setAlignment(placeShipGrid, Pos.CENTER);
+		BorderPane.setAlignment(placeShipLabel,Pos.CENTER);
+        BorderPane.setAlignment(placeShipGrid2, Pos.CENTER);
 		playerEnemyGridBridge.setAlignment(Pos.TOP_CENTER);
-		root.setAlignment(hit,Pos.CENTER);
-		root2.setAlignment(result, Pos.CENTER);
+		BorderPane.setAlignment(hit,Pos.CENTER);
+		BorderPane.setAlignment(result, Pos.CENTER);
 		enemyGridPane.setAlignment(Pos.CENTER);
 		playerGridPane.setAlignment(Pos.CENTER);
 
@@ -276,7 +274,7 @@ public class BattleshipApp extends Application {
      * Updates the GUI board after every fire. Color depending on hit, miss, empty, or unhit player ships on a vs Computer game.
 	 * @param p2 Is it a 2 player game?
      */
-    public void updateBoard(boolean p2){
+    private void updateBoard(boolean p2){
         for (int i = 0; i< enemyGrid.length; i++){
             for (int j = 0; j< enemyGrid[i].length; j++){
                 if(enemyBoard.getBoardElement(i,j)==1){
@@ -307,7 +305,7 @@ public class BattleshipApp extends Application {
     /** Checks to see if game is over. Prints a message if so.
      * @param p2 2 player game?
      */
-    public void checkWin(boolean p2){
+    private void checkWin(boolean p2){
         if (!p2) { // Player vs computer
 			if (enemyBoard.getNumberOfShipElements() == 0 && playerBoard.getNumberOfShipElements() == 0) {
 				hit.setText("It's a tie!");
@@ -341,7 +339,7 @@ public class BattleshipApp extends Application {
      * @param p2 Is it a 2 player game?
      * @param player Which player?
      */
-    public void placeShips(Stage primaryStage, boolean p2, int player){
+    private void placeShips(Stage primaryStage, boolean p2, int player){
 
         for(int i = 0; i<10; i++){
             for (int j = 0; j<10; j++){
@@ -422,7 +420,7 @@ public class BattleshipApp extends Application {
                                 else{
                                     placeShipRoot2.setTop(placeShipLabel);
                                     placeShipLabel.setText(startMenu.getPlayer2Name()+". Please place all ships by clicking and dragging your selection."+"\nPlease place "+ ships[Math.min(shipCounter2,4)].getName() + " with length of " + ships[Math.min(shipCounter2,4)].getLength());
-                                    placeShipRoot2.setAlignment(placeShipLabel,Pos.CENTER);
+                                    BorderPane.setAlignment(placeShipLabel,Pos.CENTER);
                                     primaryStage.setScene(placeShips2);
                                 }
 

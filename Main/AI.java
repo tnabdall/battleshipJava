@@ -1,13 +1,11 @@
-package Main; /** The Main.AI class for the game of Battleship.
- * The Main.AI has 4 difficulties: normal, challenge, impossible, and random.
- * It requires a playerBoard object and a difficulty setting to initialize.
- */
+package Main;
 
 import java.util.Random;
 import java.util.ArrayList;
 
-/**
- * Handles Enemy AI moves.
+/** The Main.AI class for the game of Battleship.
+ * The Main.AI has 4 difficulties: normal, challenge, impossible, and random.
+ * It requires a playerBoard object and a difficulty setting to initialize.
  */
 public class AI {
 
@@ -213,7 +211,7 @@ public class AI {
 	private void randomRow() {
 		Random num = new Random();
 		row = num.nextInt(10);
-		this.row = row;
+
 	}
 
 	/** Randomizes the column to hit
@@ -221,12 +219,12 @@ public class AI {
 	private void randomCol() {
 		Random num = new Random();
 		col = num.nextInt(10);
-		this.col = col;
+
 	}
 
 	/**
 	 * Method to add new ship object to list of ships the Main.AI has hit
-	 * @param newShip
+	 * @param newShip AIShipData object containing the ship that was hit.
 	 */
 	private void newShip(AIShipData newShip) {
 		hitShips.add(newShip);
@@ -372,7 +370,7 @@ public class AI {
 				initPosition();
 				switchDirection();
 				moveDirection();
-				checkStatus();;
+				checkStatus();
 				if (status == 3) {
 					target.minusShipHealth();
 				}

@@ -29,12 +29,8 @@ public class Probability {
      * @param col is the column of the location
      * @return if the location on the board is playable.
      */
-    public boolean canPlay(int row, int col) {
-        if (prob.locStatus(row, col) == 0 || prob.locStatus(row, col) == 3) {
-            return true;
-        } else {
-            return false;
-        }
+    private boolean canPlay(int row, int col) {
+        return (prob.locStatus(row, col) == 0 || prob.locStatus(row, col) == 3);
     }
 
     /** The method to calculate probability of there being a ship on a location on the board.
