@@ -401,7 +401,9 @@ public class BattleshipApp extends Application {
                         // Checks to see that the selected squares are the same length of the ship placed.
                         if (shipVector.size() != ships[shipCounter].getLength()) {
                             for (int i = 0; i < shipVector.size(); i++) {
-                                placeShipGridElements[shipVector.elementAt(i)[0]][shipVector.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+								if(playerBoard.getBoardElement(shipVector.elementAt(i)[0], shipVector.elementAt(i)[1])!=3) {
+									placeShipGridElements[shipVector.elementAt(i)[0]][shipVector.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+								}
                             }
                             shipVector.clear();
                         }
@@ -439,7 +441,9 @@ public class BattleshipApp extends Application {
                         // If the placement is invalid, clear the vector with the coordinates and make the squares blue again.
                         else {
                             for (int i = 0; i < shipVector.size(); i++) {
-                                placeShipGridElements[shipVector.elementAt(i)[0]][shipVector.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+								if(playerBoard.getBoardElement(shipVector.elementAt(i)[0], shipVector.elementAt(i)[1])!=3) {
+									placeShipGridElements[shipVector.elementAt(i)[0]][shipVector.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+								}
                             }
                             shipVector.clear();
                         }
@@ -504,7 +508,9 @@ public class BattleshipApp extends Application {
                             // Checks to see that the selected squares are the same length of the ship placed.
                             if (shipVector.size() != ships2[shipCounter2].getLength()) {
                                 for (int i = 0; i < shipVector.size(); i++) {
-                                    placeShipGridElements2[shipVector.elementAt(i)[0]][shipVector.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+									if(pBoard2.getBoardElement(shipVector.elementAt(i)[0], shipVector.elementAt(i)[1])!=3) {
+										placeShipGridElements2[shipVector.elementAt(i)[0]][shipVector.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+									}
                                 }
                                 shipVector.clear();
                             }
@@ -532,7 +538,9 @@ public class BattleshipApp extends Application {
                             // If the placement is invalid, clear the vector with the coordinates and make the squares blue again.
                             else {
                                 for (int i = 0; i < shipVector.size(); i++) {
-                                    placeShipGridElements2[shipVector.elementAt(i)[0]][shipVector.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+									if(pBoard2.getBoardElement(shipVector.elementAt(i)[0], shipVector.elementAt(i)[1])!=3) {
+										placeShipGridElements2[shipVector.elementAt(i)[0]][shipVector.elementAt(i)[1]].setGraphic(new ImageView(new Image(getClass().getResourceAsStream("bluesquare.jpg"), 25, 25, true, true)));
+									}
                                 }
                                 shipVector.clear();
                             }
