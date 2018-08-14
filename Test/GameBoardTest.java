@@ -61,6 +61,26 @@ public class GameBoardTest {
     }
 
     @Test
+    public void test_GameBoard_DifferentRowsAndColsConstrucor(){
+        PlayerBoard g = new PlayerBoard(12,15);
+        Ship[] ships = g.getShips();
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < ships[i].getLength(); j++) {
+                int[] coords = new int[2];
+                coords[0] = i * 2;
+                coords[1] = j;
+                shipvect.add(coords);
+            }
+            g.placeShip(shipvect, ships[i]);
+            shipvect.clear();
+        }
+
+        assertEquals("Number of rows should be 12",12,g.getNUMROWS());
+        assertEquals("Number of columns should be 15",15,g.getNUMCOLS());
+
+    }
+
+    @Test
     public void test_getShipFiredOn_and_getShipFiredOnLength_Valid() {
         Ship[] ships = g.getShips();
         for (int i = 0; i < 5; i++) {

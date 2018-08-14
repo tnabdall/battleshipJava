@@ -407,18 +407,31 @@ public abstract class GameBoard{
     public int[] getCoordinates(){
         int[] coords = new int[2];
         Scanner keyboard = new Scanner(System.in);
-        String scoords;
+        String scoords; // Coordinates in string format
         String lastRowChar = Character.toString((char) ("a".charAt(0)+NUMROWS-1));
-        String lastCol = Integer.toString(NUMCOLS);
+        String lastColTens = Integer.toString(NUMCOLS/10); // Get tens digit
+        String lastColOnes = Integer.toString((NUMCOLS -(NUMCOLS/10)*10)%10); // Get ones digit
+		String regex;
+		if (lastColTens.equals("0")){
+			regex = "^[a-"+lastRowChar+"][1-"+lastColOnes+"]$"; // For the case of 1-9.
+		}
+		else{
+			if(lastColTens.equals("1")) {
+				regex = "^[a-" + lastRowChar + "]([1-9]|1[0-"+lastColOnes+"])$"; // For the case of 10-19
+			}
+			else{
+				regex = "^[a-" + lastRowChar + "]([1-9]|[1-" + Integer.toString(Integer.parseInt(lastColTens) - 1) + "][0-9]|" + lastColTens + "[0-" + lastColOnes + "])$"; // For the case of 20-99
+			}
+		}
         do{
             System.out.print("Which coordinate would you like? (eg. A3): ");
             scoords = keyboard.next();
             scoords = scoords.trim();
 			scoords = scoords.toLowerCase();
-            if(!scoords.matches("^[a-"+lastRowChar+"]([1-9]|[10-"+lastCol+"])$")){
+            if(!scoords.matches(regex)){
                 System.out.println("Not a valid coordinate.");
             }
-        } while(!scoords.matches("^[a-"+lastRowChar+"]([1-9]|[10-"+lastCol+"])$")); // Forces string to be within the range of Game Coordinates
+        } while(!scoords.matches(regex)); // Forces string to be within the range of Game Coordinates
         char letter = scoords.charAt(0); // Gets column letter
         int column = (int) letter; // Turns into an integer and subtracts 97 to get the proper column (since a is 97).
         column-=97;
@@ -537,7 +550,7 @@ public abstract class GameBoard{
 
 	/**
 	 * Sets the static variable for the number of columns. Effectively final because can only be set once.
-	 * @param numCols
+	 * @param numCols Number of columns.
 	 */
 	private static void setNUMCOLS(int numCols){
 		if (NUMCOLS == 10 && numCols>0 && numCols <100){
