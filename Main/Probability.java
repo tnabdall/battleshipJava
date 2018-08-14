@@ -10,10 +10,12 @@ import java.util.Vector;
 public class Probability {
 
 
+
     private PlayerBoard prob; // The playerBoard
     private int[][] probBoard; //The board with probability calculations
     private Ship[] ships; // The list of ship objects
     private Vector<int[]> highestProbList = new Vector<int[]>(); // Contains all coordinates with highest probability
+
 
 
     /** The constructor for the probability class.
@@ -44,6 +46,7 @@ public class Probability {
     public int[] setCoordToPlay() {
         int probability = 0;
         int highest = 0;
+
 
 
         for (int i = 0; i < GameBoard.getNUMROWS(); i++) {

@@ -11,6 +11,9 @@ import java.io.*;
  */
 public class AIShipDataTest {
 
+    private static int bRows = GameBoard.getNUMROWS(); // The number of rows on the board.
+    private static int bCols = GameBoard.getNUMCOLS(); // The number of columns on the board.
+
     /** Checks to see if setting the initial row of a hit ship is set correctly.
      */
     @Test
@@ -37,9 +40,9 @@ public class AIShipDataTest {
     @Test
     public void test_initRow_tooHigh () {
         Ship s = new Ship("Carrier", 4);
-        AIShipData t = new AIShipData(s, 10, 0);
+        AIShipData t = new AIShipData(s, bRows, 0);
 
-        assertEquals("Initialized AIShipData object with row 10. Row should be 0", 0, t.getInitRow());
+        assertEquals("Initialized AIShipData object with row " + bRows + ". Row should be 0", 0, t.getInitRow());
     }
 
     /** Checks to see if setting the initial column of a hit ship is set correctly.
@@ -68,9 +71,9 @@ public class AIShipDataTest {
     @Test
     public void test_initCol_tooHigh() {
         Ship s = new Ship("Carrier", 4);
-        AIShipData t = new AIShipData(s, 0, 10);
+        AIShipData t = new AIShipData(s, 0, bCols);
 
-        assertEquals("Initialized AIShipData object with column 10. Column should be 0", 0, t.getInitCol());
+        assertEquals("Initialized AIShipData object with column " + bCols + ". Column should be 0", 0, t.getInitCol());
     }
 
     /** Checks to see if an invalid direction is set for a ship that it defaults it to null.

@@ -23,6 +23,7 @@ public abstract class GameBoard{
      1 is for Miss
      2 is for a Hit Ship Element
      3 is for an Unhit Ship Element
+
     */
 	
 	private int numberOfShipElements = 0; // Ship Health.
@@ -141,7 +142,8 @@ public abstract class GameBoard{
 	 * @return True or false
 	 */
 	private boolean isValidCoordinate(int row, int col){
-		return row >= 0 && row <= NUMROWS && col >= 0 && col <= NUMCOLS;
+
+		return row >= 0 && row < NUMROWS && col >= 0 && col < NUMCOLS;
 	}
 
 	
