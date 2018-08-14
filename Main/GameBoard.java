@@ -16,7 +16,7 @@ public abstract class GameBoard{
 
     private Ship[] ships = new Ship[5]; // Variable for ships. May implement get number of ships later to allow game to be flexible.
 
-    private int[][] board = new int[10][10]; // Variable containing the board. 10x 10 matrix.
+    private int[][] board = new int[NUMROWS][NUMCOLS]; // Variable containing the board. 10x 10 matrix.
     /*
          On Board:
      0 is for empty
