@@ -28,8 +28,8 @@ public abstract class GameBoard{
 	
 	private int numberOfShipElements = 0; // Ship Health.
 
-	private static int NUMROWS = 10; // Number of rows on GameBoard. Default 10
-	private static int NUMCOLS = 10; // Number of Columns on GameBoard. Default 10
+	private static final int NUMROWS = 10 ; // Number of rows on GameBoard. Default 10
+	private static final int NUMCOLS = 10; // Number of Columns on GameBoard. Default 10
 
 	/**
 	 * Subclasses should be able to print Board to GUI console
@@ -41,33 +41,22 @@ public abstract class GameBoard{
 	Automatically initializes the board to a blank slate and adds default 5 ships to the game.
 	*/
     public GameBoard(){
-		this(10,10);
+        InitializeBoard();
+        ships[0] = new Ship("Carrier",5);
+        ships[1] = new Ship("Battleship", 4);
+        ships[2] = new Ship("Submarine", 3);
+        ships[3] = new Ship("Cruiser",3);
+        ships[4] = new Ship("Destroyer",2);
+        numberOfShipElements = 17; // For total of each ship length
     }
 
-	/**
-	 * Initializes board to blank slate with number of rows and columns and adds 5 ships to the game.
-	 * @param numberOfRows # of rows on board
-	 * @param numberOfCols # of cols on board
-	 */
-	public GameBoard(int numberOfRows, int numberOfCols){
-		setNUMROWS(numberOfRows);
-		setNUMCOLS(numberOfCols);
-		InitializeBoard();
-		ships[0] = new Ship("Carrier",5);
-		ships[1] = new Ship("Battleship", 4);
-		ships[2] = new Ship("Submarine", 3);
-		ships[3] = new Ship("Cruiser",3);
-		ships[4] = new Ship("Destroyer",2);
-		numberOfShipElements = 17; // For total of each ship length
-	}
 
 	/**
 	 * Copy constructor
 	 * @param other Other GameBoard to copy
 	 */
 	public GameBoard(GameBoard other){
-		setNUMROWS(other.getNUMROWS());
-		setNUMCOLS(other.getNUMCOLS());
+
     	for (int i = 0; i<other.getShips().length; i++){
     		ships[i] = new Ship(other.getShips()[i]);
 		}
@@ -557,24 +546,6 @@ public abstract class GameBoard{
 		return NUMCOLS;
 	}
 
-	/**
-	 * Sets the static variable for the number of rows. Effectively final because can only be set once.
-	 * @param numRows Number of rows.
-	 */
-	private static void setNUMROWS(int numRows){
-		if (NUMROWS == 10 && numRows>0 && numRows <100){
-			NUMROWS = numRows;
-		}
-	}
 
-	/**
-	 * Sets the static variable for the number of columns. Effectively final because can only be set once.
-	 * @param numCols Number of columns.
-	 */
-	private static void setNUMCOLS(int numCols){
-		if (NUMCOLS == 10 && numCols>0 && numCols <100){
-			NUMCOLS = numCols;
-		}
-	}
 
 }

@@ -12,14 +12,7 @@ public class EnemyBoard extends GameBoard{
 		super();
 	}
 
-	/**
-	 * Creates an EnemyBoard with specified rows and columns
-	 * @param numRows Number of rows
-	 * @param numCols Number of columns
-	 */
-	public EnemyBoard(int numRows, int numCols){
-		super(numRows, numCols);
-	}
+
 
 	/** Copy constructor to copy the 2nd player board for GUI
 	 * @param g The gameBoard to copy

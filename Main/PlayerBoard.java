@@ -15,14 +15,7 @@ public class PlayerBoard extends GameBoard{
 		super();
 	}
 
-	/**
-	 * Creates playerBoard with specified rows and columns
-	 * @param numRows Number of rows
-	 * @param numCols Number of columns
-	 */
-	public PlayerBoard(int numRows, int numCols){
-		super(numRows,numCols);
-	}
+
 
 	/**
 	 * Copy constructor for player board
