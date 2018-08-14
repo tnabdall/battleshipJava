@@ -32,8 +32,8 @@ public class BattleshipApp extends Application {
     private static AI enemyAI = new AI(playerBoard);
 
     // Number of rows to use.
-    private int numRows = GameBoard.getNUMROWS();
-    private int numCols = GameBoard.getNUMCOLS();
+    private static int numRows = GameBoard.getNUMROWS();
+    private static int numCols = GameBoard.getNUMCOLS();
     // Number of columns to use.
 
 
@@ -41,12 +41,12 @@ public class BattleshipApp extends Application {
     // Enemy grid root
     private BorderPane root = new BorderPane();
     private GridPane enemyGridPane = new GridPane();
-    private static Button[][] enemyGrid = new Button[10][10];
+    private static Button[][] enemyGrid = new Button[numRows][numCols];
 	
     // Player grid root
     private BorderPane root2 = new BorderPane();
     private GridPane playerGridPane = new GridPane();
-    private static Button[][] playerGrid = new Button[10][10];
+    private static Button[][] playerGrid = new Button[numRows][numCols];
     // Labels for the end game result and hit/miss messages
 	private static Label result = new Label("");
 	private static Label hit = new Label("");
@@ -56,10 +56,10 @@ public class BattleshipApp extends Application {
 	private Label playerBoardLabel = new Label("Player Board");
 
 	// A-J and 1-10 labels for enemy and player boards.
-	private Label[] columnsAJ = new Label[10];
-	private Label[] rows1to10 = new Label[10];
-	private Label[] columnsAJ2 = new Label[10];
-	private Label[] rows1to10n2 = new Label[10];
+	private Label[] columnsAJ = new Label[numCols];
+	private Label[] rows1to10 = new Label[numRows];
+	private Label[] columnsAJ2 = new Label[numCols];
+	private Label[] rows1to10n2 = new Label[numRows];
 
 	// Bridges together the player and enemy boards.
 	private VBox playerEnemyGridBridge = new VBox();
@@ -67,12 +67,12 @@ public class BattleshipApp extends Application {
 	// Variables to create the scene for placing ships.
 	private BorderPane placeShipRoot = new BorderPane();
 	private GridPane placeShipGrid = new GridPane();
-	private Label[][] placeShipGridElements = new Label[10][10];
+	private Label[][] placeShipGridElements = new Label[numRows][numCols];
 
 	// For second player
 	private BorderPane placeShipRoot2 = new BorderPane();
 	private GridPane placeShipGrid2 = new GridPane();
-	private Label[][] placeShipGridElements2 = new Label[10][10];
+	private Label[][] placeShipGridElements2 = new Label[numRows][numCols];
 
     // Holds the coordinates of the ship that is trying to be placed.
 	private Vector<int[]> shipVector = new Vector<int[]>();
@@ -161,24 +161,28 @@ public class BattleshipApp extends Application {
         // Sets some padding for the game.
         root.setPadding(new Insets(10,10,10,10));
 		
-		// Sets up A-J and 1-10 Labels for each board.
-		for (int i = 0; i<10; i++){
-			columnsAJ[i] = new Label(Character.toString((char)(i+65)));
+		// Sets up row labels for each board
+		for (int i = 0; i<numRows; i++){
 			rows1to10[i] = new Label(Integer.toString(i+1));
-			columnsAJ2[i] = new Label(Character.toString((char)(i+65)));
 			rows1to10n2[i] = new Label(Integer.toString(i+1));
-			enemyGridPane.add(columnsAJ[i],i+1,0);
 			enemyGridPane.add(rows1to10[i],0,i+1);
-			playerGridPane.add(columnsAJ2[i],i+1,0);
 			playerGridPane.add(rows1to10n2[i],0,i+1);
 		}
+
+		// Sets up column labels for each board.
+		for (int i = 0; i<numCols; i++){
+            columnsAJ[i] = new Label(Character.toString((char)(i+65)));
+            columnsAJ2[i] = new Label(Character.toString((char)(i+65)));
+            enemyGridPane.add(columnsAJ[i],i+1,0);
+            playerGridPane.add(columnsAJ2[i],i+1,0);
+        }
 
         // Sets up player and (enemy or player 2 grids)
         for (int i = 0; i< enemyGrid.length; i++){
 
 			
 			// Creates new buttons and adds some spacing.
-            for (int j = 0; j< enemyGrid.length; j++){
+            for (int j = 0; j< enemyGrid[i].length; j++){
 				playerGrid[i][j] = new Button();
 				enemyGrid[i][j] = new Button();
 				playerGrid[i][j].setPadding(new Insets(0,0,0,0));
@@ -347,8 +351,8 @@ public class BattleshipApp extends Application {
      */
     private void placeShips(Stage primaryStage, boolean p2, int player){
 
-        for(int i = 0; i<10; i++){
-            for (int j = 0; j<10; j++){
+        for(int i = 0; i<numRows; i++){
+            for (int j = 0; j<numCols; j++){
                 // Initialize element
                 placeShipGridElements[i][j] = new Label("");
                 placeShipGridElements[i][j].setMaxWidth(1);

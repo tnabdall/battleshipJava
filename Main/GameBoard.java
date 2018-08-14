@@ -6,12 +6,24 @@ import java.util.Random;
 /** Main.GameBoard template that is used by subclasses Main.PlayerBoard and Main.EnemyBoard.
 Contains common methods and instance variables for both boards.
 Not to be instantiated into its own object.
+ On Board:
+ 0 is for empty
+ 1 is for Miss
+ 2 is for a Hit Ship Element
+ 3 is for an Unhit Ship Element
 */
 public abstract class GameBoard{
 
     private Ship[] ships = new Ship[5]; // Variable for ships. May implement get number of ships later to allow game to be flexible.
 
     private int[][] board = new int[10][10]; // Variable containing the board. 10x 10 matrix.
+    /*
+         On Board:
+     0 is for empty
+     1 is for Miss
+     2 is for a Hit Ship Element
+     3 is for an Unhit Ship Element
+    */
 	
 	private int numberOfShipElements = 0; // Ship Health.
 
@@ -45,7 +57,7 @@ public abstract class GameBoard{
 		ships[2] = new Ship("Submarine", 3);
 		ships[3] = new Ship("Cruiser",3);
 		ships[4] = new Ship("Destroyer",2);
-		numberOfShipElements = 17;
+		numberOfShipElements = 17; // For total of each ship length
 	}
 
 	/**
@@ -61,7 +73,7 @@ public abstract class GameBoard{
 		for (int i = 0; i<NUMROWS; i++){
     		for (int j = 0; j<NUMCOLS; j++){
     			setBoardElement(i,j,other.getBoardElement(i,j));
-    			if(other.getBoardElement(i,j)==3){
+    			if(other.getBoardElement(i,j)==3){ // This means a ship is placed there.
     				this.numberOfShipElements+=1;
 				}
 			}
