@@ -31,6 +31,12 @@ public class BattleshipApp extends Application {
     private static EnemyBoard enemyBoard = new EnemyBoard();
     private static AI enemyAI = new AI(playerBoard);
 
+    // Number of rows to use.
+    private int numRows = GameBoard.getNUMROWS();
+    private int numCols = GameBoard.getNUMCOLS();
+    // Number of columns to use.
+
+
 
     // Enemy grid root
     private BorderPane root = new BorderPane();

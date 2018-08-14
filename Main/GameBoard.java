@@ -526,7 +526,7 @@ public abstract class GameBoard{
 	 * Gets the number of rows in the board
 	 * @return Number of rows in board
 	 */
-	public int getNUMROWS() {
+	public static int getNUMROWS() {
 		return NUMROWS;
 	}
 
@@ -534,7 +534,7 @@ public abstract class GameBoard{
 	 * Gets the number of columns in the board
 	 * @return Number of columns in the board
 	 */
-	public int getNUMCOLS() {
+	public static int getNUMCOLS() {
 		return NUMCOLS;
 	}
 
