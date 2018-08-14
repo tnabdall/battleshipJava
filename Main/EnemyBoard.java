@@ -12,6 +12,8 @@ public class EnemyBoard extends GameBoard{
 		super();
 	}
 
+
+
 	/** Copy constructor to copy the 2nd player board for GUI
 	 * @param g The gameBoard to copy
 	 */
@@ -47,16 +49,21 @@ public class EnemyBoard extends GameBoard{
 	 */
 	public void printBoard(){
 		System.out.println("      ENEMY BOARD     ");
-		System.out.println("   A B C D E F G H I J"); // Column letters
+		String header = "   ";
+		int firstColumnLetter = (int) "A".charAt(0);
+		for (int j = 0; j < getNUMCOLS(); j++){
+			header = header.concat(Character.toString((char) (firstColumnLetter + j))+" ");
+		}
+		System.out.println(header);
         //System.out.println(" --------------------"); // Top border
-        for (int i = 0; i<10; i++){
+        for (int i = 0; i<getNUMROWS(); i++){
             if (i<9){
                 System.out.print(i+1+" "); // Print row number
             }
             else{
                 System.out.print(i+1); // So that all rows are aligned as 10 takes an extra character space.
             }
-            for (int j = 0; j<10; j++){
+            for (int j = 0; j<getNUMCOLS(); j++){
                 System.out.print("|"); // Print border
 				// Replaces '+' printout for own ship with " " to indicate unknown space.
 				if(getBoardElement(i,j) != 3){
@@ -79,11 +86,11 @@ public class EnemyBoard extends GameBoard{
 		Random rrow = new Random();
 		Random rcol = new Random();
 		int[] coords = new int[2];
-		coords[0] = rrow.nextInt(10);
-		coords[1] = rcol.nextInt(10);
+		coords[0] = rrow.nextInt(getNUMROWS());
+		coords[1] = rcol.nextInt(getNUMCOLS());
 		while(hasFired(coords[0],coords[1])){
-			coords[0] = rrow.nextInt(10);
-			coords[1] = rcol.nextInt(10);
+			coords[0] = rrow.nextInt(getNUMROWS());
+			coords[1] = rcol.nextInt(getNUMCOLS());
 		}
 			
 		if(getBoardElement(coords[0],coords[1])==3){

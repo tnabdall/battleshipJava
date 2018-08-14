@@ -14,6 +14,7 @@ public class PlayerBoardTest {
     private Vector<int[]> shipvect= new Vector<int[]>();
 
     public PlayerBoard getTestBoard(){
+        // 10x10 PlayerBoard for testing.
         PlayerBoard p = new PlayerBoard();
         Ship[] ships = p.getShips();
         for (int i = 0; i< 5; i++){
@@ -70,15 +71,15 @@ public class PlayerBoardTest {
     public void test_loc_status_Boundary(){
         PlayerBoard p = getTestBoard();
         Assert.assertEquals("Should have returned a 3 at (0,0)", 3, p.locStatus(0,0));
-        Assert.assertEquals("Should have returned a 0 at (9,9)", 0, p.locStatus(9,9));
-        Assert.assertEquals("Should have returned a 4 at (10,9) because out of bounds", 4,p.locStatus(10,9));
+        Assert.assertEquals("Should have returned a 0 at (9,9)", 0, p.locStatus(GameBoard.getNUMROWS()-1,GameBoard.getNUMCOLS()-1));
+        Assert.assertEquals("Should have returned a 4 at (10,9) because out of bounds", 4,p.locStatus(GameBoard.getNUMROWS(),GameBoard.getNUMCOLS()-1));
     }
 
     @Test
     public void test_loc_status_Invalid(){
         PlayerBoard p = getTestBoard();
         Assert.assertEquals("Should have returned a 4 at (-1,0) because out of bounds", 4,p.locStatus(-1,0));
-        Assert.assertEquals("Should have returned a 4 at (10,9) because out of bounds", 4,p.locStatus(10,9));
+        Assert.assertEquals("Should have returned a 4 at (10,9) because out of bounds", 4,p.locStatus(GameBoard.getNUMROWS(),GameBoard.getNUMCOLS()-1));
     }
 
     @Test
@@ -95,9 +96,9 @@ public class PlayerBoardTest {
     public void test_fire_Boundaries(){
         p = getTestBoard();
         p.fire(0,0);
-        p.fire(9,9);
+        p.fire(GameBoard.getNUMROWS()-1,GameBoard.getNUMCOLS()-1);
         Assert.assertEquals("Fired at (0,0). Expected a 2 (O) at (0,0)",2,p.locStatus(0,0));
-        Assert.assertEquals("Fired at (9,9). Expected a 1 (X) at (9,9)",1,p.locStatus(9,9));
+        Assert.assertEquals("Fired at (9,9). Expected a 1 (X) at (9,9)",1,p.locStatus(GameBoard.getNUMROWS()-1,GameBoard.getNUMCOLS()-1));
     }
 
     @Test
@@ -421,7 +422,7 @@ public class PlayerBoardTest {
     }
 
 
-    public PlayerBoard getP() {
+    private PlayerBoard getP() {
         return p;
     }
 

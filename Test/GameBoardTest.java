@@ -60,6 +60,7 @@ public class GameBoardTest {
         assertEquals("The copy constructor has not copied all the field variables", true, equals);
     }
 
+
     @Test
     public void test_getShipFiredOn_and_getShipFiredOnLength_Valid() {
         Ship[] ships = g.getShips();

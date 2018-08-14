@@ -13,6 +13,9 @@ public class AIShipData {
 	private int timesHit; // The number of times the Main.AI has hit a shit.
 	private boolean isSunk = false; // If the hit ship has been sunk or not.
 
+	private static int bRows = GameBoard.getNUMROWS(); // The number of rows on the board.
+	private static int bCols = GameBoard.getNUMCOLS(); // The number of columns on the board.
+
 	/**
 	 * Constructor class to initialize the ship that the Main.AI has hit
 	 * @param hitShip is the ship that the Main.AI hit
@@ -20,24 +23,14 @@ public class AIShipData {
 	 * @param initCol is the column that the hit ship was on
 	 */
 	public AIShipData(Ship hitShip, int initRow, int initCol) {
-		if (initRow >= 0 && initRow <= 9) {
+		if (initRow >= 0 && initRow <= bRows - 1) {
 			this.initRow = initRow;
 		}
-		if (initCol >= 0 && initCol <= 9) {
+		if (initCol >= 0 && initCol <= bCols - 1) {
 			this.initCol = initCol;
 		}
 		this.hitShip = hitShip;
 		setHealth();
-	}
-
-	/**
-	 * Constructor class used to copy row and column information
-	 * @param initRow the row that the ship initially hit a ship on
-	 * @param initCol the column that the ship initially hit a ship on
-	 */
-	public AIShipData(int initRow, int initCol) {
-		this.initRow = initRow;
-		this.initCol = initCol;
 	}
 
 	/**
