@@ -112,7 +112,6 @@ public class AIShipDataTest {
     public void test_isSunk_true() {
         Ship s = new Ship("Submarine", 3);
         AIShipData t = new AIShipData(s, 0, 0);
-        t.setHealth();
 
         t.minusShipHealth();
         t.minusShipHealth();
@@ -125,7 +124,6 @@ public class AIShipDataTest {
     @Test public void test_isSunk_false() {
         Ship s = new Ship("Submarine", 3);
         AIShipData t = new AIShipData(s, 0, 0);
-        t.setHealth();
 
         t.minusShipHealth();
         t.minusShipHealth();
@@ -139,7 +137,6 @@ public class AIShipDataTest {
     public void test_getTimesHit() {
         Ship s = new Ship("Submarine", 3);
         AIShipData t = new AIShipData(s, 0, 0);
-        t.setHealth();
 
         t.minusShipHealth();
         assertEquals("Ship should be hit once", 1, t.getTimesHit());

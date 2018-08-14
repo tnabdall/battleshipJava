@@ -104,7 +104,7 @@ public class AIShipData {
 	/**
 	 * Setter method to set the health of the ship that the Main.AI hit.
 	 */
-	public void setHealth() {
+	private void setHealth() {
 		health = hitShip.getLength();
 	}
 
