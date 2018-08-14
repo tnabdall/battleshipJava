@@ -422,7 +422,7 @@ public class PlayerBoardTest {
     }
 
 
-    public PlayerBoard getP() {
+    private PlayerBoard getP() {
         return p;
     }
 

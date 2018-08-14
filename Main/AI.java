@@ -418,7 +418,7 @@ public class AI {
 	/**
 	* Method to check the status of the board location of the Main.AI.
 	*/
-	public void checkStatus() {
+	private void checkStatus() {
 		status = playerBoard.locStatus(row,col);
 	}
 

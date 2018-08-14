@@ -560,7 +560,7 @@ public class BattleshipApp extends Application {
 	 * @param player2 Is it a 2 player game?
      * @param player Which player are we setting the fire behaviour for?
      */
-    public void fire(ActionEvent actionEvent, int rowi, int colj,boolean player2, int player) {
+    private void fire(ActionEvent actionEvent, int rowi, int colj, boolean player2, int player) {
 		if (!player2) { // Player vs computer logic
 			if (enemyBoard.getNumberOfShipElements() > 0 && playerBoard.getNumberOfShipElements() > 0) { //Don't let the game continue once 1 player is dead.
 				if (enemyBoard.getBoardElement(rowi, colj) == 3 || enemyBoard.getBoardElement(rowi, colj) == 0) { // Check to make sure it hasn't been fired on already.
