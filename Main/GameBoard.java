@@ -6,14 +6,29 @@ import java.util.Random;
 /** Main.GameBoard template that is used by subclasses Main.PlayerBoard and Main.EnemyBoard.
 Contains common methods and instance variables for both boards.
 Not to be instantiated into its own object.
+ On Board:
+ 0 is for empty
+ 1 is for Miss
+ 2 is for a Hit Ship Element
+ 3 is for an Unhit Ship Element
 */
 public abstract class GameBoard{
 
     private Ship[] ships = new Ship[5]; // Variable for ships. May implement get number of ships later to allow game to be flexible.
 
-    private int[][] board = new int[10][10]; // Variable containing the board. 10x 10 matrix.
+    private int[][] board = new int[NUMROWS][NUMCOLS]; // Variable containing the board. 10x 10 matrix.
+    /*
+         On Board:
+     0 is for empty
+     1 is for Miss
+     2 is for a Hit Ship Element
+     3 is for an 5nhit Ship Element
+    */
 	
 	private int numberOfShipElements = 0; // Ship Health.
+
+	private static int NUMROWS = 10; // Number of rows on GameBoard. Default 10
+	private static int NUMCOLS = 10; // Number of Columns on GameBoard. Default 10
 
 	/**
 	 * Subclasses should be able to print Board to GUI console
@@ -25,31 +40,45 @@ public abstract class GameBoard{
 	Automatically initializes the board to a blank slate and adds default 5 ships to the game.
 	*/
     public GameBoard(){
-        InitializeBoard();
-        ships[0] = new Ship("Carrier",5);
-        ships[1] = new Ship("Battleship", 4);
-        ships[2] = new Ship("Submarine", 3);
-        ships[3] = new Ship("Cruiser",3);
-        ships[4] = new Ship("Destroyer",2);
-		numberOfShipElements = 17;
+		this(10,10);
     }
 
 	/**
+	 * Initializes board to blank slate with number of rows and columns and adds 5 ships to the game.
+	 * @param numberOfRows # of rows on board
+	 * @param numberOfCols # of cols on board
+	 */
+	public GameBoard(int numberOfRows, int numberOfCols){
+		setNUMROWS(numberOfRows);
+		setNUMCOLS(numberOfCols);
+		InitializeBoard();
+		ships[0] = new Ship("Carrier",5);
+		ships[1] = new Ship("Battleship", 4);
+		ships[2] = new Ship("Submarine", 3);
+		ships[3] = new Ship("Cruiser",3);
+		ships[4] = new Ship("Destroyer",2);
+		numberOfShipElements = 17; // For total of each ship length
+	}
+
+	/**
 	 * Copy constructor
-	 * @param other Other Gameboard to copy
+	 * @param other Other GameBoard to copy
 	 */
 	public GameBoard(GameBoard other){
+		setNUMROWS(other.getNUMROWS());
+		setNUMCOLS(other.getNUMCOLS());
     	for (int i = 0; i<other.getShips().length; i++){
     		ships[i] = new Ship(other.getShips()[i]);
 		}
-		for (int i = 0; i<10; i++){
-    		for (int j = 0; j<10; j++){
+		for (int i = 0; i<NUMROWS; i++){
+    		for (int j = 0; j<NUMCOLS; j++){
     			setBoardElement(i,j,other.getBoardElement(i,j));
-    			if(other.getBoardElement(i,j)==3){
+    			if(other.getBoardElement(i,j)==3){ // This means a ship is placed there.
     				this.numberOfShipElements+=1;
 				}
 			}
 		}
+
 
 	}
 
@@ -57,6 +86,7 @@ public abstract class GameBoard{
 	Initializes every element in the board array to 0 to symbolize it being empty.
 	*/
     private void InitializeBoard(){
+    	board = new int[NUMROWS][NUMCOLS];
         for(int i=0; i<this.board.length;i++){
             for(int j=0; j<this.board[i].length;j++){
                 this.board[i][j]=0;
@@ -111,7 +141,7 @@ public abstract class GameBoard{
 	 * @return True or false
 	 */
 	private boolean isValidCoordinate(int row, int col){
-		return row >= 0 && row <= 9 && col >= 0 && col <= 9;
+		return row >= 0 && row < NUMROWS && col >= 0 && col < NUMCOLS;
 	}
 
 	
@@ -137,7 +167,7 @@ public abstract class GameBoard{
 	
 	/** Gets the length of the ship that is just fired upon. Used to aid players by letting them know the length of the ship for decisions.
 	@param coords An array containing the row and column of the ship element
-	 @return the length of the ship fired on
+	 @return the length of the ship fired on, -1 if nothing
 	*/
 	public int getShipFiredOnLength(int[] coords){
 		int row = coords[0];
@@ -160,7 +190,7 @@ public abstract class GameBoard{
 	/** Gets the length of the ship that is just fired upon. Used to aid players by letting them know the length of the ship for decisions.
 	@param row The row fired on
 	@param col The column fired on
-	 @return the length of the ship fired on
+	 @return the length of the ship fired on, -1 if nothing
 	*/
 	public int getShipFiredOnLength(int row, int col){
 		int[] shipcoords;
@@ -191,8 +221,8 @@ public abstract class GameBoard{
 		String dir ="";
 		int validPlacements = 0; //Number of ships placed correctly
 		while (validPlacements<5){
-			coords[0] = randr.nextInt(10);
-			coords[1] = randc.nextInt(10);
+			coords[0] = randr.nextInt(NUMROWS);
+			coords[1] = randc.nextInt(NUMCOLS);
 			dirn = randd.nextInt(4);
 			// Converts dirn to a direction readable by isValidPlacement function
 			switch(dirn){
@@ -265,7 +295,7 @@ public abstract class GameBoard{
         boolean isValid = true;
 
         //First check to see if the extended last coordinate exists on board
-        if (direction.equals("r") && col+length>10){
+        if (direction.equals("r") && col+length>NUMCOLS){
             isValid = false;
         }
         else if(direction.equals("l") && col-length<-1){
@@ -274,7 +304,7 @@ public abstract class GameBoard{
         else if(direction.equals("u") && row-length<-1){
             isValid = false;
         }
-        else if(direction.equals("d") && row+length>10){
+        else if(direction.equals("d") && row+length>NUMROWS){
             isValid = false;
         }
 
@@ -356,7 +386,7 @@ public abstract class GameBoard{
 	*/
     public String boardMarker(int num, boolean hideShip){
         
-		if (hideShip == false){
+		if (!hideShip){
 			return boardMarker(num);
 		}
 		else{
@@ -389,20 +419,35 @@ public abstract class GameBoard{
     public int[] getCoordinates(){
         int[] coords = new int[2];
         Scanner keyboard = new Scanner(System.in);
-        String scoords;
+        String scoords; // Coordinates in string format
+        String lastRowChar = Character.toString((char) ("a".charAt(0)+NUMROWS-1));
+        String lastColTens = Integer.toString(NUMCOLS/10); // Get tens digit
+        String lastColOnes = Integer.toString((NUMCOLS -(NUMCOLS/10)*10)%10); // Get ones digit
+		String regex;
+		if (lastColTens.equals("0")){
+			regex = "^[a-"+lastRowChar+"][1-"+lastColOnes+"]$"; // For the case of 1-9.
+		}
+		else{
+			if(lastColTens.equals("1")) {
+				regex = "^[a-" + lastRowChar + "]([1-9]|1[0-"+lastColOnes+"])$"; // For the case of 10-19
+			}
+			else{
+				regex = "^[a-" + lastRowChar + "]([1-9]|[1-" + Integer.toString(Integer.parseInt(lastColTens) - 1) + "][0-9]|" + lastColTens + "[0-" + lastColOnes + "])$"; // For the case of 20-99
+			}
+		}
         do{
             System.out.print("Which coordinate would you like? (eg. A3): ");
             scoords = keyboard.next();
             scoords = scoords.trim();
-            if(!scoords.matches("^[A-J|a-j]([1-9]|10)$")){
+			scoords = scoords.toLowerCase();
+            if(!scoords.matches(regex)){
                 System.out.println("Not a valid coordinate.");
             }
-        } while(!scoords.matches("^[A-J|a-j]([1-9]|10)$")); // Forces string to be within the range of Game Coordinates
-        scoords = scoords.toLowerCase();
-        char letter = scoords.charAt(0);
-        int column = (int) letter;
+        } while(!scoords.matches(regex)); // Forces string to be within the range of Game Coordinates
+        char letter = scoords.charAt(0); // Gets column letter
+        int column = (int) letter; // Turns into an integer and subtracts 97 to get the proper column (since a is 97).
         column-=97;
-        int row = Integer.parseInt(scoords.substring(1));
+        int row = Integer.parseInt(scoords.substring(1)); // Gets the row number.
         row-=1;
         coords[0] = row;
         coords[1] = column;
@@ -413,7 +458,7 @@ public abstract class GameBoard{
 	 *
 	 * @param row Row of element to get
 	 * @param col Col of element to get
-	 * @return 0,1,2, or 3. 0 means nothing placed there. 1 is a miss marker. 2 is a hit marker. 3 is a ship placed there.
+	 * @return 0,1,2, or 3. 0 means nothing placed there. 1 is a miss marker. 2 is a hit marker. 3 is a ship placed there but unhit.
 	 */
 	public int getBoardElement(int row, int col){
 		return board[row][col];
@@ -488,4 +533,41 @@ public abstract class GameBoard{
 		fired = element == 1 || element == 2;
         return fired;
     }
+
+	/**
+	 * Gets the number of rows in the board
+	 * @return Number of rows in board
+	 */
+	public static int getNUMROWS() {
+		return NUMROWS;
+	}
+
+	/**
+	 * Gets the number of columns in the board
+	 * @return Number of columns in the board
+	 */
+	public static int getNUMCOLS() {
+		return NUMCOLS;
+	}
+
+	/**
+	 * Sets the static variable for the number of rows. Effectively final because can only be set once.
+	 * @param numRows Number of rows.
+	 */
+	private static void setNUMROWS(int numRows){
+		if (NUMROWS == 10 && numRows>0 && numRows <100){
+			NUMROWS = numRows;
+		}
+	}
+
+	/**
+	 * Sets the static variable for the number of columns. Effectively final because can only be set once.
+	 * @param numCols Number of columns.
+	 */
+	private static void setNUMCOLS(int numCols){
+		if (NUMCOLS == 10 && numCols>0 && numCols <100){
+			NUMCOLS = numCols;
+		}
+	}
+
 }

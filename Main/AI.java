@@ -6,6 +6,9 @@ import java.util.ArrayList;
 /** The Main.AI class for the game of Battleship.
  * The Main.AI has 4 difficulties: normal, challenge, impossible, and random.
  * It requires a playerBoard object and a difficulty setting to initialize.
+ * To use: Use runDifficulty() with desired difficulty setting to set AI on a
+ * playable position on the board every turn. getRow() and getCol() to return AI's position
+ * and use as paramaters for the fire(row, col) method in PlayerBoard.
  */
 public class AI {
 
@@ -14,6 +17,8 @@ public class AI {
 	private int difficulty = 0; // The difficulty of the Main.AI. 0 for normal, 1 for challenge, 2 for impossible, 3 for random
 
 	private PlayerBoard playerBoard; // A copy of the player's board.
+	private int bRows = GameBoard.getNUMROWS(); // The number of rows on the board.
+	private int bCols = GameBoard.getNUMCOLS(); // The number of columns on the board.
 
 	private int row; // The row location of the Main.AI
 	private int col; // The column location of the Main.AI
@@ -29,6 +34,8 @@ public class AI {
 	public AI(){
 		PlayerBoard playerBoard = new PlayerBoard();
 		prob = new Probability(playerBoard);
+		// bRows = playerBoard.getNUMROWS();
+		// bCols = playerBoard.getNUMCOLS();
 	}
 
 	/**
@@ -57,6 +64,8 @@ public class AI {
 		} else {
 			this.difficulty = 0;
 		}
+		// bRows = playerBoard.getNumOfRows();
+		// bCols = playerBoard.getNumOfCols();
 	}
 
 	/** Constructor for Main.AI
@@ -111,8 +120,9 @@ public class AI {
 	}
 
 	/** The Main.AI for normal difficulty
-	 * Initially checks to see if previous played location was a hit. If so it plays strategically,
-	 * otherwise it plays randomly.
+	 * First checks to see if the AI has a ship targetted. If it does then it checks to see if it is
+	 * sunk. If no ship is targetted then the AI plays randomly. If the targetted ship is not sunk
+	 * then it plays strategically.
 	 */
 	private void normalDifficulty() {
 		if (target != null) {
@@ -127,7 +137,8 @@ public class AI {
 
 	/** The Main.AI for challenge difficulty.
 	 * The Main.AI calculates the probability of each location on the board and will play on the
-	 * spot with the highest calculated probability of there being a ship.
+	 * spot with the highest calculated probability of there being a ship. Otherwise it runs
+	 * simliarly to normalDifficulty().
 	 */
 	private void challengeDifficulty() {
 		if (target != null) {
@@ -158,21 +169,17 @@ public class AI {
 	}
 
 	/** Main.AI for random difficulty.
-	 * Randomly plays locations that haven't been fired at
+	 * Randomly plays locations that hasn't been fired at
 	 */
 	private void randomDifficulty() {
-		randomRow();
-		randomCol();
-		while (playerBoard.locStatus(row, col) == 1 || playerBoard.locStatus(row, col) == 2 ) {
-			randomRow();
-			randomCol();
-		}
+		playRandom();
 	}
 
 	/**
 	 * Method to check on the status of the Main.AI's target ship.
-	 * If the ship is sunk then the ship is removed from the Main.AI's list of targets, and the
-	 * target is set to null. If there are other ships on the list then it will choose a new target.
+	 * If the ship is sunk then AI checks the hitShips list to see if there are any ships that
+	 * it has hit but have not been sunk yet. If there ius then the AI will target one of those ships,
+	 * otherwise it will target null.
 	 */
 	private void checkTargetShip() {
 		if (target.getIsSunk()) {
@@ -210,7 +217,7 @@ public class AI {
 	 */
 	private void randomRow() {
 		Random num = new Random();
-		row = num.nextInt(10);
+		row = num.nextInt(bRows);
 
 	}
 
@@ -218,7 +225,7 @@ public class AI {
 	 */
 	private void randomCol() {
 		Random num = new Random();
-		col = num.nextInt(10);
+		col = num.nextInt(bCols);
 
 	}
 
@@ -231,9 +238,9 @@ public class AI {
 		target = newShip;
 	}
 
-	/** If the Main.AI got a hit on the previous turn (ie. counter > 0), then Main.AI plays strategically.
-	 * On one hit (ie. counter == 1) the Main.AI will try to determine the plane of the ship it hit.
-	 * On two hits or more (ie. counter > 1) the Main.AI will try to sink the ship.
+	/** If the Main.AI got a hit on a ship the previous turn then Main.AI plays strategically.
+	 * On one hit (ie. target.getTimesHit() == 1) the Main.AI will try to determine the plane of the ship it hit.
+	 * On two hits or more (ie. target.getTimesHit() > 1) the Main.AI will try to sink the targetted ship.
 	 */
 	private void playStrategic() {
 		if (target.getTimesHit() == 1) {
@@ -245,7 +252,7 @@ public class AI {
 
 	/** Method that initiates after the the Main.AI hit's a ship after the first time
 	* The Main.AI then plays randomly on locations adjacent to the initial hit location until
-	* it gets another hit
+	* it gets another hit. The direction the AI was facing when it got the second hit is set into AIShipData.
 	*/
 	private void determineShipPlane() {
 		boolean failure = true;
@@ -332,7 +339,7 @@ public class AI {
 			}
 		} else if (direction == "right") {
 			col += 1;
-			if (col > 9) {
+			if (col > bCols - 1) {
 				col -= 1;
 			}
 		} else if (direction == "up") {
@@ -342,13 +349,15 @@ public class AI {
 			}
 		} else if (direction == "down") {
 			row += 1;
-			if (row > 9) {
+			if (row > bRows - 1) {
 				row -= 1;
 			}
 		}
 	}
 
 	/** After the Main.AI determines the plane of the ship it hit (ie. after two hits) it will try to sink it
+	 * by playing on locations in the direction of the targetted ship. If it misses and the targetted ship is
+	 * still not sunk it will go back to the location it first hit the ship then switch to the opposite direction.
 	 */
 	private void shootToSink() {
 		checkStatus();
@@ -407,7 +416,7 @@ public class AI {
 	}
 
 	/**
-	* Method to check the status of the location of the Main.AI.
+	* Method to check the status of the board location of the Main.AI.
 	*/
 	public void checkStatus() {
 		status = playerBoard.locStatus(row,col);

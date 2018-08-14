@@ -11,9 +11,12 @@ public class Probability {
 
 
     private PlayerBoard prob; // The playerboard
-    private int[][] probBoard = new int[10][10]; //The board with probability calculations
+    private int[][] probBoard = new int[bRows][bCols]; //The board with probability calculations
     private Ship[] ships; // The list of ship objects
     private Vector<int[]> highestProbList = new Vector<int[]>();
+
+    private static int bRows = GameBoard.getNUMROWS(); // The number of rows on the board.
+    private static int bCols = GameBoard.getNUMCOLS(); // The number of columns on the board.
 
 
     /** The constructor for the probability class.
@@ -45,8 +48,8 @@ public class Probability {
         int highest = 0;
 
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < bRows; i++) {
+            for (int j = 0; j < bCols; j++) {
 
                 if (canPlay(i, j)) {
                     probability++;

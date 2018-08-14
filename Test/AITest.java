@@ -13,6 +13,9 @@ public class AITest {
 
     private Vector<int[]> shipvect = new Vector<int[]>();
 
+    private static int bRows = GameBoard.getNUMROWS();
+    private static int bCols = GameBoard.getNUMCOLS();
+
     @Test
     public void test_Random_Difficulty(){
         PlayerBoardTest pTest = new PlayerBoardTest();
@@ -110,8 +113,8 @@ public class AITest {
         PlayerBoardTest pTest = new PlayerBoardTest();
         PlayerBoard p =pTest.getTestBoard();
         AI AI = new AI(p,1);
-        for (int i = 0; i<10; i++){
-            for (int j = 5; j<10; j++){
+        for (int i = 0; i<bRows; i++){
+            for (int j = 5; j<bCols; j++){
                 p.fire(i,j);
             }
         }
@@ -170,7 +173,7 @@ public class AITest {
 
         for (int i = 0; i < ships[2].getLength(); i++) {
             int[] coords = new int[2];
-            coords[0] = 9;
+            coords[0] = bRows - 1;
             coords[1] = 0 + i;
             shipvect.add(coords);
         }
@@ -179,8 +182,8 @@ public class AITest {
 
         for (int i = 0; i < ships[3].getLength(); i++) {
             int[] coords = new int[2];
-            coords[0] = 9 - i;
-            coords[1] = 9;
+            coords[0] = bRows - 1 - i;
+            coords[1] = bCols - 1;
             shipvect.add(coords);
         }
         p.placeShip(shipvect, ships[3]);
@@ -189,7 +192,7 @@ public class AITest {
         for (int i = 0; i < ships[4].getLength(); i++) {
             int[] coords = new int[2];
             coords[0] = 0 + i;
-            coords[1] = 9;
+            coords[1] = bCols - 1;
             shipvect.add(coords);
         }
         p.placeShip(shipvect, ships[4]);
@@ -285,8 +288,8 @@ public class AITest {
         a.runDifficulty();
         p.fire(a.getRow(), a.getCol());
         boolean success = false;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < bRows; i++) {
+            for (int j = 0; j < bCols; j++) {
                 if (p.locStatus(i, j) == 1 || p.locStatus(i, j) == 2) {
                     success = true;
                 }
@@ -306,8 +309,8 @@ public class AITest {
         a.runDifficulty();
         p.fire(a.getRow(), a.getCol());
         boolean success = false;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < bRows; i++) {
+            for (int j = 0; j < bCols; j++) {
                 if (p.locStatus(i, j) == 1 || p.locStatus(i, j) == 2) {
                     success = true;
                 }
@@ -348,8 +351,8 @@ public class AITest {
         p.fire(a.getRow(), a.getCol());
 
         boolean success = false;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < bRows; i++) {
+            for (int j = 0; j < bCols; j++) {
                 if (p.locStatus(i, j) == 1 || p.locStatus(i, j) == 2) {
                     success = true;
                 }
@@ -371,8 +374,8 @@ public class AITest {
         p.fire(a.getRow(), a.getCol());
 
         boolean success = false;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < bRows; i++) {
+            for (int j = 0; j < bCols; j++) {
                 if (p.locStatus(i, j) == 1 || p.locStatus(i, j) == 2) {
                     success = true;
                 }
