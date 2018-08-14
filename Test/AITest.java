@@ -101,15 +101,15 @@ public class AITest {
         AI AI = new AI(p,1);
         AI.runDifficulty();
         System.out.println(AI.getRow()+" "+AI.getCol());
-        boolean rowCheck = AI.getRow()==4 || AI.getRow() == 5;
-        boolean colCheck = AI.getCol() == 4 || AI.getCol() == 5;
+        boolean rowCheck = AI.getRow()==GameBoard.getNUMROWS()-1 || AI.getRow() == GameBoard.getNUMROWS();
+        boolean colCheck = AI.getCol() == GameBoard.getNUMCOLS()-1 || AI.getCol() == GameBoard.getNUMCOLS();
         assertEquals("Expected first row to be 4 or 5", true, rowCheck);
         assertEquals("Expected first column to be 4 or 5", true, colCheck);
 
     }
 
     @Test
-    public void test_Challenge_Difficulty_and_Probability_HalfBoardWipedSearchForCarrier(){
+    public void test_Challenge_Difficulty_and_Probability_HalfBoardWipedSearchForCarrier_10x10Board(){
         PlayerBoardTest pTest = new PlayerBoardTest();
         PlayerBoard p =pTest.getTestBoard();
         AI AI = new AI(p,1);

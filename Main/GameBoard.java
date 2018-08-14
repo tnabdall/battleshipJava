@@ -88,8 +88,8 @@ public abstract class GameBoard{
 	*/
     private void InitializeBoard(){
     	board = new int[NUMROWS][NUMCOLS];
-        for(int i=0; i<this.board.length;i++){
-            for(int j=0; j<this.board[i].length;j++){
+        for(int i=0; i<NUMROWS;i++){
+            for(int j=0; j<NUMCOLS;j++){
                 this.board[i][j]=0;
             }
         }
@@ -463,7 +463,12 @@ public abstract class GameBoard{
 	 * @return 0,1,2, or 3. 0 means nothing placed there. 1 is a miss marker. 2 is a hit marker. 3 is a ship placed there but unhit.
 	 */
 	public int getBoardElement(int row, int col){
-		return board[row][col];
+	    if (row>= 0 && row < NUMROWS && col>=0 && col<NUMCOLS) {
+            return board[row][col];
+        }
+        else{
+	        return 4; // invalid
+        }
 	}
 
 	/**
