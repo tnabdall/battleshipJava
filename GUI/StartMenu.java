@@ -289,6 +289,16 @@ public class StartMenu {
 		});
 		GridPane.setHalignment(buttonGo, HPos.CENTER);
 
+		// Ensures that application does not continue if closed before configuration is done.
+		window.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				System.exit(0);
+			}
+		});
+
+
+
 		
 		// TextField for Player Name Entry
 		enterName = new TextField ("Player"); // Default text of 'Player Name'

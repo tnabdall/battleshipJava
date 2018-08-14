@@ -75,22 +75,21 @@ public class runBattleship{
 	}
 
 	/**
-	 * Function to ask to run demo for demoing purposes.
+	 * Function to ask to run demo for demoing purposes. Player randomly fires.
 	 * @return Boolean true or false depending on demo to run.
 	 */
 	private boolean Demo(){
-		System.out.print("Would you like to run the demo (y or n): ");
+		System.out.print("Would you like to run the demo (player randomly fires) (y or n): ");
 		Scanner keyboard = new Scanner(System.in);
-		String ans = keyboard.next().toLowerCase().trim();
-		if (ans.equals("y")){
-			System.out.print("Which demo (1 for human demo, 2 for enemyAI demo)): ");
-			int nans = keyboard.nextInt();
-			System.out.println();
-			return nans != 1;
-		}
-		else{
-			return false;
-		}
+		String ans;
+		do {
+			ans = keyboard.next().toLowerCase().trim();
+			if (!ans.matches("^[y|n]$")){
+				System.out.print("\nNot a valid input.\nWould you like to run the demo (y or n): ");
+			}
+
+		}while(!ans.matches("^[y|n]$"));
+		return ans.equalsIgnoreCase("y");
 	}
 	/**
 	Main function to call to run Game.
@@ -100,11 +99,9 @@ public class runBattleship{
 		Introduction();
 		PlayerBoard playerBoard = setupPlayerBoard();
 		EnemyBoard enemyBoard = setupEnemyBoard();
-		//Main.AI Main.AI = new Main.AI(playerBoard);
 		Scanner keyboard = new Scanner(System.in);
 		System.out.print("Which difficulty would you like to play on (0 for Normal, 1 for Challenge, 2 for Impossible, 3 for Random): ");
 		AI AI = new AI(playerBoard, keyboard.nextInt());
-		//Main.AI.setDifficulty(keyboard.nextInt());
 		do{
 			if(randomPlayerFire == true){
 				enemyBoard.randomFire(); //Just for quick testing. Random firing from player.
@@ -120,7 +117,7 @@ public class runBattleship{
 
 			if(randomPlayerFire == true){ //Function to cause code to sleep. Purely for demoing. https://stackoverflow.com/questions/24104313/how-to-delay-in-java (Ann Ragg)
 				try{
-						Thread.sleep(500);
+						Thread.sleep(850);
 				}
 				catch(InterruptedException ex){
 						Thread.currentThread().interrupt();
@@ -142,6 +139,9 @@ public class runBattleship{
 		}
 	}
 
+	/**
+	 * Run this to play 2 players.
+	 */
 	private void run2Player(){
 		Introduction();
 		PlayerBoard player1 = setupPlayerBoard();

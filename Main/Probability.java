@@ -10,13 +10,12 @@ import java.util.Vector;
 public class Probability {
 
 
-    private PlayerBoard prob; // The playerboard
-    private int[][] probBoard = new int[bRows][bCols]; //The board with probability calculations
-    private Ship[] ships; // The list of ship objects
-    private Vector<int[]> highestProbList = new Vector<int[]>();
 
-    private static int bRows = GameBoard.getNUMROWS(); // The number of rows on the board.
-    private static int bCols = GameBoard.getNUMCOLS(); // The number of columns on the board.
+    private PlayerBoard prob; // The playerBoard
+    private int[][] probBoard; //The board with probability calculations
+    private Ship[] ships; // The list of ship objects
+    private Vector<int[]> highestProbList = new Vector<int[]>(); // Contains all coordinates with highest probability
+
 
 
     /** The constructor for the probability class.
@@ -25,6 +24,7 @@ public class Probability {
     public Probability(PlayerBoard prob) {
         this.prob = prob;
         this.ships = prob.getShips();
+        probBoard = new int[GameBoard.getNUMROWS()][GameBoard.getNUMCOLS()];
     }
 
     /** The method to test if a location in the board can be played on.
@@ -48,8 +48,9 @@ public class Probability {
         int highest = 0;
 
 
-        for (int i = 0; i < bRows; i++) {
-            for (int j = 0; j < bCols; j++) {
+
+        for (int i = 0; i < GameBoard.getNUMROWS(); i++) {
+            for (int j = 0; j < GameBoard.getNUMCOLS(); j++) {
 
                 if (canPlay(i, j)) {
                     probability++;
